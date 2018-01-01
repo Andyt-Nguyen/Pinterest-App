@@ -1,0 +1,3 @@
+export const GET_PINS = "GET_PINS";
+export const LOGGED_IN = "LOGGED_IN";
+export const LOGGED_OUT = "LOGGED_OUT";

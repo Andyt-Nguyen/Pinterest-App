@@ -1,0 +1,26 @@
+.search {
+	position: relative;
+}
+
+.search .fa-search {
+	position: absolute;
+	top: 10px;
+	left: 15px;
+	color: #b5b5b5;
+	font-size: 17px;
+}
+
+.search .inputStyle {
+	border-radius:3px;
+	border: none;
+	height: 40px;
+	background: #efefef;
+	width: 100%;
+	font-size: 17px;
+	font-weight: 700;
+	margin-right: 10px;
+}
+
+.inputStyle::placeholder {
+	padding-left: 50px;
+}
