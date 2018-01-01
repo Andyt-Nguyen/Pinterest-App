@@ -30,12 +30,14 @@ class Pinterest extends Component {
 
 
 	render() {
-		console.log(this.props.isAuthenticated);
 		const auth = true;
 		const PrivateRoute = ({component:Component, ...args}) => (
 			<Route {...args} render={ (props) => (
 				this.props.isAuthenticated
-				? <Wrapper><Component {...props} /></Wrapper>
+				? <div>
+						<NavBar />
+						<Wrapper><Component {...props} /></Wrapper>
+					</div>
 				: <Redirect to={{
 						pathname: '/login',
 						state: props.location
@@ -45,10 +47,6 @@ class Pinterest extends Component {
 		return (
 			<Router>
 				<div>
-				{this.props.isAuthenticated ?
-				<NavBar/> :
-				''
-				}
 					<Switch>
 						<Route path="/login" component={AuthPage} />
 						<PrivateRoute path="/user" component={UserPage} />

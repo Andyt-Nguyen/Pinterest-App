@@ -23,27 +23,5 @@ class SettingsPage extends Component {
 	}
 }
 
-const styles = {
-	container: {
-		position: 'relative',
-		cursor: 'pointer'
-	},
-
-	containerInput: {
-		position: 'absolute',
-		display: 'none'
-	},
-
-	customRadio: {
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		height: '25px',
-		width: '25px',
-		background: 'red',
-		borderRadius: '50%'
-	},
-
-}
 
 export default SettingsPage;

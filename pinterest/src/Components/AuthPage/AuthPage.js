@@ -34,6 +34,7 @@ class AuthPage extends Component {
 		return (
 			<AuthContainer>
 				<AuthBox>
+				
 					<SocialIcon network="pinterest" style={styles.pinterestIcon} />
 					<h1 style={styles.greyText}>Welcome to Pinterest</h1>
 
@@ -49,13 +50,12 @@ class AuthPage extends Component {
 						</ThirdPartyContainer>
 
 						<ThirdPartyContainer facebook>
-							<SocialIcon network="facebook" color="white" style={{width:'45px', height: '45px'}} />
+							<SocialIcon network="facebook" color="white" style={styles.facebookIcon} />
 							<SocialText>Continue With Facebook</SocialText>
 						</ThirdPartyContainer>
 					</InputContainer>
 
 				</AuthBox>
-				<button onClick={this.signOut.bind(this)}>Sign Out</button>
 			</AuthContainer>
 		);
 	}
@@ -66,6 +66,11 @@ const styles = {
 		height: 80,
 		width: 80,
 		marginBottom: '10px'
+	},
+
+	facebookIcon: {
+		width:'45px',
+		height: '45px'
 	},
 
 	greyText: {
