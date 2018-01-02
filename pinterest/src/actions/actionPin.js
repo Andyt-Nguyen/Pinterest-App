@@ -47,7 +47,7 @@ export function authListener() {
 		auth.onAuthStateChanged(firebaseUser => {
 			if(firebaseUser) {
 				const action = {type:LOGGED_IN, payload:true};
-				const userAction = {type:GET_UID, payload:{userId:firebaseUser.uid, imageUrl:firebaseUser.photoURL, email:firebaseUser.email}};
+				const userAction = {type:GET_UID, payload:{userId:firebaseUser.uid, avatarUrl:firebaseUser.photoURL, email:firebaseUser.email}};
 
 				dispatch(action);
 				console.log(firebaseUser);
@@ -66,13 +66,6 @@ export function authListener() {
 
 // Handling Database
 const database = firebase.database();
-
-export function postPin(userId, name, email, imageUrl) {
-	return dispatch => database.ref('users/' + userId).set({
-		name,email,imageUrl
-	})
-}
-
 
 export function getPins() {
 	database.ref().child('pins');

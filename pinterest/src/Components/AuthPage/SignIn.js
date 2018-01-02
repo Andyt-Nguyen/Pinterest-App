@@ -34,7 +34,7 @@ const SignIn = ({onTextChange, createUser, signWithGoogle, showEmail, wallpaper,
 				<p style={{padding: '15px', color:'#555555', fontWeight:700, fontSize:'13px' }}>OR</p>
 
 				<ThirdPartyContainer google onClick={() => signWithGoogle()}>
-					<img src={googleLogo}/>
+					<img alt="googleLogo" src={googleLogo}/>
 					<SocialText>Continue With Google</SocialText>
 				</ThirdPartyContainer>
 

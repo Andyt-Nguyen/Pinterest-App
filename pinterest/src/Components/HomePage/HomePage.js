@@ -6,7 +6,7 @@ import ImageWrapper from './Styles/ImageWrapper';
 import Image from './Styles/Image';
 
 class HomePage extends Component {
-	
+
 	userSignOut() {
 		this.props.userSignOut();
 	}

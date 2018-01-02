@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Wrapper from './Styles/Wrapper';
 import HeaderSection from './HeaderSection';
-import PinItem from './Styles/PinItem';
 import PinBox from './PinBox';
 import PinContainer from './Styles/PinContainer';
 

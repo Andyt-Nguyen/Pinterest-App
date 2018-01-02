@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Nav from './Styles/Nav';
-import NavItem from './Styles/NavItem';
 import './Styles/search.css';
 
 const NavBar = () => (
@@ -10,7 +9,7 @@ const NavBar = () => (
 
 			<div style={styles.logoInputContainer}>
 				<Link to="/" style={styles.logoMargin}>
-					<img src="https://seeklogo.com/images/P/pinterest-icon-logo-D4965B6748-seeklogo.com.png" height='40px' width='40px'/>
+					<img alt="pinterestIcon" src="https://seeklogo.com/images/P/pinterest-icon-logo-D4965B6748-seeklogo.com.png" height='40px' width='40px'/>
 				</Link>
 				<div className="search" style={{width:'90%'}}>
 				<span className="fa fa-search"></span>
