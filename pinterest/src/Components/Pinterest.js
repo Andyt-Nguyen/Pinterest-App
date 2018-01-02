@@ -18,19 +18,12 @@ import Wrapper from '../Styles/Wrapper';
 
 
 class Pinterest extends Component {
-	constructor() {
-		super();
-		this.state = {logging: false};
-	}
-
 
 	componentWillMount() {
 		this.props.authListener();
 	}
 
-
 	render() {
-		const auth = true;
 		const PrivateRoute = ({component:Component, ...args}) => (
 			<Route {...args} render={ (props) => (
 				this.props.isAuthenticated

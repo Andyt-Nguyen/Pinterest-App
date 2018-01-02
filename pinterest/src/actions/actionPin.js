@@ -2,24 +2,29 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import { DB_CONFIG } from '../config';
-import { LOGGED_IN, LOGGED_OUT, GET_PINS } from '../Constants';
+import { LOGGED_IN, LOGGED_OUT, SHOW_ERROR, GET_PINS } from '../Constants';
 
 firebase.initializeApp(DB_CONFIG);
 
 // Authorization
 const auth = firebase.auth();
-export function userSignIn(email, password) {
+
+export function createUser(email,password) {
+	const promise = auth.createUserWithEmailAndPassword(email, password);
+	return dispatch => promise.catch(e => console.log(e.message));
+}
+
+export function userSignInEmail(email, password) {
 	const promise = auth.signInWithEmailAndPassword(email,password);
-	return dispatch => {
-		promise.catch(e => console.log(e.message))
-	};
+	return dispatch => promise.catch(e => {
+		const action = {type:SHOW_ERROR, payload: e.message};
+		dispatch(action);
+	})
 }
 
 export function userSignInWithGoogle() {
 	const provider = new firebase.auth.GoogleAuthProvider();
-	return dispatch => {
-		auth.signInWithPopup(provider)
-	};
+	return dispatch => auth.signInWithPopup(provider)
 }
 
 export function userSignOut() {

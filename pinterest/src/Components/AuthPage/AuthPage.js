@@ -1,24 +1,50 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { userSignInWithGoogle, authListener, userSignOut } from '../../actions/actionPin';
+import {
+	createUser,
+	userSignInWithGoogle,
+	userSignInEmail ,
+	authListener,
+	userSignOut } from '../../actions/actionPin';
 import { Redirect } from 'react-router-dom';
-import { SocialIcon } from 'react-social-icons';
-import AuthContainer from './Styles/AuthContainer';
-import AuthBox from './Styles/AuthBox';
-import InputContainer from './Styles/InputContainer';
-import Input from './Styles/Input';
-import Button from './Styles/Button';
-import ThirdPartyContainer from './Styles/ThirdPartyContainer';
-import SocialText from './Styles/SocialText';
-import googleLogo from './google_dark2.svg';
+import SignIn from './SignIn';
+import weather from './Styles/weather.png';
+import food from './Styles/food.png';
 
 class AuthPage extends Component {
 	constructor() {
 		super();
-		this.state = {loggin:false};
+		this.state = {
+			showEmail: true,
+			signUp: true,
+			email: '',
+			password: ''
+		};
 	}
 
-	signWithGoogle() {
+	handleSignInComp() {
+		this.setState({signUp:!this.state.signUp});
+	}
+
+	onTextChange(e) {
+		const target = e.target;
+		const name = target.name;
+		const value = target.value;
+		this.setState({[name]:value});
+	}
+
+	createUserWithEmail() {
+		const { email, password } = this.state;
+		this.props.createUser(email,password);
+	}
+
+	handleSignInUser() {
+		const { email, password } = this.state;
+		this.props.userSignInEmail(email,password);
+	}
+
+
+	handleSignWithGoogle() {
 		this.props.userSignInWithGoogle();
 	}
 
@@ -31,58 +57,51 @@ class AuthPage extends Component {
 		if(this.props.isAuthenticated) {
 			return (<Redirect to={'/'}/>)
 		}
+
 		return (
-			<AuthContainer>
-				<AuthBox>
-				
-					<SocialIcon network="pinterest" style={styles.pinterestIcon} />
-					<h1 style={styles.greyText}>Welcome to Pinterest</h1>
+			<div>
+			{this.state.signUp
+				?<SignIn
+						text={"Sign Up"}
+						showError={this.props.isError}
+						wallpaper={weather}
+						goToLogin={this.handleSignInComp.bind(this)}
+						onTextChange={this.onTextChange.bind(this)}
+						createUser={this.handleSignInUser.bind(this)}
+						signWithGoogle={this.handleSignWithGoogle.bind(this)}
+						showEmail={this.state.showEmail}
+						ph={"Create Password"}/>
+				: <SignIn
+						text={"Login"}
+						wallpaper={food}
+						goToLogin={this.handleSignInComp.bind(this)}
+						onTextChange={this.onTextChange.bind(this)}
+						createUser={this.createUserWithEmail.bind(this)}
+						signWithGoogle={this.handleSignWithGoogle.bind(this)}
+						showEmail={!this.state.showEmail}
+						ph={"Password"}/>
+			}
 
-					<InputContainer>
-						<Input type="text" placeholder="Email" />
-						<Input type="text" placeholder="Create Password" />
-						<Button>Continue</Button>
-						<p style={{padding: '15px', color:'#555555', fontWeight:700, fontSize:'13px' }}>OR</p>
-
-						<ThirdPartyContainer google onClick={this.signWithGoogle.bind(this)}>
-							<img src={googleLogo}/>
-							<SocialText>Continue With Google</SocialText>
-						</ThirdPartyContainer>
-
-						<ThirdPartyContainer facebook>
-							<SocialIcon network="facebook" color="white" style={styles.facebookIcon} />
-							<SocialText>Continue With Facebook</SocialText>
-						</ThirdPartyContainer>
-					</InputContainer>
-
-				</AuthBox>
-			</AuthContainer>
+			</div>
 		);
 	}
 }
 
-const styles = {
-	pinterestIcon: {
-		height: 80,
-		width: 80,
-		marginBottom: '10px'
-	},
 
+const styles = {
 	facebookIcon: {
 		width:'45px',
 		height: '45px'
-	},
-
-	greyText: {
-		color:'#555555'
 	}
 
 }
 
 function mapStateToProps(state) {
 	return {
-		isAuthenticated: state.isAuthenticated
+		isAuthenticated: state.isAuthenticated,
+		isError: state.isError
 	}
 }
 
-export default connect(mapStateToProps, { userSignInWithGoogle, authListener, userSignOut })(AuthPage);
+
+export default connect(mapStateToProps, { createUser, userSignInWithGoogle, authListener, userSignInEmail, userSignOut })(AuthPage);

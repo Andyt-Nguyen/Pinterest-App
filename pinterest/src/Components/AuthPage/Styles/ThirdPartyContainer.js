@@ -5,8 +5,10 @@ const bg = (props) => {
 		return '#3c539a';
 	} else if(props.google) {
 		return 'dodgerblue';
+	} else if(props.email) {
+		return 'palevioletred';
 	} else {
-		return '#000';
+		return 'purple';
 	}
 }
 
@@ -18,4 +20,5 @@ export default styled.div `
 	width: 100%;
 	border-radius:5px;
 	margin-bottom: 10px;
+	cursor: pointer
 `;

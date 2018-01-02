@@ -1,5 +1,4 @@
 import styled, { keyframes } from 'styled-components';
-import weather from './weather.png';
 
 const moveBg = keyframes`
 	from { background-position: 0 0 }
@@ -8,7 +7,7 @@ const moveBg = keyframes`
 
 
 export default styled.div `
-	background: url('${weather}') repeat 0 0;
+	background: url('${props => props.wallpaper}') repeat 0 0;
 	margin: 0;
 	display:flex;
 	justify-content:center;
