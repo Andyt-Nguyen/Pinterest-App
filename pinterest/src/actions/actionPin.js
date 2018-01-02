@@ -2,22 +2,31 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import { DB_CONFIG } from '../config';
-import { LOGGED_IN, LOGGED_OUT, SHOW_ERROR, GET_PINS } from '../Constants';
+import {
+	LOGGED_IN,
+ 	LOGGED_OUT,
+ 	SHOW_ERROR_SIGN_IN,
+ 	SHOW_ERROR_SIGN_UP,
+	GET_UID,
+	GET_PINS } from '../Constants';
 
 firebase.initializeApp(DB_CONFIG);
 
-// Authorization
+// Handling Authorization
 const auth = firebase.auth();
 
 export function createUser(email,password) {
 	const promise = auth.createUserWithEmailAndPassword(email, password);
-	return dispatch => promise.catch(e => console.log(e.message));
+	return dispatch => promise.catch(e => {
+		const action = {type:SHOW_ERROR_SIGN_UP, payload: e.message};
+		dispatch(action);
+	});
 }
 
 export function userSignInEmail(email, password) {
 	const promise = auth.signInWithEmailAndPassword(email,password);
 	return dispatch => promise.catch(e => {
-		const action = {type:SHOW_ERROR, payload: e.message};
+		const action = {type:SHOW_ERROR_SIGN_IN, payload: e.message};
 		dispatch(action);
 	})
 }
@@ -38,22 +47,35 @@ export function authListener() {
 		auth.onAuthStateChanged(firebaseUser => {
 			if(firebaseUser) {
 				const action = {type:LOGGED_IN, payload:true};
-				dispatch(action)
+				const userAction = {type:GET_UID, payload:{userId:firebaseUser.uid, imageUrl:firebaseUser.photoURL, email:firebaseUser.email}};
+
+				dispatch(action);
+				console.log(firebaseUser);
+				dispatch(userAction);
 			} else {
 				console.log('User not logged in');
 				const action = {type:LOGGED_OUT, payload:false};
-				dispatch(action)
+				dispatch(action);
 			}
 		})
 	}
 }
-// Authorization
+// Handling Authorization
 
 
+
+// Handling Database
+const database = firebase.database();
+
+export function postPin(userId, name, email, imageUrl) {
+	return dispatch => database.ref('users/' + userId).set({
+		name,email,imageUrl
+	})
+}
 
 
 export function getPins() {
-	const database = firebase.database().ref().child('pins');
+	database.ref().child('pins');
 	return dispatch => {
 		let pics = [];
 		database.on('value', snapShot => {
@@ -67,3 +89,4 @@ export function getPins() {
 		dispatch(action);
 	}
 }
+// Handling Database

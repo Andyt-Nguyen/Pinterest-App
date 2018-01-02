@@ -5,9 +5,7 @@ import {
 	BrowserRouter as Router,
 	Switch,
 	Route,
-	Link,
-	Redirect,
-	withRouter
+	Redirect
 } from 'react-router-dom';
 import NavBar from './NavBar/NavBar';
 import AuthPage from './AuthPage/AuthPage';

@@ -39,21 +39,20 @@ const SignIn = ({onTextChange, createUser, signWithGoogle, showEmail, wallpaper,
 				</ThirdPartyContainer>
 
 				<ThirdPartyContainer facebook>
-					<SocialIcon network="facebook" color="white" style={styles.facebookIcon} />
+					<SocialIcon network="facebook" color="white" style={styles.socialIcon} />
 					<SocialText>Continue With Facebook</SocialText>
 				</ThirdPartyContainer>
 
 				{ showEmail
 						? <ThirdPartyContainer email onClick={() => goToLogin()}>
-								<SocialIcon network="email" color="white" style={styles.facebookIcon} />
+								<SocialIcon network="email" color="white" style={styles.socialIcon} />
 								<SocialText>Continue With Email</SocialText>
 							</ThirdPartyContainer>
 					  : <ThirdPartyContainer email2 onClick={() => goToLogin()}>
-								<SocialIcon network="email" color="white" style={styles.facebookIcon} />
+								<SocialIcon network="email" color="white" style={styles.socialIcon} />
 								<SocialText>Back to Sign up</SocialText>
 							</ThirdPartyContainer>
 				}
-
 			</InputContainer>
 		</AuthBox>
 	</AuthContainer>
@@ -67,7 +66,7 @@ const styles = {
 		marginBottom: '10px'
 	},
 
-	facebookIcon: {
+	socialIcon: {
 		width:'45px',
 		height: '45px'
 	},

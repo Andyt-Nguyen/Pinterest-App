@@ -53,7 +53,7 @@ class AuthPage extends Component {
 	}
 
 	render() {
-		const { from } = this.props.location.state || { from: { pathname:'/'}};
+		// const { from } = this.props.location.state || { from: { pathname:'/'}};
 		if(this.props.isAuthenticated) {
 			return (<Redirect to={'/'}/>)
 		}
@@ -81,20 +81,11 @@ class AuthPage extends Component {
 						showEmail={!this.state.showEmail}
 						ph={"Password"}/>
 			}
-
 			</div>
 		);
 	}
 }
 
-
-const styles = {
-	facebookIcon: {
-		width:'45px',
-		height: '45px'
-	}
-
-}
 
 function mapStateToProps(state) {
 	return {
