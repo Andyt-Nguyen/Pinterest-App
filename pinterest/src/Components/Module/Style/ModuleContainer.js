@@ -9,5 +9,4 @@ export default styled.div `
 	padding-top: 50px;
 	display: flex;
 	justify-content: center;
-	display: ${props => props.isHide}
 `;
