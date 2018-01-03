@@ -1,7 +1,7 @@
 import React from 'react';
 import './radioBtn.css';
 
-const RadioInput = ({name,gender,label, onChange}) => (
+const RadioInput = ({name,gender,label,onChange}) => (
 	<div>
 		<input
 			onChange={onChange}

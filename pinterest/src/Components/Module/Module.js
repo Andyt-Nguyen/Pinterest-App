@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import ModuleWrapper from './Style/ModuleWrapper';
 import ModuleContainer from './Style/ModuleContainer';
-import Header from './Style/Header';
 import { SocialIcon } from 'react-social-icons';
+import ImageUpload from './ImageUpload';
+import Header from './Style/Header';
 import { RadioInput, RadioWrapper, Button } from '../Common';
 import Input from './Input';
 
@@ -10,13 +11,13 @@ class Module extends Component {
 	static defaultProps = {
 		gender: [
 			{
-				name:'male',
+				type:'male',
 				label: 'Male'
 			}, {
-				name:'female',
+				type:'female',
 				label: 'Female'
 			}, {
-				name: 'non_binary',
+				type: 'non_binary',
 				label: 'Non Binary'
 			}
 		]
@@ -25,6 +26,7 @@ class Module extends Component {
 	constructor() {
 		super();
 		this.state = {
+			avatarUrl: '',
 			first_name: '',
 			last_name: '',
 			gender: ''
@@ -33,12 +35,11 @@ class Module extends Component {
 
 
 	render() {
-		console.log(this.state);
 		const radioInput = this.props.gender.map( sex =>
 			<RadioInput
 				key={sex.label}
 				onChange={(e) => this.setState({gender:e.target.value})}
-			 	gender={sex.name} label={sex.label} name="gender" />
+			 	gender={sex.type} label={sex.label} name="gender" />
 		);
 		return (
 			<ModuleContainer isHide={this.props.isHide}>
@@ -47,8 +48,12 @@ class Module extends Component {
 						<SocialIcon network="pinterest" />
 					</Header>
 
-						<div>
+						<div style={{textAlign:'center'}}>
 							<h1>Account Basics</h1>
+
+							<ImageUpload
+									src="https://placehold.it/150"
+									onChange={(e) => this.setState({avatarUrl:e.target.files[0].name})} />
 
 							<Input
 									onTextChange={(e) => this.setState({first_name:e.target.value})}
