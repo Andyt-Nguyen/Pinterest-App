@@ -1,5 +1,5 @@
 import React from 'react';
-import RadioBtn from './RadioInput';
+import RadioInput from './RadioInput';
 import HeadingTitle from './Styles/HeadingTitle';
 import RadioWrapper from './Styles/RadioWrapper';
 import EmailInput from './Styles/EmailInput';
@@ -25,9 +25,9 @@ const AccountSection = () => (
 		<div>
 			<p>Gender</p>
 			<RadioWrapper>
-				<RadioBtn gender="male" label="Male" name="gender" />
-				<RadioBtn gender="female" label="Female" name="gender" />
-				<RadioBtn gender="nonBinary" label="Non-Binary" name="gender" />
+				<RadioInput gender="male" label="Male" name="gender" />
+				<RadioInput gender="female" label="Female" name="gender" />
+				<RadioInput gender="nonBinary" label="Non-Binary" name="gender" />
 			</RadioWrapper>
 		</div>
 		<br />
