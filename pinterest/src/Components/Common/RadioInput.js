@@ -1,9 +1,12 @@
 import React from 'react';
 import './radioBtn.css';
 
-const RadioInput = ({name,gender,label}) => (
+const RadioInput = ({name,gender,label, onChange}) => (
 	<div>
-		<input type="radio" name={name} id={gender} />
+		<input
+			onChange={onChange}
+			type="radio" name={name}
+			id={gender} value={gender}/>
 		<label htmlFor={gender}>{label}</label>
 	</div>
 );
