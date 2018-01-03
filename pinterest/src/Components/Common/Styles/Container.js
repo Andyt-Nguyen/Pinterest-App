@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default styled.div `
+const Container = styled.div `
 	width: 90%;
 	margin: auto;
 
@@ -8,3 +8,5 @@ export default styled.div `
 		width: 100%;
 	}
 `;
+
+export { Container }
