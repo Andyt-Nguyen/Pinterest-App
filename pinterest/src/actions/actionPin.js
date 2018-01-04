@@ -1,20 +1,23 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import 'firebase/storage';
 import { DB_CONFIG } from '../config';
 import {
 	LOGGED_IN,
  	LOGGED_OUT,
  	SHOW_ERROR_SIGN_IN,
  	SHOW_ERROR_SIGN_UP,
-	GET_UID,
-	GET_PINS } from '../Constants';
+	GET_AUTH_INFO } from '../Constants';
 
 firebase.initializeApp(DB_CONFIG);
 
-// Handling Authorization
+// References
 const auth = firebase.auth();
+const database = firebase.database();
+const storage = firebase.storage();
 
+// Handling Authorization
 export function createUser(email,password) {
 	const promise = auth.createUserWithEmailAndPassword(email, password);
 	return dispatch => promise.catch(e => {
@@ -46,8 +49,9 @@ export function authListener() {
 	return dispatch => {
 		auth.onAuthStateChanged(firebaseUser => {
 			if(firebaseUser) {
+				const { uid:userId, email } = firebaseUser;
 				const action = {type:LOGGED_IN, payload:true};
-				const userAction = {type:GET_UID, payload:{userId:firebaseUser.uid, avatarUrl:firebaseUser.photoURL, email:firebaseUser.email}};
+				const userAction = {type:GET_AUTH_INFO, payload:{userId, email}};
 
 				dispatch(action);
 				console.log(firebaseUser);
@@ -62,24 +66,27 @@ export function authListener() {
 }
 // Handling Authorization
 
-
-
-// Handling Database
-const database = firebase.database();
-
-export function getPins() {
-	database.ref().child('pins');
-	return dispatch => {
-		let pics = [];
-		database.on('value', snapShot => {
-			snapShot.forEach(snap => {
-				let id = snap.key;
-				let { url, text } = snap.val();
-				pics.push({id,url,text});
+// Post User Profile Info
+export function sendUserInfo(uid,first_name,last_name,gender,email,file) {
+		return dispatch => {
+			const updateTask = storage.ref('avatars/' + file.name).put(file); //Save User AvatarFile
+			updateTask.on('state_changed', null, null, () => {
+				let avatarURL = updateTask.snapshot.downloadURL; //Once user file is saved - url is outputted
+				let userData = {first_name,last_name,gender,email,avatarURL,hideModule:true};
+				let userProfile = {};
+				userProfile['users/' + uid] = userData;
+				database.ref().update(userProfile)
 			});
-		});
-		let action = {type: GET_PINS, payload: pics};
-		dispatch(action);
 	}
 }
-// Handling Database
+
+
+// Get User Info
+export function getUserInfo(uid) {
+	return dispatch => {
+		const userRef = database.ref('users/' + uid);
+		userRef.on('value', snapShot => {
+			console.log(snapShot.val());
+		});
+	}
+}

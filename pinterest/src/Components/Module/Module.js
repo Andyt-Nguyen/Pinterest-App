@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { sendUserInfo, userSignOut } from '../../actions/actionPin';
 import ModuleWrapper from './Style/ModuleWrapper';
 import ModuleContainer from './Style/ModuleContainer';
 import { SocialIcon } from 'react-social-icons';
@@ -26,11 +28,21 @@ class Module extends Component {
 	constructor() {
 		super();
 		this.state = {
-			avatarUrl: '',
+			avatarFile: '',
 			first_name: '',
 			last_name: '',
 			gender: ''
 		};
+	}
+
+	sendUserInfo() {
+		const { authInfo, sendUserInfo } = this.props;
+		const { avatarFile, first_name, last_name, gender } = this.state;
+		sendUserInfo(authInfo.userId, first_name, last_name, gender, authInfo.email, avatarFile);
+	}
+
+	signout() {
+		this.props.userSignOut();
 	}
 
 
@@ -41,8 +53,10 @@ class Module extends Component {
 				onChange={(e) => this.setState({gender:e.target.value})}
 			 	gender={sex.type} label={sex.label} name="gender" />
 		);
+
+
 		return (
-			<ModuleContainer isHide={this.props.isHide}>
+			<ModuleContainer showModule={this.props.showModule}>
 				<ModuleWrapper>
 					<Header>
 						<SocialIcon network="pinterest" />
@@ -53,7 +67,7 @@ class Module extends Component {
 
 							<ImageUpload
 									src="https://placehold.it/150"
-									onChange={(e) => this.setState({avatarUrl:e.target.files[0].name})} />
+									onChange={(e) => this.setState({avatarFile:e.target.files[0]})} />
 
 							<Input
 									onTextChange={(e) => this.setState({first_name:e.target.value})}
@@ -67,11 +81,17 @@ class Module extends Component {
 							</RadioWrapper>
 						</div>
 
-					<Button danger>Submit</Button>
+					<Button onClick={this.sendUserInfo.bind(this)} danger>Submit</Button>
 				</ModuleWrapper>
 			</ModuleContainer>
 		);
 	}
 }
 
-export default Module;
+function mapStateToProps(state) {
+	return {
+		authInfo: state.authInfo,
+	}
+}
+
+export default connect(mapStateToProps, { sendUserInfo, userSignOut })(Module);
