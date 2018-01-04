@@ -41,10 +41,6 @@ class Module extends Component {
 		sendUserInfo(authInfo.userId, first_name, last_name, gender, authInfo.email, avatarFile);
 	}
 
-	signout() {
-		this.props.userSignOut();
-	}
-
 	render() {
 
 		let hideModule = () => {
@@ -65,7 +61,6 @@ class Module extends Component {
 
 		return (
 			<ModuleContainer showModule={hideModule}>
-				<button onClick={this.signout.bind(this)}>Sign out</button>
 				<ModuleWrapper>
 					<Header>
 						<SocialIcon network="pinterest" />
