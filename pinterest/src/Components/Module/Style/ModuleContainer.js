@@ -7,6 +7,6 @@ export default styled.div `
 	z-index: 2;
 	background: rgba(0,0,0,0.7);
 	padding-top: 50px;
-	display: flex;
+	display: ${props => props.showModule};
 	justify-content: center;
 `;

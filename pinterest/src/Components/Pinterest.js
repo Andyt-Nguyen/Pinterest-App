@@ -26,7 +26,7 @@ class Pinterest extends Component {
 			<Route {...args} render={ (props) => (
 				this.props.isAuthenticated
 				? <div style={{position:'relative'}}>
-						<Module isHide="flex"/>
+						<Module showModule={"flex"}/>
 						<NavBar />
 						<Component {...props} />
 					</div>
