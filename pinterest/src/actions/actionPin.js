@@ -8,7 +8,8 @@ import {
  	LOGGED_OUT,
  	SHOW_ERROR_SIGN_IN,
  	SHOW_ERROR_SIGN_UP,
-	GET_AUTH_INFO } from '../Constants';
+	GET_AUTH_INFO,
+ 	GET_USER_PROFILE } from '../Constants';
 
 firebase.initializeApp(DB_CONFIG);
 
@@ -49,13 +50,21 @@ export function authListener() {
 	return dispatch => {
 		auth.onAuthStateChanged(firebaseUser => {
 			if(firebaseUser) {
+				console.log('User is signed in');
 				const { uid:userId, email } = firebaseUser;
+				const userRef = database.ref('users/' + userId);
+				
 				const action = {type:LOGGED_IN, payload:true};
 				const userAction = {type:GET_AUTH_INFO, payload:{userId, email}};
-
 				dispatch(action);
-				console.log(firebaseUser);
-				dispatch(userAction);
+				dispatch(userAction)
+
+        // Listening for UserProfile information
+				userRef.on('value', snapShot => {
+					let action = {type:GET_USER_PROFILE, payload:snapShot.val()};
+					dispatch(action);
+				});
+
 			} else {
 				console.log('User not logged in');
 				const action = {type:LOGGED_OUT, payload:false};
@@ -81,12 +90,9 @@ export function sendUserInfo(uid,first_name,last_name,gender,email,file) {
 }
 
 
-// Get User Info
-export function getUserInfo(uid) {
-	return dispatch => {
-		const userRef = database.ref('users/' + uid);
-		userRef.on('value', snapShot => {
-			console.log(snapShot.val());
-		});
-	}
-}
+// Get User Info after login
+// export function getUserProfile(uid) {
+// 		return dispatch => {
+//
+// 	}
+// }

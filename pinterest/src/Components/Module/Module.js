@@ -45,8 +45,16 @@ class Module extends Component {
 		this.props.userSignOut();
 	}
 
-
 	render() {
+
+		let hideModule = () => {
+			if(this.props.userProfile.hideModule) {
+				return 'none'
+			} else {
+				return 'flex'
+			}
+		};
+
 		const radioInput = this.props.gender.map( sex =>
 			<RadioInput
 				key={sex.label}
@@ -56,7 +64,8 @@ class Module extends Component {
 
 
 		return (
-			<ModuleContainer showModule={this.props.showModule}>
+			<ModuleContainer showModule={hideModule}>
+				<button onClick={this.signout.bind(this)}>Sign out</button>
 				<ModuleWrapper>
 					<Header>
 						<SocialIcon network="pinterest" />
@@ -91,6 +100,7 @@ class Module extends Component {
 function mapStateToProps(state) {
 	return {
 		authInfo: state.authInfo,
+		userProfile: state.userProfile
 	}
 }
 
