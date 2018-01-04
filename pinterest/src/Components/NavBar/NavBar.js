@@ -18,7 +18,7 @@ class NavBar extends Component {
 	signOut() {
 		this.props.userSignOut()
 	}
-	
+
 	render() {
 		const { first_name } = this.props.userProfile;
 		return (
@@ -33,47 +33,6 @@ class NavBar extends Component {
 				</NavContainer>
 			</div>
 		);
-	}
-}
-
-const styles = {
-	logoMargin: {
-		marginLeft:'20px',
-		marginRight: '20px',
-		textDecoration: 'none'
-	},
-
-	logoInputContainer: {
-		display:'flex',
-		justifyContent:'space-between',
-		width: '70%',
-		alignItems:'center'
-	},
-
-	navItemsContainer: {
-		display:'flex',
-		justifyContent:'space-around',
-		alignItems:'center',
-		width: '400px',
-		fontSize:'17px',
-		color:"#bfbfbf",
-		fontWeight:700,
-	},
-
-	icon: {
-		fontSize:'20px',
-		cursor:'pointer'
-	},
-
-	linkStyle: {
-		textDecoration: 'none',
-		color: '#bfbfbf'
-	},
-
-	ulStyle:{
-		listStyle:'none',
-		padding:0,
-		margin:0,
 	}
 }
 
