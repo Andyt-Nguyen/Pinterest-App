@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { userSignOut } from '../../actions/actionPin';
-import { Link } from 'react-router-dom';
 import NavContainer from './Styles/NavContainer';
 import LogoItem from './LogoItem';
 import NavItems from './NavItems';
