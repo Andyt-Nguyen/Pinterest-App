@@ -7,7 +7,7 @@ import {
 	authListener,
 	userSignOut } from '../../actions/actionPin';
 import { Redirect } from 'react-router-dom';
-import SignIn from './SignIn';
+import SignIn from './SubComponent/SignIn';
 import weather from './Styles/weather.png';
 import food from './Styles/food.png';
 

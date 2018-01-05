@@ -1,13 +1,13 @@
 import React from 'react';
 import { SocialIcon } from 'react-social-icons';
-import AuthContainer from './Styles/AuthContainer';
-import AuthBox from './Styles/AuthBox';
-import InputContainer from './Styles/InputContainer';
-import Input from './Styles/Input';
-import Button from './Styles/Button';
-import ThirdPartyContainer from './Styles/ThirdPartyContainer';
-import SocialText from './Styles/SocialText';
-import googleLogo from './google_dark2.svg';
+import AuthContainer from '../Styles/AuthContainer';
+import AuthBox from '../Styles/AuthBox';
+import InputContainer from '../Styles/InputContainer';
+import Input from '../Styles/Input';
+import Button from '../Styles/Button';
+import ThirdPartyContainer from '../Styles/ThirdPartyContainer';
+import SocialText from '../Styles/SocialText';
+import googleLogo from '../Styles/google_dark2.svg';
 
 const SignIn = ({onTextChange, createUser, signWithGoogle, showEmail, wallpaper, goToLogin, ph, text, showError}) => (
 	<AuthContainer wallpaper={wallpaper}>

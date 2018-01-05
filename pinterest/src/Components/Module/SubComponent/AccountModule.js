@@ -1,9 +1,8 @@
 import React from 'react';
 import ImageUpload from './ImageUpload';
 import Input from './Input';
-import CurrentPic from './Style/CurrentPic';
-import AnonUser from './Style/AnonUser';
-import { RadioInput, RadioWrapper, Button } from '../Common';
+import AnonUser from '../Style/AnonUser';
+import { RadioInput, RadioWrapper, Button, Avatar } from '../../Common';
 
 
 const AccountModule = ({currentPic, previewImage, onNameChange, onLastChange, onImageChange, postUserAccount, radioGender, errorBox, showError}) => (
@@ -13,7 +12,7 @@ const AccountModule = ({currentPic, previewImage, onNameChange, onLastChange, on
 			?  <ImageUpload
 					onChange={onImageChange}
 					picText="Nice!">
-					<CurrentPic cPic={currentPic} />
+					<Avatar cPic={currentPic} style={{width:'170px',height:'170px'}}/>
 				 </ImageUpload>
 			:  <ImageUpload
 					 onChange={onImageChange}
