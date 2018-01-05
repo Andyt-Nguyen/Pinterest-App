@@ -59,12 +59,10 @@ export function authListener() {
 				dispatch(userAction)
 
         // Listening for UserProfile information
-				setTimeout(() => {
 					userRef.on('value', snapShot => {
 						let action = {type: GET_USER_PROFILE, payload:snapShot.val()};
 						dispatch(action);
 					})
-				},2000)
 
 			} else {
 				console.log('User not logged in');

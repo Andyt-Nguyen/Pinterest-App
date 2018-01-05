@@ -8,6 +8,7 @@ import ImageUpload from './ImageUpload';
 import Header from './Style/Header';
 import { RadioInput, RadioWrapper, Button } from '../Common';
 import Input from './Input';
+import CurrentPic from './Style/CurrentPic';
 
 class Module extends Component {
 	static defaultProps = {
@@ -31,7 +32,8 @@ class Module extends Component {
 			avatarFile: '',
 			first_name: '',
 			last_name: '',
-			gender: ''
+			gender: '',
+			currentPic: ''
 		};
 	}
 
@@ -41,8 +43,22 @@ class Module extends Component {
 		sendUserInfo(authInfo.userId, first_name, last_name, gender, authInfo.email, avatarFile);
 	}
 
-	render() {
+	previewImage(e) {
+		this.setState({avatarFile: e.target.files[0]}, () => {
+			let picFile = this.state.avatarFile;
+			let reader = new FileReader(); //Using File Reader API to convert file string
+			if(picFile !== '') {
+				let url = reader.readAsDataURL(picFile); //Converts file string to DataURL
+				reader.onloadend = (e) => { //onloadend checks to see if the image is done downloading
+					this.setState({currentPic:reader.result}) //.result retuns the url string to the image
+				}
+			}
+		})
+	}
 
+
+	render() {
+		console.log(this.state);
 		let hideModule = () => {
 			if(this.props.userProfile.hideModule) {
 				return 'none'
@@ -60,7 +76,7 @@ class Module extends Component {
 
 
 		return (
-			<ModuleContainer showModule={hideModule}>
+			<ModuleContainer showModule={'flex'}>
 				<ModuleWrapper>
 					<Header>
 						<SocialIcon network="pinterest" />
@@ -69,9 +85,20 @@ class Module extends Component {
 						<div style={{textAlign:'center'}}>
 							<h1>Account Basics</h1>
 
-							<ImageUpload
-									src="https://placehold.it/150"
-									onChange={(e) => this.setState({avatarFile:e.target.files[0]})} />
+							{
+								this.state.currentPic !== ''
+								?  <ImageUpload
+										onChange={(e) => this.setState({avatarFile:e.target.files[0]})}
+										picText="Nice!">
+										<CurrentPic cPic={this.state.currentPic} />
+									 </ImageUpload>
+								:  <ImageUpload
+										 onChange={this.previewImage.bind(this)}
+										 picText="Add Profile Pic">
+										 <span className="fa fa-user-circle" style={{fontSize:'150px', marginTop:'20px', marginBottom:'20px'}}></span>
+									 </ImageUpload>
+
+							}
 
 							<Input
 									onTextChange={(e) => this.setState({first_name:e.target.value})}

@@ -1,9 +1,13 @@
 import React from 'react';
+import ArrowBox from './Style/ArrowBox';
 
-const ImageUpload = ({src,onChange}) => (
-	<div>
+const ImageUpload = ({src,onChange,picText,children}) => (
+	<div style={{position:'relative'}}>
+		<ArrowBox>
+			<p>{picText}</p>
+		</ArrowBox>
 		<label style={styles.labelContainer}>
-		<img alt="profilePic" src={src} style={{borderRadius:'50%'}}/>
+			{children}
 			<div style={styles.hideInput}>
 				<input onChange={onChange} type="file"/>
 			</div>
@@ -14,9 +18,9 @@ const ImageUpload = ({src,onChange}) => (
 
 const styles = {
 	labelContainer: {
-		color:'white',
 		padding:'10px',
-		textAlign:'center'
+		display:'flex',
+		justifyContent:'center'
 	},
 
 	hideInput: {
