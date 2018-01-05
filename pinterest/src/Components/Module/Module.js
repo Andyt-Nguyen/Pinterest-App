@@ -8,7 +8,7 @@ import Header from './Style/Header';
 import ModuleWrapper from './Style/ModuleWrapper';
 import ModuleContainer from './Style/ModuleContainer';
 import ErrorBox from './Style/ErrorBox';
-import { RadioInput, RadioWrapper, Button } from '../Common';
+import { RadioInput } from '../Common';
 
 class Module extends Component {
 	static defaultProps = {

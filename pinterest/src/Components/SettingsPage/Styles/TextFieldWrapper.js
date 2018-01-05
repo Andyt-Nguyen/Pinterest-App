@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export default styled.div `
-	display: grid;
-	grid-template-columns: 1fr 2fr;
+	display:flex;
+	justify-content:space-between;
+	width: 550px
 `;

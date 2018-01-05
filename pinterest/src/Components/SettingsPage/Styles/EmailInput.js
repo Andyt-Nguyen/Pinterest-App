@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-export default styled.input `
-	width: 100%;
+export default styled.div `
+	width: 550px;
 	border: none;
 	border-radius: 5px;
 	background: #efefef;
