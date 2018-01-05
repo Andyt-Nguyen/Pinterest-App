@@ -6,6 +6,8 @@ import { DB_CONFIG } from '../config';
 import {
 	LOGGED_IN,
  	LOGGED_OUT,
+	NO_ERROR_SIGN_IN,
+	NO_ERROR_SIGN_UP,
  	SHOW_ERROR_SIGN_IN,
  	SHOW_ERROR_SIGN_UP,
 	GET_AUTH_INFO,
@@ -21,10 +23,7 @@ const storage = firebase.storage();
 // Handling Authorization
 export function createUser(email,password) {
 	const promise = auth.createUserWithEmailAndPassword(email, password);
-	return dispatch => promise.then(res => {
-		const action = {type:SHOW_ERROR_SIGN_UP, payload: ''};
-		dispatch(action);
-	}).catch(e => {
+	return dispatch => promise.catch(e => {
 		const action = {type:SHOW_ERROR_SIGN_UP, payload: e.message};
 		dispatch(action);
 	});
@@ -32,10 +31,7 @@ export function createUser(email,password) {
 
 export function userSignInEmail(email, password) {
 	const promise = auth.signInWithEmailAndPassword(email,password);
-	return dispatch => promise.then(res => {
-		const action = {type:SHOW_ERROR_SIGN_IN, payload:''};
-		dispatch(action);
-	}).catch(e => {
+	return dispatch => promise.catch(e => {
 		const action = {type:SHOW_ERROR_SIGN_IN, payload: e.message};
 		dispatch(action);
 	})
@@ -49,6 +45,10 @@ export function userSignInWithGoogle() {
 export function userSignOut() {
 	return dispatch => {
 		auth.signOut();
+		const signUpError = {type:NO_ERROR_SIGN_UP, payload: ''};
+		const signInError = {type:NO_ERROR_SIGN_IN, payload:''};
+		dispatch(signUpError);
+		dispatch(signInError);
 	}
 }
 

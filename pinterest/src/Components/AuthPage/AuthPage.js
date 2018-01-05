@@ -63,7 +63,7 @@ class AuthPage extends Component {
 			{this.state.signUp
 				?<SignIn
 						text={"Sign Up"}
-						showError={this.props.isError}
+						showError={this.props.isErrorSignUp}
 						wallpaper={weather}
 						goToLogin={this.handleSignInComp.bind(this)}
 						onTextChange={this.onTextChange.bind(this)}
@@ -74,6 +74,7 @@ class AuthPage extends Component {
 				: <SignIn
 						text={"Login"}
 						wallpaper={food}
+						showError={this.props.isErrorSignIn}
 						goToLogin={this.handleSignInComp.bind(this)}
 						onTextChange={this.onTextChange.bind(this)}
 						createUser={this.handleSignInUser.bind(this)}
@@ -90,7 +91,8 @@ class AuthPage extends Component {
 function mapStateToProps(state) {
 	return {
 		isAuthenticated: state.isAuthenticated,
-		isError: state.isError
+		isErrorSignUp: state.isErrorSignUp,
+		isErrorSignIn: state.isErrorSignIn
 	}
 }
 
