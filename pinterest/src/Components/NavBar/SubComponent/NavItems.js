@@ -1,17 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import DropDownContainer from './Styles/DropDownContainer';
-import NavItemContainer  from './Styles/NavItemContainer';
+import DropDownContainer from '../Styles/DropDownContainer';
+import NavItemContainer  from '../Styles/NavItemContainer';
+import { Avatar } from '../../Common';
 
-
-const NavItems = ({account,isSetting,showDropdown,signOut}) => (
+const NavItems = ({avatarURL,accountName,isSetting,showDropdown,signOut}) => (
 	<NavItemContainer>
 		<Link to="/" style={styles.linkStyle}>Home</Link>
 		<div>Explore</div>
 
 		<Link to="/user" style={styles.linkStyle}>
-			<span className="fa fa-user" style={styles.icon}></span>
-			<span style={{marginLeft:'10px'}}>{account}</span>
+		<div style={{width: '110px', display:'flex', alignItems:'center'}}>
+		<Avatar cPic={avatarURL} style={{width:'40px',height: '40px'}} />
+		<span style={{marginLeft:'10px'}}>{accountName}</span>
+		</div>
 		</Link>
 
 		<div>
@@ -27,7 +29,7 @@ const NavItems = ({account,isSetting,showDropdown,signOut}) => (
 				?<DropDownContainer>
 					<ul style={styles.ulStyle}>
 						<li style={{color:'#676767', borderBottom:'1px solid #ccc', padding:'10px'}}>
-							<Link to="/settings" style={styles.linkStyle}>Account</Link>
+							<Link to="/settings" style={{color:'#626065',textDecoration:'none'}}>Account</Link>
 						</li>
 						<li style={{color:'#676767', padding:'10px'}}>
 							<span style={{cursor:'pointer'}} onClick={() => signOut()}>Sign Out</span>

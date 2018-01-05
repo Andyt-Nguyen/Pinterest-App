@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { sendUserInfo, userSignOut } from '../../actions/actionPin';
 import { SocialIcon } from 'react-social-icons';
 import RocketGif from '../SVG/RocketGif';
-import AccountModule from './AccountModule';
+import AccountModule from './SubComponent/AccountModule';
 import Header from './Style/Header';
 import ModuleWrapper from './Style/ModuleWrapper';
 import ModuleContainer from './Style/ModuleContainer';

@@ -1,6 +1,6 @@
 import React from 'react';
-import ImageWrapper from './Styles/ImageWrapper';
-import Image from './Styles/Image';
+import ImageWrapper from '../Styles/ImageWrapper';
+import Image from '../Styles/Image';
 
 const PinItem = () => (
 		<ImageWrapper>
