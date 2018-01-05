@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import HeaderSection from './SubComponents/HeaderSection';
+import PinBox from './SubComponents/PinBox';
 import Wrapper from './Styles/Wrapper';
-import HeaderSection from './HeaderSection';
-import PinBox from './PinBox';
 import PinContainer from './Styles/PinContainer';
+import Plus from './Styles/Plus';
 
 class UserPage extends Component {
 	render() {
+		const { first_name, last_name, avatarURL } = this.props.userProfile;
 		return (
 			<Wrapper>
-				<HeaderSection />
+				<HeaderSection
+					avatarURL={avatarURL}
+					firstName={first_name}
+					lastName={last_name} />
 
 				<div style={styles.pinStyle}>
 					<button style={styles.btnPill}>Pins</button>
@@ -16,11 +22,11 @@ class UserPage extends Component {
 
 				<PinContainer>
 					<PinBox text={'Create Pin'}>
-						<span className="fa fa-plus" style={styles.pinPlus}></span>
+						<Plus className="fa fa-plus"></Plus>
 					</PinBox>
 
 					<PinBox text={'Pins'}>
-						<span className="fa fa-plus" style={styles.pinPlus}></span>
+						<Plus className="fa fa-space-shuttle"></Plus>
 					</PinBox>
 				</PinContainer>
 
@@ -47,17 +53,12 @@ const styles = {
 		fontSize: '18px'
 	},
 
+}
 
-	pinPlus: {
-		color: 'white',
-		borderRadius: '50%',
-		background: 'crimson',
-		border: 'none',
-		fontSize: '30px',
-		padding: '10px',
-		paddingLeft: '15px',
-		paddingRight: '15px',
+function mapStateToProps(state) {
+	return {
+		userProfile: state.userProfile
 	}
 }
 
-export default UserPage;
+export default connect(mapStateToProps, null)(UserPage);

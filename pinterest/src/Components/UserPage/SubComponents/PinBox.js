@@ -1,5 +1,5 @@
 import React from 'react';
-import PinItem from './Styles/PinItem';
+import PinItem from '../Styles/PinItem';
 
 const PinBox = ({children,text}) => (
 	<div>
