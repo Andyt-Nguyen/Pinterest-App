@@ -53,17 +53,18 @@ export function authListener() {
 				console.log('User is signed in');
 				const { uid:userId, email } = firebaseUser;
 				const userRef = database.ref('users/' + userId);
-				
 				const action = {type:LOGGED_IN, payload:true};
 				const userAction = {type:GET_AUTH_INFO, payload:{userId, email}};
 				dispatch(action);
 				dispatch(userAction)
 
         // Listening for UserProfile information
-				userRef.on('value', snapShot => {
-					let action = {type:GET_USER_PROFILE, payload:snapShot.val()};
-					dispatch(action);
-				});
+				setTimeout(() => {
+					userRef.on('value', snapShot => {
+						let action = {type: GET_USER_PROFILE, payload:snapShot.val()};
+						dispatch(action);
+					})
+				},2000)
 
 			} else {
 				console.log('User not logged in');
