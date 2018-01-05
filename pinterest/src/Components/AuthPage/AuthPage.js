@@ -67,7 +67,7 @@ class AuthPage extends Component {
 						wallpaper={weather}
 						goToLogin={this.handleSignInComp.bind(this)}
 						onTextChange={this.onTextChange.bind(this)}
-						createUser={this.handleSignInUser.bind(this)}
+						createUser={this.createUserWithEmail.bind(this)}
 						signWithGoogle={this.handleSignWithGoogle.bind(this)}
 						showEmail={this.state.showEmail}
 						ph={"Create Password"}/>
@@ -76,7 +76,7 @@ class AuthPage extends Component {
 						wallpaper={food}
 						goToLogin={this.handleSignInComp.bind(this)}
 						onTextChange={this.onTextChange.bind(this)}
-						createUser={this.createUserWithEmail.bind(this)}
+						createUser={this.handleSignInUser.bind(this)}
 						signWithGoogle={this.handleSignWithGoogle.bind(this)}
 						showEmail={!this.state.showEmail}
 						ph={"Password"}/>

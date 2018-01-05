@@ -34,7 +34,8 @@ class Module extends Component {
 			last_name: '',
 			gender: '',
 			currentPic: '',
-			showError:false
+			showError:false,
+			showLoader: false
 		};
 	}
 
@@ -42,7 +43,12 @@ class Module extends Component {
 		const { authInfo, sendUserInfo } = this.props;
 		const { avatarFile, first_name, last_name, gender, currentPic } = this.state;
 		if(avatarFile  && first_name && last_name && gender && currentPic){
-			sendUserInfo(authInfo.userId, first_name, last_name, gender, authInfo.email, avatarFile);
+			this.setState({showLoader:true},() => {
+				setTimeout(() => {
+					sendUserInfo(authInfo.userId, first_name, last_name, gender, authInfo.email, avatarFile);
+				},10000);
+			})
+
 		} else{
 			this.setState({showError:true});
 			this.handleErrorInputs();
@@ -110,8 +116,17 @@ class Module extends Component {
 					<Header>
 						<SocialIcon network="pinterest" />
 					</Header>
-						<h1>Account Basics</h1>
-						<AccountModule
+
+					{
+						!this.state.showLoader
+						? <h1 style={{fontFamily:'Quicksand'}}>Account Information</h1>
+						: <h1 style={{fontFamily:'Quicksand'}}>{`Sweet! We're getting you set up`}</h1>
+					}
+
+
+					{
+						!this.state.showLoader
+						? <AccountModule
 								showError={this.state.showError}
 								errorBox={this.handleErrorInputs.bind(this)}
 								currentPic={this.state.currentPic}
@@ -120,6 +135,9 @@ class Module extends Component {
 								onLastChange={e => this.setState({last_name: e.target.value})}
 								postUserAccount={this.sendUserInfo.bind(this)}
 								radioGender={radioInput} />
+						 : <RocketGif />
+					}
+
 				</ModuleWrapper>
 			</ModuleContainer>
 		);

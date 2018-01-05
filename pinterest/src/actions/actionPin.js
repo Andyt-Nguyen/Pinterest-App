@@ -21,7 +21,10 @@ const storage = firebase.storage();
 // Handling Authorization
 export function createUser(email,password) {
 	const promise = auth.createUserWithEmailAndPassword(email, password);
-	return dispatch => promise.catch(e => {
+	return dispatch => promise.then(res => {
+		const action = {type:SHOW_ERROR_SIGN_UP, payload: ''};
+		dispatch(action);
+	}).catch(e => {
 		const action = {type:SHOW_ERROR_SIGN_UP, payload: e.message};
 		dispatch(action);
 	});
@@ -29,7 +32,10 @@ export function createUser(email,password) {
 
 export function userSignInEmail(email, password) {
 	const promise = auth.signInWithEmailAndPassword(email,password);
-	return dispatch => promise.catch(e => {
+	return dispatch => promise.then(res => {
+		const action = {type:SHOW_ERROR_SIGN_IN, payload:''};
+		dispatch(action);
+	}).catch(e => {
 		const action = {type:SHOW_ERROR_SIGN_IN, payload: e.message};
 		dispatch(action);
 	})
