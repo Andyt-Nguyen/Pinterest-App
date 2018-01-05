@@ -1,16 +1,18 @@
 import { combineReducers } from 'redux';
 import { pinReducer } from './pinReducer';
 import { authReducer } from './authReducer';
-import { errorReducer } from './errorReducer';
+import { errorSignInReducer } from './errorSignInReducer';
+import { errorSignUpReducer } from './errorSignUpReducer'
 import { userReducer } from './userReducer';
 import { userProfileReducer } from './userProfileReducer';
 
 const rootReducer = combineReducers({
-	pins: pinReducer,
 	isAuthenticated: authReducer,
-	isError: errorReducer,
 	authInfo: userReducer,
-	userProfile: userProfileReducer
+	isErrorSignIn: errorSignInReducer,
+	isErrorSignUp: errorSignUpReducer,
+	userProfile: userProfileReducer,
+	pins: pinReducer
 });
 
 export default rootReducer;
