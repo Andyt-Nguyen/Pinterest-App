@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { sendUserInfo, userSignOut } from '../../actions/actionPin';
+import { SocialIcon } from 'react-social-icons';
+import RocketGif from '../SVG/RocketGif';
+import AccountModule from './AccountModule';
+import Header from './Style/Header';
 import ModuleWrapper from './Style/ModuleWrapper';
 import ModuleContainer from './Style/ModuleContainer';
-import { SocialIcon } from 'react-social-icons';
-import ImageUpload from './ImageUpload';
-import Header from './Style/Header';
+import ErrorBox from './Style/ErrorBox';
 import { RadioInput, RadioWrapper, Button } from '../Common';
-import Input from './Input';
-import CurrentPic from './Style/CurrentPic';
 
 class Module extends Component {
 	static defaultProps = {
@@ -33,14 +33,20 @@ class Module extends Component {
 			first_name: '',
 			last_name: '',
 			gender: '',
-			currentPic: ''
+			currentPic: '',
+			showError:false
 		};
 	}
 
 	sendUserInfo() {
 		const { authInfo, sendUserInfo } = this.props;
-		const { avatarFile, first_name, last_name, gender } = this.state;
-		sendUserInfo(authInfo.userId, first_name, last_name, gender, authInfo.email, avatarFile);
+		const { avatarFile, first_name, last_name, gender, currentPic } = this.state;
+		if(avatarFile  && first_name && last_name && gender && currentPic){
+			sendUserInfo(authInfo.userId, first_name, last_name, gender, authInfo.email, avatarFile);
+		} else{
+			this.setState({showError:true});
+			this.handleErrorInputs();
+		}
 	}
 
 	previewImage(e) {
@@ -56,9 +62,32 @@ class Module extends Component {
 		})
 	}
 
+	handleErrorInputs() {
+		let { avatarFile, first_name, last_name, gender, currentPic } = this.state;
+
+		let checkStyle = () => {
+			if(!avatarFile || !first_name || !last_name || !gender || !currentPic) {
+				return {display:'block'}
+			} else{
+				this.setState({showError:false});
+				return {display:'none'}
+			}
+		}
+
+		if(!avatarFile || !first_name || !last_name || !gender || !currentPic) {
+			return (
+				<ErrorBox style={checkStyle()}>
+				 { avatarFile === '' ? <p>Picture is required</p> : ''}
+				 { first_name === '' ? <p>First name is required</p> : ''}
+				 { last_name === '' ? <p>Last name is required</p> : ''}
+				 { gender === '' ? <p>Gender is required</p> : ''}
+			  </ErrorBox>
+			);
+		}
+	}
+
 
 	render() {
-		console.log(this.state);
 		let hideModule = () => {
 			if(this.props.userProfile.hideModule) {
 				return 'none'
@@ -76,43 +105,21 @@ class Module extends Component {
 
 
 		return (
-			<ModuleContainer showModule={'flex'}>
+			<ModuleContainer showModule={hideModule}>
 				<ModuleWrapper>
 					<Header>
 						<SocialIcon network="pinterest" />
 					</Header>
-
-						<div style={{textAlign:'center'}}>
-							<h1>Account Basics</h1>
-
-							{
-								this.state.currentPic !== ''
-								?  <ImageUpload
-										onChange={(e) => this.setState({avatarFile:e.target.files[0]})}
-										picText="Nice!">
-										<CurrentPic cPic={this.state.currentPic} />
-									 </ImageUpload>
-								:  <ImageUpload
-										 onChange={this.previewImage.bind(this)}
-										 picText="Add Profile Pic">
-										 <span className="fa fa-user-circle" style={{fontSize:'150px', marginTop:'20px', marginBottom:'20px'}}></span>
-									 </ImageUpload>
-
-							}
-
-							<Input
-									onTextChange={(e) => this.setState({first_name:e.target.value})}
-									ph="Name" />
-							<Input
-									onTextChange={(e) => this.setState({last_name:e.target.value})}
-									ph="Last Name" />
-
-							<RadioWrapper>
-								{radioInput}
-							</RadioWrapper>
-						</div>
-
-					<Button onClick={this.sendUserInfo.bind(this)} danger>Submit</Button>
+						<h1>Account Basics</h1>
+						<AccountModule
+								showError={this.state.showError}
+								errorBox={this.handleErrorInputs.bind(this)}
+								currentPic={this.state.currentPic}
+								onImageChange={this.previewImage.bind(this)}
+								onNameChange={e => this.setState({first_name: e.target.value})}
+								onLastChange={e => this.setState({last_name: e.target.value})}
+								postUserAccount={this.sendUserInfo.bind(this)}
+								radioGender={radioInput} />
 				</ModuleWrapper>
 			</ModuleContainer>
 		);

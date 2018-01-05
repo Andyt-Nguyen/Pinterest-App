@@ -27,12 +27,18 @@ const fontSize = (props) => {
 }
 
 const Button = styled.button `
+	cursor: pointer;
 	color: white;
 	padding: 10px;
 	border: none;
 	border-radius: 3px;
 	background: ${bg};
 	font-size: ${fontSize};
+	transition: 0.4s;
+
+	&:hover {
+		background: rebeccapurple;
+	}
 `;
 
 export { Button }
