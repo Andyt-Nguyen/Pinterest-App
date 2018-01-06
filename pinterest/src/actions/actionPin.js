@@ -77,27 +77,35 @@ export function authListener() {
 			}
 		})
 	}
-}
-// Handling Authorization
+} // Handling Authorization
 
-// Post User Profile Info
+
+// Post User Profile
 export function sendUserInfo(uid,first_name,last_name,gender,email,file) {
 		return dispatch => {
-			const updateTask = storage.ref('avatars/' + file.name).put(file); //Save User AvatarFile
-			updateTask.on('state_changed', null, null, () => {
-				let avatarURL = updateTask.snapshot.downloadURL; //Once user file is saved - url is outputted
+			const avatarStorage = storage.ref('avatars/' + file.name).put(file); //Save User AvatarFile
+			avatarStorage.on('state_changed', null, null, () => {
+				let avatarURL = avatarStorage.snapshot.downloadURL; //Once user file is saved - url is outputted
 				let userData = {first_name,last_name,gender,email,avatarURL,hideModule:true};
 				let userProfile = {};
-				userProfile['users/' + uid] = userData;
-				database.ref().update(userProfile)
+				database.ref('users/' + uid).set(userData)
 			});
 	}
-}
+} //Post User Profile
 
-
-// Get User Info after login
-// export function getUserProfile(uid) {
-// 		return dispatch => {
-//
-// 	}
-// }
+// Update User Profile
+export function updateUserInfo(uid, first_name, last_name, desc, file) {
+	return dispatch => {
+		if(file !== '') {
+			const avatarStorage = storage.ref('avatars/' + file.name).put(file);
+			avatarStorage.on('state_changed', null, null, () => {
+				const avatarURL = avatarStorage.snapshot.downloadURL;
+				const updateFields = {first_name,last_name, desc, avatarURL};
+				database.ref('users/' + uid).update(updateFields);
+			});
+		} else {
+			const updateFields = {first_name,last_name,desc};
+			database.ref('users/' + uid).update(updateFields)
+		}
+	}
+} // Update User Profile

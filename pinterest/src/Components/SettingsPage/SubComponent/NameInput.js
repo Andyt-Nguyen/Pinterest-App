@@ -1,8 +1,13 @@
 import React from 'react';
-const NameInput = ({label, name}) => (
+
+const NameInput = ({label, name, nameState, onTextChange}) => (
 	<div>
 		<p>{label}</p>
-		<input style={styles.inputStyle} value={name}/>
+		<input
+				style={styles.inputStyle}
+				name={nameState}
+				onChange={onTextChange}
+				value={name}/>
 	</div>
 );
 
