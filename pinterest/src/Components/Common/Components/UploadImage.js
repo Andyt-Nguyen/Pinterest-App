@@ -6,7 +6,7 @@ const UploadImage = ({src,onChange,picText,children}) => (
 		<label style={styles.labelContainer}>
 			{children}
 			<div style={styles.hideInput}>
-				<input onChange={onChange} type="file"/>
+				<input onChange={onChange} name="avatarFile" type="file"/>
 			</div>
 		</label>
 	</div>

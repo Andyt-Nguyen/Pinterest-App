@@ -1,10 +1,15 @@
 import React from 'react';
 import HeadingTitle from '../Styles/HeadingTitle';
 
-const Description = () => (
+const Description = ({desc, onTextChange}) => (
 	<div style={styles.marginContainer}>
 		<HeadingTitle>Description</HeadingTitle>
-		<textarea style={styles.textarea} placeholder={'What do you want people to know about you?'}/>
+		<textarea
+				name="desc"
+				style={styles.textarea}
+				value={desc}
+				onChange={onTextChange}
+				placeholder={'What do you want people to know about you?'}/>
 	</div>
 );
 
