@@ -1,8 +1,8 @@
 import React from 'react';
 import PinItem from '../Styles/PinItem';
 
-const PinBox = ({children,text}) => (
-	<div>
+const PinBox = ({children,text,showModule}) => (
+	<div onClick={showModule}>
 		<PinItem>
 			{children}
 		</PinItem>

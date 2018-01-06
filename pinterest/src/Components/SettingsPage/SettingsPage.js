@@ -52,7 +52,7 @@ class SettingsPage extends Component {
 			setTimeout(() => {
 				this.setState({showLoader:false})
 				updateUserInfo(userId, firstName, lastName, desc, avatarFile);
-			},2000)
+			},2500)
 		})
 	}
 

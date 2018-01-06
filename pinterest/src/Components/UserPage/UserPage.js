@@ -5,9 +5,18 @@ import PinBox from './SubComponents/PinBox';
 import Wrapper from './Styles/Wrapper';
 import PinContainer from './Styles/PinContainer';
 import Plus from './Styles/Plus';
+import { CreateModule } from '../Common';
 
 class UserPage extends Component {
+	constructor() {
+		super();
+		this.state = {
+			showCreateModule: false
+		}
+	}
+
 	render() {
+		console.log(this.state);
 		const { first_name, last_name, avatarURL, desc } = this.props.userProfile;
 		return (
 			<Wrapper>
@@ -22,7 +31,9 @@ class UserPage extends Component {
 				</div>
 
 				<PinContainer>
-					<PinBox text={'Create Pin'}>
+					<PinBox
+						text={'Create Pin'}
+						showModule={() => this.setState({showCreateModule:true})}>
 						<Plus className="fa fa-plus"></Plus>
 					</PinBox>
 
@@ -30,7 +41,11 @@ class UserPage extends Component {
 						<Plus className="fa fa-space-shuttle"></Plus>
 					</PinBox>
 				</PinContainer>
-
+				{
+					this.state.showCreateModule
+					? <CreateModule hideModule={() => this.setState({showCreateModule:false})}/>
+					: ''
+				}
 
 			</Wrapper>
 
