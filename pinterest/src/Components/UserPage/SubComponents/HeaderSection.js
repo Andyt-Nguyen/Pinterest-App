@@ -21,7 +21,9 @@ const HeaderSection = ({firstName, lastName, avatarURL, desc}) => (
 const styles = {
 	description: {
 		width: '300px',
-		marginTop: '30px'
+		marginTop: '30px',
+		fontStyle: 'italic',
+		color: '#bfbfc1'
 	}
 };
 export default HeaderSection;
