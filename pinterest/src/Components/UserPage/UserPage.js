@@ -8,13 +8,14 @@ import Plus from './Styles/Plus';
 
 class UserPage extends Component {
 	render() {
-		const { first_name, last_name, avatarURL } = this.props.userProfile;
+		const { first_name, last_name, avatarURL, desc } = this.props.userProfile;
 		return (
 			<Wrapper>
 				<HeaderSection
 					avatarURL={avatarURL}
 					firstName={first_name}
-					lastName={last_name} />
+					lastName={last_name}
+					desc={desc} />
 
 				<div style={styles.pinStyle}>
 					<button style={styles.btnPill}>Pins</button>

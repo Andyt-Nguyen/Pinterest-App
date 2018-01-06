@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './gif.css'
+import './Styles/gif.css'
 
 // This gif is credited to Stuart Nelson who made this awesome SVG & Css in codepen
 // You can find his account here https://codepen.io/stuartjnelson/

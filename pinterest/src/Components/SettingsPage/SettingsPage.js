@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { BounceLoader } from 'react-spinners';
 import { updateUserInfo } from '../../actions/actionPin';
 import EmailAndPassword from './SubComponent/EmailAndPassword';
 import Description from './SubComponent/Description';
@@ -7,6 +8,7 @@ import UserProfileInfo from './SubComponent/UserProfileInfo';
 import SettingContainer from './Styles/SettingContainer';
 import HeadingTitle from './Styles/HeadingTitle';
 import { Button } from '../Common';
+import CheckMark from '../SVG/CheckMark';
 
 class SettingsPage extends Component {
 	constructor() {
@@ -17,7 +19,8 @@ class SettingsPage extends Component {
 			firstName: '',
 			lastName: '',
 			email: '',
-			desc: ''
+			desc: '',
+			showLoader: false
 		};
 	}
 
@@ -45,12 +48,30 @@ class SettingsPage extends Component {
 		const {firstName,lastName,avatarURL,desc, avatarFile} = this.state;
 		const { userId } = this.props.authInfo;
 		const { updateUserInfo }= this.props;
-		updateUserInfo(userId, firstName, lastName, desc, avatarFile);
+		this.setState({showLoader:true}, () => {
+			setTimeout(() => {
+				this.setState({showLoader:false})
+				updateUserInfo(userId, firstName, lastName, desc, avatarFile);
+			},2000)
+		})
+	}
+
+	renderButton() {
+		const { first_name, last_name, avatarURL:avatarUrl, desc:Desc } = this.props.userProfile
+		const { firstName,lastName,email,avatarURL,desc } = this.state;
+		return (
+			firstName !== first_name || lastName !== last_name || avatarURL !== avatarUrl || desc !== Desc
+			? <Button
+				 primary style={{margin:'10px 0'}}
+				 onClick={this.updateUser.bind(this)}>Make Changes</Button>
+
+			: <Button style={{cursor:'not-allowed', margin:'10px 0'}}>Make Changes</Button>
+		)
 	}
 
 	componentDidMount() {
-		const { first_name:firstName, last_name:lastName, avatarURL, email } = this.props.userProfile;
-		this.setState({firstName,lastName,avatarURL,email})
+		const { first_name:firstName, last_name:lastName, avatarURL, email, desc } = this.props.userProfile;
+		this.setState({firstName,lastName,avatarURL,email,desc})
 	}
 
 	render() {
@@ -59,6 +80,7 @@ class SettingsPage extends Component {
 			<SettingContainer>
 				<EmailAndPassword emailName={email} />
 				<HeadingTitle>Profile</HeadingTitle>
+
 				<UserProfileInfo
 					avatarURL={avatarURL}
 					firstName={firstName}
@@ -66,13 +88,17 @@ class SettingsPage extends Component {
 					onTextChange={this.onTextChange.bind(this)}
 					onImageChange={this.previewImage.bind(this)}/>
 
+					{this.state.showLoader ? <CheckMark /> : ''}
+
+
 				<Description
 					desc={desc}
-					onTextChange={this.onTextChange.bind(this)} />
+					onTextChange={this.onTextChange.bind(this)}
+					val={desc}/>
 
-				<Button
-					primary style={{margin:'10px 0'}}
-					onClick={this.updateUser.bind(this)}>Make Changes</Button>
+				{
+					this.renderButton()
+				}
 			</SettingContainer>
 		);
 	}

@@ -2,12 +2,12 @@ import React from 'react';
 import Header from '../Styles/Header';
 import { Avatar } from '../../Common';
 
-const HeaderSection = ({firstName, lastName, avatarURL}) => (
+const HeaderSection = ({firstName, lastName, avatarURL, desc}) => (
 	<Header>
 		<div>
 			<h1 style={{margin:0,padding:0, color:"#555555", fontSize:'3.5em'}}>{firstName} {lastName}</h1>
 			<div style={styles.description}>
-			 <p>Description</p>
+			 <p>{desc}</p>
 			</div>
 		</div>
 
