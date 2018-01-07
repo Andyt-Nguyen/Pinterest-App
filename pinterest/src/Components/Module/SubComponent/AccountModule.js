@@ -1,24 +1,23 @@
 import React from 'react';
-import ImageUpload from './ImageUpload';
 import Input from './Input';
 import AnonUser from '../Style/AnonUser';
-import { RadioInput, RadioWrapper, Button, Avatar } from '../../Common';
+import { RadioWrapper, Button, Avatar , UploadContainer} from '../../Common';
 
 
 const AccountModule = ({currentPic, previewImage, onNameChange, onLastChange, onImageChange, postUserAccount, radioGender, errorBox, showError}) => (
 	<div style={{textAlign:'center'}}>
 		{
 			currentPic !== ''
-			?  <ImageUpload
+			?  <UploadContainer
 					onChange={onImageChange}
 					picText="Nice!">
 					<Avatar cPic={currentPic} style={{width:'170px',height:'170px'}}/>
-				 </ImageUpload>
-			:  <ImageUpload
+				 </UploadContainer>
+			:  <UploadContainer
 					 onChange={onImageChange}
 					 picText="Add Profile Pic">
 					 <AnonUser className="fa fa-user-circle" />
-				 </ImageUpload>
+				 </UploadContainer>
 		}
 		{
 			showError

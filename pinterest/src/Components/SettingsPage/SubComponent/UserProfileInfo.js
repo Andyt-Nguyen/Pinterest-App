@@ -1,14 +1,14 @@
 import React from 'react';
 import NameInput from './NameInput';
-import { UploadImage, Avatar } from '../../Common';
+import { UploadContainer, Avatar } from '../../Common';
 import TextFieldWrapper from '../Styles/TextFieldWrapper';
 
 const UserProfileInfo = ({avatarURL, firstName, lastName, onTextChange, onImageChange}) => (
 	<div>
 		<div style={{display:'flex', justifyContent:'flex-start'}}>
-			<UploadImage onChange={onImageChange}>
+			<UploadContainer onChange={onImageChange}>
 				<Avatar cPic={avatarURL} style={{width:'170px', height:'170px'}}/>
-			</UploadImage>
+			</UploadContainer>
 		</div>
 
 		<TextFieldWrapper>

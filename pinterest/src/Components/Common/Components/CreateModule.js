@@ -1,9 +1,11 @@
 import React from 'react';
 import { Button } from '../Styles/Button';
+import { UploadContainer } from './UploadContainer';
 import ModuleLayout from '../Styles/ModuleLayout';
 import HeaderLogo from './HeaderLogo';
+import DottedBoxImage from '../Styles/DottedBoxImage';
 
-const CreateModule = ({hideModule, children}) => (
+const CreateModule = ({hideModule, onChange, userPinPic, children}) => (
 	<ModuleLayout>
 		<HeaderLogo hideModule={hideModule}/>
 		<div style={styles.headerMargin}>
@@ -11,9 +13,19 @@ const CreateModule = ({hideModule, children}) => (
 		</div>
 
 		<div style={styles.flexHalf}>
-			<div style={styles.dottedBox}>
-				<h2 style={{color:'#bfbfc1'}}>Add File</h2>
-			</div>
+			<UploadContainer onChange={onChange}>
+			{
+				userPinPic !== ''
+				? <div style={styles.imageBox}>
+						<DottedBoxImage src={userPinPic} />
+					</div>
+				: <div style={styles.dottedBox}>
+						<span className="fa fa-camera" style={{display:'block', fontSize:'30px'}}></span>
+						<h2 style={{color:'#bfbfc1'}}>Click to upload a file</h2>
+					</div>
+			}
+
+			</UploadContainer>
 
 			<div style={styles.columnItems}>
 				<p>Website</p>
@@ -21,7 +33,7 @@ const CreateModule = ({hideModule, children}) => (
 				<p style={{marginTop:'15px'}}>Description</p>
 				<textarea
 					placeholder="Got something to say?"
-					style={styles.descStyle}/>
+					style={styles.descStyle} />
 				<Button style={{marginTop:'10px'}} primary>Save</Button>
 			</div>
 		</div>
@@ -43,9 +55,19 @@ const styles = {
 		width:'300px',
 		height:'300px',
 		border:'2px dotted #bfbfc1',
+		background: '#efefef',
 		display:'flex',
+		flexDirection:'column',
 		justifyContent:'center',
-		alignItems:'center'
+		alignItems:'center',
+		boxSizing: 'border-box'
+	},
+
+	imageBox: {
+		width:'300px',
+		border:'2px solid #bfbfc1',
+		padding: '5px',
+		borderRadius: '5px'
 	},
 
 	columnItems: {

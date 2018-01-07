@@ -109,3 +109,27 @@ export function updateUserInfo(uid, first_name, last_name, desc, file) {
 		}
 	}
 } // Update User Profile
+
+
+// Send User Pin
+export function sendUserPin(uid,date,file,desc) {
+	return dispatch => {
+		if(file !== '') {
+			let pinStorage = storage.ref('pins/' + file.name).put(file);
+			pinStorage.on('state_changed', null, null, () => {
+				const pinURL = pinStorage.snapshot.downloadURL;
+				const pinKey = database.ref('userPins/').child('userRef/').push().key;
+				const userData = {date,pinURL, desc};
+				const updateUserPin = {};
+				const updatePins = {};
+
+				updateUserPin['userPins/' + uid + '/' + pinKey]=userData;
+				updatePins['pins/' + pinKey]=userData;
+				database.ref().update(updateUserPin);
+				database.ref().update(updatePins);
+			});
+		} else {
+			return null;
+		}
+	}
+}

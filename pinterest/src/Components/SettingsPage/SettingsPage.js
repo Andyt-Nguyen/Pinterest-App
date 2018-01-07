@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { BounceLoader } from 'react-spinners';
 import { updateUserInfo } from '../../actions/actionPin';
 import EmailAndPassword from './SubComponent/EmailAndPassword';
 import Description from './SubComponent/Description';
