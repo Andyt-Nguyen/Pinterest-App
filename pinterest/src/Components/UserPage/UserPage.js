@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { sendUserPin } from '../../actions/actionPin';
-import HeaderSection from './SubComponents/HeaderSection';
+import { Link } from 'react-router-dom';
+import MainPageTemplate from './SubComponents/MainPageTemplate';
 import PinBox from './SubComponents/PinBox';
-import Wrapper from './Styles/Wrapper';
-import PinContainer from './Styles/PinContainer';
 import IconWrapper from './Styles/IconWrapper';
 import { CreateModule } from '../Common';
 import moment from 'moment';
 import CheckMark from '../SVG/CheckMark';
-import NavPillWrapper from './Styles/NavPillWrapper';
-import PinPill from './Styles/PinPill';
 
 class UserPage extends Component {
 	constructor() {
@@ -23,6 +20,16 @@ class UserPage extends Component {
 			userPinPic: '',
 			desc: '',
 			urlLink: ''
+		}
+	}
+
+	parsedEmail() {
+		const { email } = this.props.userProfile;
+		if(email !== undefined) {
+			let parsedEmail = email.split('@')[0];
+			return parsedEmail
+		} else {
+			return '';
 		}
 	}
 
@@ -67,22 +74,8 @@ class UserPage extends Component {
 
 
 	render() {
-		const { first_name, last_name, avatarURL, desc } = this.props.userProfile;
 		return (
-			<Wrapper>
-				<HeaderSection
-					avatarURL={avatarURL}
-					firstName={first_name}
-					lastName={last_name}
-					desc={desc} />
-
-				<NavPillWrapper>
-					<PinPill>Home</PinPill>
-					<PinPill>Pins</PinPill>
-					<PinPill>Saved Pins</PinPill>
-				</NavPillWrapper>
-
-				<PinContainer>
+			<MainPageTemplate>
 					<PinBox
 						text={'Create Pin'}
 						showModule={() => this.setState({showCreateModule:true})}>
@@ -90,13 +83,14 @@ class UserPage extends Component {
 					</PinBox>
 
 					<PinBox text={'Pins'}>
-						<IconWrapper><span className="fa fa-space-shuttle" /></IconWrapper>
+						<Link to={`/${this.parsedEmail()}/pins`}>
+							<IconWrapper><span className="fa fa-space-shuttle" /></IconWrapper>
+						</Link>
 					</PinBox>
 
 					<PinBox text={'Saved pins'}>
 						<IconWrapper><span className="fa fa-heart"/></IconWrapper>
 					</PinBox>
-				</PinContainer>
 				{
 					this.state.showCreateModule
 					? <CreateModule
@@ -111,7 +105,7 @@ class UserPage extends Component {
 					: ''
 				}
 				{this.renderSuccess()}
-			</Wrapper>
+			</MainPageTemplate>
 
 		);
 	}
