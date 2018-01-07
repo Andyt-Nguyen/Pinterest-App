@@ -4,15 +4,15 @@ import DropDownContainer from '../Styles/DropDownContainer';
 import NavItemContainer  from '../Styles/NavItemContainer';
 import { Avatar } from '../../Common';
 
-const NavItems = ({avatarURL,accountName,isSetting,showDropdown,signOut}) => (
+const NavItems = ({avatarURL,accountName,isSetting,showDropdown,signOut,email}) => (
 	<NavItemContainer>
 		<NavLink activeStyle={styles.activeStyle} to="/" style={styles.linkStyle}>Home</NavLink>
 		<div>Explore</div>
 
-		<NavLink activeStyle={styles.activeStyle} to="/user" style={styles.linkStyle}>
-		<div style={{width: '110px', display:'flex', alignItems:'center'}}>
-		<Avatar cPic={avatarURL} style={{width:'40px',height: '40px'}} />
-		<span style={{marginLeft:'10px'}}>{accountName}</span>
+		<NavLink activeStyle={styles.activeStyle} to={`/${email}`} style={styles.linkStyle}>
+			<div style={{width: '110px', display:'flex', alignItems:'center'}}>
+				<Avatar cPic={avatarURL} style={{width:'40px',height: '40px'}} />
+			<span style={{marginLeft:'10px'}}>{accountName}</span>
 		</div>
 		</NavLink>
 
@@ -22,9 +22,9 @@ const NavItems = ({avatarURL,accountName,isSetting,showDropdown,signOut}) => (
 
 		<div>
 			<span
-					className="fa fa-cog"
-					style={styles.icon}
-					onClick={()=> showDropdown()}></span>
+				className="fa fa-cog"
+				style={styles.icon}
+				onClick={()=> showDropdown()}></span>
 			{isSetting
 				?<DropDownContainer>
 					<ul style={styles.ulStyle}>
