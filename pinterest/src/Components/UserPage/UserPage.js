@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { sendUserPin } from '../../actions/actionPin';
+import { SyncLoader } from 'react-spinners';
+import { sendUserPin, getUserPins } from '../../actions/actionPin';
 import { Link } from 'react-router-dom';
 import MainPageTemplate from './SubComponents/MainPageTemplate';
 import PinBox from './SubComponents/PinBox';
@@ -16,10 +17,12 @@ class UserPage extends Component {
 			showCreateModule: false,
 			showSuccess: false,
 			showError: false,
+			isLoading: false,
 			previewImage: '',
 			userPinPic: '',
 			desc: '',
-			urlLink: ''
+			urlLink: '',
+			recentPin: {}
 		}
 	}
 
@@ -52,6 +55,10 @@ class UserPage extends Component {
 		)
 	}
 
+	getMostRecentPin() {
+
+	}
+
 	sendUserPin() {
 		let fullDate = moment()._d;
 		let {userPinPic, desc} = this.state;
@@ -72,8 +79,18 @@ class UserPage extends Component {
 		}
 	}
 
+	componentWillMount() {
+		setTimeout(() => {
+			this.setState({
+				recentPin:this.props.userPins[this.props.userPins.length-1],
+				isLoading:true
+			});
+		},2000)
+	}
 
 	render() {
+		console.log(this.state);
+
 		return (
 			<MainPageTemplate>
 					<PinBox
@@ -81,16 +98,28 @@ class UserPage extends Component {
 						showModule={() => this.setState({showCreateModule:true})}>
 						<IconWrapper><span className="fa fa-plus"/></IconWrapper>
 					</PinBox>
+					{
+						this.state.isLoading !== false
+						? <PinBox text={'Pins'} bg={this.state.recentPin.pinURL}>
+								<Link to={`/${this.parsedEmail()}/pins`}>
+									<IconWrapper><span className="fa fa-space-shuttle" /></IconWrapper>
+								</Link>
+							</PinBox>
+						: <div style={{display:'flex', alignSelf:'center'}}>
+								<SyncLoader color="#4285f4" />
+							</div>
+					}
 
-					<PinBox text={'Pins'}>
-						<Link to={`/${this.parsedEmail()}/pins`}>
-							<IconWrapper><span className="fa fa-space-shuttle" /></IconWrapper>
-						</Link>
-					</PinBox>
+					{
+						this.state.isLoading !== false
+						? <PinBox text={'Saved pins'}>
+								<IconWrapper><span className="fa fa-heart"/></IconWrapper>
+							</PinBox>
+						: <div style={{display:'flex', alignSelf:'center'}}>
+								<SyncLoader color="#4285f4" />
+							</div>
+					}
 
-					<PinBox text={'Saved pins'}>
-						<IconWrapper><span className="fa fa-heart"/></IconWrapper>
-					</PinBox>
 				{
 					this.state.showCreateModule
 					? <CreateModule
@@ -115,8 +144,9 @@ class UserPage extends Component {
 function mapStateToProps(state) {
 	return {
 		userProfile: state.userProfile,
-		authInfo: state.authInfo
+		authInfo: state.authInfo,
+		userPins: state.userPins
 	}
 }
 
-export default connect(mapStateToProps, { sendUserPin })(UserPage);
+export default connect(mapStateToProps, { sendUserPin, getUserPins })(UserPage);

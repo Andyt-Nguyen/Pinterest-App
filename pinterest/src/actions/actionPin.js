@@ -11,7 +11,8 @@ import {
  	SHOW_ERROR_SIGN_IN,
  	SHOW_ERROR_SIGN_UP,
 	GET_AUTH_INFO,
- 	GET_USER_PROFILE } from '../Constants';
+ 	GET_USER_PROFILE,
+ 	GET_USER_PINS } from '../Constants';
 
 firebase.initializeApp(DB_CONFIG);
 
@@ -58,17 +59,27 @@ export function authListener() {
 			if(firebaseUser) {
 				console.log('User is signed in');
 				const { uid:userId, email } = firebaseUser;
-				const userRef = database.ref('users/' + userId);
 				const action = {type:LOGGED_IN, payload:true};
 				const userAction = {type:GET_AUTH_INFO, payload:{userId, email}};
 				dispatch(action);
 				dispatch(userAction)
-
         // Listening for UserProfile information
-					userRef.on('value', snapShot => {
-						let action = {type: GET_USER_PROFILE, payload:snapShot.val()};
+				const userRef = database.ref('users/' + userId);
+				userRef.on('value', snapShot => {
+					let action = {type: GET_USER_PROFILE, payload:snapShot.val()};
+					dispatch(action);
+				})
+				// Listening for UsersPins
+				const userPinRef = database.ref('userPins/' + userId);
+				userPinRef.on('value', snapShot => {
+					if(snapShot.val() !== null && snapShot.val() !== undefined){
+						let pins = Object.values(snapShot.val());
+						pins.map( a => a.id = snapShot.key);
+						let action = {type:GET_USER_PINS, payload:pins};
 						dispatch(action);
-					})
+					}
+				})
+
 
 			} else {
 				console.log('User not logged in');
@@ -132,4 +143,11 @@ export function sendUserPin(uid,date,file,desc) {
 			return null;
 		}
 	}
-}
+} //Send User Pin
+
+// Get User Pins
+export function getUserPins(uid) {
+	return dispatch => {
+
+	}
+} //Get User Pin

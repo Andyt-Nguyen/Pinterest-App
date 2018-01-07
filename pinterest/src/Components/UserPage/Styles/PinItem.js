@@ -8,5 +8,8 @@ export default styled.div `
 	background: #efefef;
 	display: flex;
 	justify-content: center;
-	align-items: center
+	align-items: center;
+	background-image: url('${props => props.bg}');
+	background-size: cover;
+	background-position: center;
 `;
