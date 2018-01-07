@@ -11,8 +11,10 @@ export default styled.div `
 	border: 2px solid #bfbfc1;
 	background: #efefef;
 	position:absolute;
-	top:0;
-	left: 0;
+	top:25%;
+	left: 6%;
+	z-index:100;
+	cursor:pointer;
 	transition: .4s;
 
 	&:hover {

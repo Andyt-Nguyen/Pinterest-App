@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { SyncLoader } from 'react-spinners';
-import { sendUserPin, getUserPins } from '../../actions/actionPin';
+import { sendUserPin } from '../../actions/actionPin';
 import { Link } from 'react-router-dom';
 import MainPageTemplate from './SubComponents/MainPageTemplate';
 import PinBox from './SubComponents/PinBox';
@@ -22,7 +22,7 @@ class UserPage extends Component {
 			userPinPic: '',
 			desc: '',
 			urlLink: '',
-			recentPin: {}
+			recentPin: []
 		}
 	}
 
@@ -55,18 +55,14 @@ class UserPage extends Component {
 		)
 	}
 
-	getMostRecentPin() {
-
-	}
-
 	sendUserPin() {
 		let fullDate = moment()._d;
-		let {userPinPic, desc} = this.state;
+		let {userPinPic, desc, urlLink} = this.state;
 		let { sendUserPin } = this.props;
 		let { userId } = this.props.authInfo;
 		if(userPinPic !== ''){
 			this.setState({showCreateModule:false}, () => {
-				sendUserPin(userId, fullDate, userPinPic, desc);
+				sendUserPin(userId, fullDate, userPinPic, desc, urlLink);
 				this.setState({showSuccess:true}, () => {
 					setTimeout(()=>{
 						this.setState({showSuccess:false,previewImage:''});
@@ -79,18 +75,41 @@ class UserPage extends Component {
 		}
 	}
 
+	renderPins() {
+		if(this.props.userPins.length === 0) {
+			return (
+			<PinBox text={'Pins'} bg={''}>
+				<Link to={`/${this.parsedEmail()}/pins`}>
+					<IconWrapper><span className="fa fa-space-shuttle" /></IconWrapper>
+				</Link>
+			</PinBox>
+			)
+		} else if(this.state.recentPin.length !== 0) {
+			return (
+				 	<PinBox text={'Pins'} bg={this.state.recentPin.pinURL}>
+						<Link to={`/${this.parsedEmail()}/pins`}>
+							<IconWrapper><span className="fa fa-space-shuttle" /></IconWrapper>
+						</Link>
+					</PinBox>
+			)
+		} else {
+			return (
+				<PinBox>
+						<SyncLoader color="#4285f4" />
+				</PinBox>
+			)
+		}
+	}
+
 	componentWillMount() {
 		setTimeout(() => {
 			this.setState({
 				recentPin:this.props.userPins[this.props.userPins.length-1],
-				isLoading:true
 			});
-		},2000)
+		},1000)
 	}
 
 	render() {
-		console.log(this.state);
-
 		return (
 			<MainPageTemplate>
 					<PinBox
@@ -98,31 +117,18 @@ class UserPage extends Component {
 						showModule={() => this.setState({showCreateModule:true})}>
 						<IconWrapper><span className="fa fa-plus"/></IconWrapper>
 					</PinBox>
-					{
-						this.state.isLoading !== false
-						? <PinBox text={'Pins'} bg={this.state.recentPin.pinURL}>
-								<Link to={`/${this.parsedEmail()}/pins`}>
-									<IconWrapper><span className="fa fa-space-shuttle" /></IconWrapper>
-								</Link>
-							</PinBox>
-						: <div style={{display:'flex', alignSelf:'center'}}>
-								<SyncLoader color="#4285f4" />
-							</div>
-					}
 
-					{
-						this.state.isLoading !== false
-						? <PinBox text={'Saved pins'}>
-								<IconWrapper><span className="fa fa-heart"/></IconWrapper>
-							</PinBox>
-						: <div style={{display:'flex', alignSelf:'center'}}>
-								<SyncLoader color="#4285f4" />
-							</div>
-					}
+					{this.renderPins()}
+
+					<PinBox text={'Saved pins'}>
+							<IconWrapper><span className="fa fa-heart"/></IconWrapper>
+					</PinBox>
+
 
 				{
 					this.state.showCreateModule
 					? <CreateModule
+							title="Create Pin"
 							previewImage={this.state.previewImage}
 							onChange={this.previewImage.bind(this)}
 							onUrlChange={(e) => this.setState({urlLink:e.target.value})}
@@ -149,4 +155,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { sendUserPin, getUserPins })(UserPage);
+export default connect(mapStateToProps, { sendUserPin })(UserPage);
