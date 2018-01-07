@@ -2,7 +2,7 @@ import React from 'react';
 import { SocialIcon } from 'react-social-icons';
 import './Styles/checkmark.css';
 
-const CheckMark = () => (
+const CheckMark = ({successText}) => (
 	<div style={styles.successBox}>
 		<div style={{width:'100%', background:'#efefef', height:'40px'}}>
 			<SocialIcon network="pinterest" style={{width:'70px', height:'70px'}}/>
@@ -14,7 +14,7 @@ const CheckMark = () => (
 		</svg>
 		</div>
 		<div style={{textAlign:'center'}}>
-			<h2 className="success">Awesome profile saved!</h2>
+			<h2 className="success">{successText}</h2>
 		</div>
 	</div>
 );
