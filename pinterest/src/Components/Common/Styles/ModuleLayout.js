@@ -8,5 +8,6 @@ export default styled.div `
 		position:fixed;
 		top:10%;
 		left:18%;
-		background:white
+		background:white;
+		overflow: scroll;
 `;

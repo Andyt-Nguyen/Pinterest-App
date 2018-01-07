@@ -1,22 +1,42 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { sendUserPin } from '../../actions/actionPin';
 import HeaderSection from './SubComponents/HeaderSection';
 import PinBox from './SubComponents/PinBox';
 import Wrapper from './Styles/Wrapper';
 import PinContainer from './Styles/PinContainer';
 import Plus from './Styles/Plus';
 import { CreateModule } from '../Common';
+import moment from 'moment';
 
 class UserPage extends Component {
 	constructor() {
 		super();
 		this.state = {
-			showCreateModule: false
+			showCreateModule: false,
+			userPinPic: '',
 		}
 	}
 
+	previewImage(e) {
+		this.setState({userPinPic:e.target.files[0]}, () => {
+			let viewFile = this.state.userPinPic;
+			let reader = new FileReader();
+			let url = reader.readAsDataURL(viewFile);
+			reader.onloadend = e => {
+				this.setState({userPinPic: reader.result});
+			}
+		});
+	}
+
+	sendUserPin() {
+		// '123','1/02/2018',this.state.file[0],'This is a description'
+		this.props.sendUserPin()
+	}
+
+
 	render() {
-		console.log(this.state);
+		let fullDate = moment()._d;
 		const { first_name, last_name, avatarURL, desc } = this.props.userProfile;
 		return (
 			<Wrapper>
@@ -34,16 +54,19 @@ class UserPage extends Component {
 					<PinBox
 						text={'Create Pin'}
 						showModule={() => this.setState({showCreateModule:true})}>
-						<Plus className="fa fa-plus"></Plus>
+						<Plus className="fa fa-plus" />
 					</PinBox>
 
 					<PinBox text={'Pins'}>
-						<Plus className="fa fa-space-shuttle"></Plus>
+						<Plus className="fa fa-space-shuttle" />
 					</PinBox>
 				</PinContainer>
 				{
 					this.state.showCreateModule
-					? <CreateModule hideModule={() => this.setState({showCreateModule:false})}/>
+					? <CreateModule
+							userPinPic={this.state.userPinPic}
+							onChange={this.previewImage.bind(this)}
+					 		hideModule={() => this.setState({showCreateModule:false})}/>
 					: ''
 				}
 
@@ -68,7 +91,6 @@ const styles = {
 		color:'#555555',
 		fontSize: '18px'
 	},
-
 }
 
 function mapStateToProps(state) {
@@ -77,4 +99,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, null)(UserPage);
+export default connect(mapStateToProps, { sendUserPin })(UserPage);

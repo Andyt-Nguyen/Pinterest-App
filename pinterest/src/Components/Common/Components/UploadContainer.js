@@ -1,12 +1,12 @@
 import React from 'react';
 
-const ImageUpload = ({src,onChange,picText,children}) => (
+const UploadContainer = ({src,onChange,picText,children}) => (
 	<div>
-			<h3 style={{color:'#626065'}}>{picText}</h3>
+		<h3 style={{color:'#626065'}}>{picText}</h3>
 		<label style={styles.labelContainer}>
 			{children}
 			<div style={styles.hideInput}>
-				<input onChange={onChange} type="file"/>
+				<input onChange={onChange} name="avatarFile" type="file"/>
 			</div>
 		</label>
 	</div>
@@ -27,7 +27,6 @@ const styles = {
 		width: '0px',
 		overflow:'hidden'
 	},
-
 }
 
-export default ImageUpload;
+export { UploadContainer };
