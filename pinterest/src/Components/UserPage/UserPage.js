@@ -9,6 +9,8 @@ import IconWrapper from './Styles/IconWrapper';
 import { CreateModule } from '../Common';
 import moment from 'moment';
 import CheckMark from '../SVG/CheckMark';
+import NavPillWrapper from './Styles/NavPillWrapper';
+import PinPill from './Styles/PinPill';
 
 class UserPage extends Component {
 	constructor() {
@@ -74,11 +76,11 @@ class UserPage extends Component {
 					lastName={last_name}
 					desc={desc} />
 
-				<div style={styles.pinStyle}>
-					<button style={styles.btnPill}>Home</button>
-					<button style={styles.btnPill}>Pins</button>
-					<button style={styles.btnPill}>Saved Pins</button>
-				</div>
+				<NavPillWrapper>
+					<PinPill>Home</PinPill>
+					<PinPill>Pins</PinPill>
+					<PinPill>Saved Pins</PinPill>
+				</NavPillWrapper>
 
 				<PinContainer>
 					<PinBox
@@ -108,34 +110,13 @@ class UserPage extends Component {
 							showError={this.state.showError} />
 					: ''
 				}
-
 				{this.renderSuccess()}
-
 			</Wrapper>
 
 		);
 	}
 }
 
-const styles = {
-	pinStyle: {
-		display: 'flex',
-		width: '350px',
-		marginLeft: '10%',
-		justifyContent: 'space-between',
-		marginBottom: '20px'
-	},
-
-	btnPill: {
-		border: 'none',
-		background:'#efefef',
-		borderRadius: '30px',
-		padding: '10px',
-		fontWeight: 700,
-		color:'#555555',
-		fontSize: '18px'
-	},
-}
 
 function mapStateToProps(state) {
 	return {

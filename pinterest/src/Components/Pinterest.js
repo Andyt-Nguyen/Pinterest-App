@@ -41,8 +41,8 @@ class Pinterest extends Component {
 				<div>
 					<Switch>
 						<Route path="/login" component={AuthPage} />
-						<PrivateRoute path="/user" component={UserPage} />
 						<PrivateRoute path="/settings" component={SettingsPage} />
+						<PrivateRoute path="/:email" component={UserPage} />
 						<PrivateRoute path="/" component={HomePage} />
 					</Switch>
 				</div>
