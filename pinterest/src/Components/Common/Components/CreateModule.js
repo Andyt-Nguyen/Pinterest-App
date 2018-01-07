@@ -6,21 +6,25 @@ import HeaderLogo from './HeaderLogo';
 import DottedBoxImage from '../Styles/DottedBoxImage';
 import DeleteBtn from '../Styles/DeleteBtn';
 
-const CreateModule = ({showError, hideModule, onChange, previewImage, children, removeImage, onDescChange, onUrlChange, submitPin}) => (
+const CreateModule = ({title,showError, hideModule, onChange, previewImage, children, removeImage, onDescChange, onUrlChange, submitPin, urlVal, descVal}) => (
 	<ModuleLayout>
 		<HeaderLogo hideModule={hideModule}/>
 		<div style={styles.headerMargin}>
-			<h1>Create Pin</h1>
+			<h1>{title}</h1>
 		</div>
 
 		<div style={styles.flexHalf}>
+		{
+			previewImage !== ''
+			? <DeleteBtn>
+					<span onClick={removeImage}>&#10006;</span>
+				</DeleteBtn>
+			: ''
+		}
 			<UploadContainer onChange={onChange}>
 			{
 				previewImage !== ''
 				? <div style={styles.imageBox}>
-					<DeleteBtn>
-						<span onClick={removeImage}>&#10006;</span>
-					</DeleteBtn>
 						<DottedBoxImage src={previewImage} />
 					</div>
 				: <div style={styles.dottedBox}>
@@ -37,10 +41,12 @@ const CreateModule = ({showError, hideModule, onChange, previewImage, children, 
 						placeholder="Optional"
 						type="text"
 						style={styles.inputStyle}
-						onChange={onUrlChange}/>
+						onChange={onUrlChange}
+						value={urlVal} />
 				<p style={{marginTop:'15px'}}>Description</p>
 				<textarea
 					onChange={onDescChange}
+					value={descVal}
 					placeholder="Got something to say?"
 					style={styles.descStyle} />
 					{

@@ -68,17 +68,19 @@ export function authListener() {
 				userRef.on('value', snapShot => {
 					let action = {type: GET_USER_PROFILE, payload:snapShot.val()};
 					dispatch(action);
-				})
+				}) // Listening for UserProfile information
+
 				// Listening for UsersPins
 				const userPinRef = database.ref('userPins/' + userId);
 				userPinRef.on('value', snapShot => {
 					if(snapShot.val() !== null && snapShot.val() !== undefined){
 						let pins = Object.values(snapShot.val());
-						pins.map( a => a.id = snapShot.key);
+						let pinKey = Object.keys(snapShot.val());
+						pins.map( (a,i) => a.id = pinKey[i]);
 						let action = {type:GET_USER_PINS, payload:pins};
 						dispatch(action);
 					}
-				})
+				}) //Listening for UsersPins
 
 
 			} else {
@@ -123,14 +125,14 @@ export function updateUserInfo(uid, first_name, last_name, desc, file) {
 
 
 // Send User Pin
-export function sendUserPin(uid,date,file,desc) {
+export function sendUserPin(uid,date,file,desc,urlLink) {
 	return dispatch => {
 		if(file !== '') {
 			let pinStorage = storage.ref('pins/' + file.name).put(file);
 			pinStorage.on('state_changed', null, null, () => {
 				const pinURL = pinStorage.snapshot.downloadURL;
 				const pinKey = database.ref('userPins/').child('userRef/').push().key;
-				const userData = {date,pinURL, desc};
+				const userData = {date,pinURL, desc, urlLink};
 				const updateUserPin = {};
 				const updatePins = {};
 
@@ -145,9 +147,30 @@ export function sendUserPin(uid,date,file,desc) {
 	}
 } //Send User Pin
 
-// Get User Pins
-export function getUserPins(uid) {
+// Upadate User Pin
+export function updateUserPin(uid, pinKey, date,file='',desc,urlLink, firbaseImgUrl) {
 	return dispatch => {
+		if(file !== '') {
+			let pinStorage = storage.ref('pins/' + file.name).put(file);
+			pinStorage.on('state_changed', null, null, () => {
+				const pinURL = pinStorage.snapshot.downloadURL;
+				const userData = {date,pinURL, desc, urlLink};
+				const updateUserPin = {};
+				const updatePins = {};
 
+				updateUserPin['userPins/' + uid + '/' + pinKey]=userData;
+				updatePins['pins/' + pinKey]=userData;
+				database.ref().update(updateUserPin);
+				database.ref().update(updatePins);
+			});
+		} else {
+			const userData = {date,pinURL:firbaseImgUrl, desc, urlLink};
+			const updateUserPin = {};
+			const updatePins = {};
+			updateUserPin['userPins/' + uid + '/' + pinKey]=userData;
+			updatePins['pins/' + pinKey]=userData;
+			database.ref().update(updateUserPin);
+			database.ref().update(updatePins);
+		}
 	}
-} //Get User Pin
+} //Upadate User Pin
