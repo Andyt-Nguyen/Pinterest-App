@@ -8,35 +8,56 @@ import PinContainer from './Styles/PinContainer';
 import Plus from './Styles/Plus';
 import { CreateModule } from '../Common';
 import moment from 'moment';
+import CheckMark from '../SVG/CheckMark';
 
 class UserPage extends Component {
 	constructor() {
 		super();
 		this.state = {
 			showCreateModule: false,
+			showSuccess: false,
+			previewImage: '',
 			userPinPic: '',
+			desc: '',
+			urlLink: '',
 		}
 	}
 
 	previewImage(e) {
-		this.setState({userPinPic:e.target.files[0]}, () => {
+		this.setState({userPinPic:e.target.files[0],}, () => {
 			let viewFile = this.state.userPinPic;
 			let reader = new FileReader();
 			let url = reader.readAsDataURL(viewFile);
 			reader.onloadend = e => {
-				this.setState({userPinPic: reader.result});
+				this.setState({previewImage: reader.result});
 			}
 		});
 	}
 
+
+
 	sendUserPin() {
-		// '123','1/02/2018',this.state.file[0],'This is a description'
-		this.props.sendUserPin()
+		let fullDate = moment()._d;
+		let {userPinPic, desc} = this.state;
+		let { sendUserPin } = this.props;
+		let { userId } = this.props.authInfo;
+		if(userPinPic !== ''){
+			this.setState({showCreateModule:false}, () => {
+				sendUserPin(userId, fullDate, userPinPic, desc);
+				this.setState({showSuccess:true}, () => {
+					setTimeout(()=>{
+						this.setState({showSuccess:false,previewImage:''});
+					},2000)
+				})
+			})
+
+		} else {
+			return null;
+		}
 	}
 
 
 	render() {
-		let fullDate = moment()._d;
 		const { first_name, last_name, avatarURL, desc } = this.props.userProfile;
 		return (
 			<Wrapper>
@@ -64,11 +85,22 @@ class UserPage extends Component {
 				{
 					this.state.showCreateModule
 					? <CreateModule
-							userPinPic={this.state.userPinPic}
+							previewImage={this.state.previewImage}
 							onChange={this.previewImage.bind(this)}
-					 		hideModule={() => this.setState({showCreateModule:false})}/>
+							onUrlChange={(e) => this.setState({urlLink:e.target.value})}
+							onDescChange={(e) => this.setState({desc:e.target.value})}
+					 		hideModule={() => this.setState({showCreateModule:false})}
+							removeImage={() => this.setState({previewImage:''})}
+							submitPin={this.sendUserPin.bind(this)}/>
 					: ''
 				}
+
+				{
+					this.state.showSuccess
+					? <CheckMark successText="Sweet pin posted!"/>
+					: ''
+				}
+
 
 			</Wrapper>
 
@@ -95,7 +127,8 @@ const styles = {
 
 function mapStateToProps(state) {
 	return {
-		userProfile: state.userProfile
+		userProfile: state.userProfile,
+		authInfo: state.authInfo
 	}
 }
 

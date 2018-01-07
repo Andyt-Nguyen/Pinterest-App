@@ -4,8 +4,9 @@ import { UploadContainer } from './UploadContainer';
 import ModuleLayout from '../Styles/ModuleLayout';
 import HeaderLogo from './HeaderLogo';
 import DottedBoxImage from '../Styles/DottedBoxImage';
+import DeleteBtn from '../Styles/DeleteBtn';
 
-const CreateModule = ({hideModule, onChange, userPinPic, children}) => (
+const CreateModule = ({hideModule, onChange, previewImage, children, removeImage, onDescChange, onUrlChange, submitPin}) => (
 	<ModuleLayout>
 		<HeaderLogo hideModule={hideModule}/>
 		<div style={styles.headerMargin}>
@@ -15,9 +16,12 @@ const CreateModule = ({hideModule, onChange, userPinPic, children}) => (
 		<div style={styles.flexHalf}>
 			<UploadContainer onChange={onChange}>
 			{
-				userPinPic !== ''
+				previewImage !== ''
 				? <div style={styles.imageBox}>
-						<DottedBoxImage src={userPinPic} />
+					<DeleteBtn>
+						<span onClick={removeImage}>&#10006;</span>
+					</DeleteBtn>
+						<DottedBoxImage src={previewImage} />
 					</div>
 				: <div style={styles.dottedBox}>
 						<span className="fa fa-camera" style={{display:'block', fontSize:'30px'}}></span>
@@ -29,12 +33,17 @@ const CreateModule = ({hideModule, onChange, userPinPic, children}) => (
 
 			<div style={styles.columnItems}>
 				<p>Website</p>
-				<input placeholder="Optional" type="text" style={styles.inputStyle}/>
+				<input
+						placeholder="Optional"
+						type="text"
+						style={styles.inputStyle}
+						onChange={onUrlChange}/>
 				<p style={{marginTop:'15px'}}>Description</p>
 				<textarea
+					onChange={onDescChange}
 					placeholder="Got something to say?"
 					style={styles.descStyle} />
-				<Button style={{marginTop:'10px'}} primary>Save</Button>
+				<Button onClick={() => submitPin()} style={{marginTop:'10px'}} primary>Save</Button>
 			</div>
 		</div>
 	</ModuleLayout>
@@ -67,7 +76,8 @@ const styles = {
 		width:'300px',
 		border:'2px solid #bfbfc1',
 		padding: '5px',
-		borderRadius: '5px'
+		borderRadius: '5px',
+		position:'relative'
 	},
 
 	columnItems: {

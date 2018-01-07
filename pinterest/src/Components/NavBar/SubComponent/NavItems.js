@@ -1,20 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import DropDownContainer from '../Styles/DropDownContainer';
 import NavItemContainer  from '../Styles/NavItemContainer';
 import { Avatar } from '../../Common';
 
 const NavItems = ({avatarURL,accountName,isSetting,showDropdown,signOut}) => (
 	<NavItemContainer>
-		<Link to="/" style={styles.linkStyle}>Home</Link>
+		<NavLink activeStyle={styles.activeStyle} to="/" style={styles.linkStyle}>Home</NavLink>
 		<div>Explore</div>
 
-		<Link to="/user" style={styles.linkStyle}>
+		<NavLink activeStyle={styles.activeStyle} to="/user" style={styles.linkStyle}>
 		<div style={{width: '110px', display:'flex', alignItems:'center'}}>
 		<Avatar cPic={avatarURL} style={{width:'40px',height: '40px'}} />
 		<span style={{marginLeft:'10px'}}>{accountName}</span>
 		</div>
-		</Link>
+		</NavLink>
 
 		<div>
 			<span className="fa fa-bell" style={styles.icon}></span>
@@ -29,7 +29,7 @@ const NavItems = ({avatarURL,accountName,isSetting,showDropdown,signOut}) => (
 				?<DropDownContainer>
 					<ul style={styles.ulStyle}>
 						<li style={{color:'#676767', borderBottom:'1px solid #ccc', padding:'10px'}}>
-							<Link to="/settings" style={{color:'#626065',textDecoration:'none'}}>Account</Link>
+							<NavLink activeStyle={styles.activeStyle} to="/settings" style={{color:'#626065',textDecoration:'none'}}>Account</NavLink>
 						</li>
 						<li style={{color:'#676767', padding:'10px'}}>
 							<span style={{cursor:'pointer'}} onClick={() => signOut()}>Sign Out</span>
@@ -58,6 +58,10 @@ const styles = {
 		listStyle:'none',
 		padding:0,
 		margin:0,
+	},
+
+	activeStyle: {
+		color:'#555555'
 	}
 }
 export default NavItems;
