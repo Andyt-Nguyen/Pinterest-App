@@ -2,7 +2,7 @@ import React from 'react';
 import PinItem from '../Styles/PinItem';
 
 const PinBox = ({children,text,showModule}) => (
-	<div onClick={showModule}>
+	<div style={{cursor:'pointer'}} onClick={showModule}>
 		<PinItem>
 			{children}
 		</PinItem>
