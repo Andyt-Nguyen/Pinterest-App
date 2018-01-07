@@ -34,6 +34,7 @@ class Module extends Component {
 			last_name: '',
 			gender: '',
 			currentPic: '',
+			modalStyle: 'none',
 			showError:false,
 			showLoader: false
 		};
@@ -46,7 +47,8 @@ class Module extends Component {
 			this.setState({showLoader:true},() => {
 				setTimeout(() => {
 					sendUserInfo(authInfo.userId, first_name, last_name, gender, authInfo.email, avatarFile);
-				},10000);
+					this.showModule();
+				},4000);
 			})
 
 		} else{
@@ -92,16 +94,18 @@ class Module extends Component {
 		}
 	}
 
+	showModule() {
+		setTimeout(() => {
+			if(this.props.userProfile.hideModule) {
+				this.setState({modalStyle:'none'})
+			} else {
+				this.setState({modalStyle:'flex'})
+			}
+		},1000)
+	}
 
 	render() {
-		let hideModule = () => {
-			if(this.props.userProfile.hideModule) {
-				return 'none'
-			} else {
-				return 'flex'
-			}
-		};
-
+		this.showModule();
 		const radioInput = this.props.gender.map( sex =>
 			<RadioInput
 				key={sex.label}
@@ -111,7 +115,7 @@ class Module extends Component {
 
 
 		return (
-			<ModuleContainer showModule={hideModule}>
+			<ModuleContainer showModule={this.state.modalStyle}>
 				<ModuleWrapper>
 					<Header>
 						<SocialIcon network="pinterest" />
