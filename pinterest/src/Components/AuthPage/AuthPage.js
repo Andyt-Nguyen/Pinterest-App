@@ -53,9 +53,9 @@ class AuthPage extends Component {
 	}
 
 	render() {
-		// const { from } = this.props.location.state || { from: { pathname:'/'}};
+		const { from } = this.props.location.state || { from: { pathname:'/'}};
 		if(this.props.isAuthenticated) {
-			return (<Redirect to={'/'}/>)
+			return (<Redirect to={from}/>)
 		}
 
 		return (
