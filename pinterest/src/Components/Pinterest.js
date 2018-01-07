@@ -32,7 +32,7 @@ class Pinterest extends Component {
 					</div>
 				: <Redirect to={{
 						pathname: '/login',
-						state: props.location
+						state: {from: props.location}
 					 }} />
 			)} />
 		)
