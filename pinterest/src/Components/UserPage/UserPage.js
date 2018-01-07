@@ -5,7 +5,7 @@ import HeaderSection from './SubComponents/HeaderSection';
 import PinBox from './SubComponents/PinBox';
 import Wrapper from './Styles/Wrapper';
 import PinContainer from './Styles/PinContainer';
-import Plus from './Styles/Plus';
+import IconWrapper from './Styles/IconWrapper';
 import { CreateModule } from '../Common';
 import moment from 'moment';
 import CheckMark from '../SVG/CheckMark';
@@ -16,10 +16,11 @@ class UserPage extends Component {
 		this.state = {
 			showCreateModule: false,
 			showSuccess: false,
+			showError: false,
 			previewImage: '',
 			userPinPic: '',
 			desc: '',
-			urlLink: '',
+			urlLink: ''
 		}
 	}
 
@@ -34,7 +35,13 @@ class UserPage extends Component {
 		});
 	}
 
-
+	renderSuccess() {
+		return (
+			this.state.showSuccess
+			? <CheckMark successText="Sweet pin posted!"/>
+			: ''
+		)
+	}
 
 	sendUserPin() {
 		let fullDate = moment()._d;
@@ -52,7 +59,7 @@ class UserPage extends Component {
 			})
 
 		} else {
-			return null;
+			this.setState({showError:true})
 		}
 	}
 
@@ -68,18 +75,24 @@ class UserPage extends Component {
 					desc={desc} />
 
 				<div style={styles.pinStyle}>
+					<button style={styles.btnPill}>Home</button>
 					<button style={styles.btnPill}>Pins</button>
+					<button style={styles.btnPill}>Saved Pins</button>
 				</div>
 
 				<PinContainer>
 					<PinBox
 						text={'Create Pin'}
 						showModule={() => this.setState({showCreateModule:true})}>
-						<Plus className="fa fa-plus" />
+						<IconWrapper><span className="fa fa-plus"/></IconWrapper>
 					</PinBox>
 
 					<PinBox text={'Pins'}>
-						<Plus className="fa fa-space-shuttle" />
+						<IconWrapper><span className="fa fa-space-shuttle" /></IconWrapper>
+					</PinBox>
+
+					<PinBox text={'Saved pins'}>
+						<IconWrapper><span className="fa fa-heart"/></IconWrapper>
 					</PinBox>
 				</PinContainer>
 				{
@@ -91,16 +104,12 @@ class UserPage extends Component {
 							onDescChange={(e) => this.setState({desc:e.target.value})}
 					 		hideModule={() => this.setState({showCreateModule:false})}
 							removeImage={() => this.setState({previewImage:''})}
-							submitPin={this.sendUserPin.bind(this)}/>
+							submitPin={this.sendUserPin.bind(this)}
+							showError={this.state.showError} />
 					: ''
 				}
 
-				{
-					this.state.showSuccess
-					? <CheckMark successText="Sweet pin posted!"/>
-					: ''
-				}
-
+				{this.renderSuccess()}
 
 			</Wrapper>
 
@@ -111,14 +120,17 @@ class UserPage extends Component {
 const styles = {
 	pinStyle: {
 		display: 'flex',
-		justifyContent: 'center'
+		width: '350px',
+		marginLeft: '10%',
+		justifyContent: 'space-between',
+		marginBottom: '20px'
 	},
 
 	btnPill: {
 		border: 'none',
 		background:'#efefef',
 		borderRadius: '30px',
-		padding: '15px',
+		padding: '10px',
 		fontWeight: 700,
 		color:'#555555',
 		fontSize: '18px'
