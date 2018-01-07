@@ -15,13 +15,22 @@ class NavBar extends Component {
 		};
 	}
 
+	parseEmail() {
+		let email = this.props.userProfile.email;
+		if(email !== undefined) {
+			let parseEmail = email.split('@')[0];
+			return parseEmail;
+		} else {
+			return 'user'
+		}
+	}
+
 	signOut() {
 		this.props.userSignOut()
 	}
 
 	render() {
-		const { first_name, avatarURL } = this.props.userProfile;
-
+		const { first_name, avatarURL,email } = this.props.userProfile;
 		return (
 			<div>
 				<NavContainer>
@@ -29,6 +38,7 @@ class NavBar extends Component {
 					<NavItems
 							avatarURL={avatarURL}
 							accountName={first_name}
+							email={this.parseEmail()}
 							isSetting={this.state.isSetting}
 							showDropdown={() => this.setState({isSetting:!this.state.isSetting})}
 							signOut={this.signOut.bind(this)}/>
