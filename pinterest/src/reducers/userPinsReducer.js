@@ -6,7 +6,6 @@ export function userPinsReducer(state=[], action) {
 		if(action.payload === null || action.payload === undefined) {
 			return '';
 		} else {
-			console.log('In reducer',action.payload);
 			return action.payload
 		}
 

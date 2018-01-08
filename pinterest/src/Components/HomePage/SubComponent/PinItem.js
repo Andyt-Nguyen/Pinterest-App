@@ -2,10 +2,10 @@ import React from 'react';
 import ImageWrapper from '../Styles/ImageWrapper';
 import Image from '../Styles/Image';
 
-const PinItem = () => (
+const PinItem = ({src,desc}) => (
 		<ImageWrapper>
-			<Image alt="yoyyoyy" src="https://img.wennermedia.com/featured-promo-724/lacey-baker-profile-rolling-stone-2017-ec439dfb-a2ff-49e2-b85b-54750fb93b8c.jpg" />
-			<p>This is skateboarding</p>
+			<Image alt="image" src={src} />
+			<p style={styles.descStyle}>{desc}</p>
 			<div style={styles.saveContainer}>
 				<span className="fa fa-thumb-tack" style={styles.text}></span>
 				<span style={{color:'#fff'}}>Save</span>
@@ -14,6 +14,14 @@ const PinItem = () => (
 );
 
 const styles = {
+	descStyle: {
+		width:'100%',
+	 	height:'36px',
+		overflow:'hidden',
+		color:'#555555',
+		fontWeight:700
+	},
+
 	saveContainer: {
 		position:'absolute',
 		top:'10px',
