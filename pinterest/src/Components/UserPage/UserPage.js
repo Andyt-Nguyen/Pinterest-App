@@ -50,7 +50,7 @@ class UserPage extends Component {
 	renderSuccess() {
 		return (
 			this.state.showSuccess
-			? <CheckMark successText="Sweet pin posted!"/>
+			? <CheckMark color="#73AF55" successText="Sweet pin posted!"/>
 			: ''
 		)
 	}
@@ -102,12 +102,16 @@ class UserPage extends Component {
 	}
 
 	componentWillMount() {
-			this.setState({
-				recentPin:this.props.userPins[this.props.userPins.length-1],
-			});
+			setTimeout(() => {
+				this.setState({
+					recentPin:this.props.userPins[this.props.userPins.length-1],
+				});
+			},3000)
+
 	}
 
 	render() {
+		console.log(this.props.userPins);
 		return (
 			<MainPageTemplate>
 					<PinBox

@@ -8,4 +8,4 @@ export const SHOW_ERROR_SIGN_IN = "SHOW_ERROR_SIGN_IN";
 export const SHOW_ERROR_SIGN_UP = "SHOW_ERROR_SIGN_UP";
 export const GET_AUTH_INFO = "GET_AUTH_INFO";
 export const GET_USER_PROFILE = "GET_USER_PROFILE";
-export const DELETE_PIN = "DELETE_PIN";
+export const NO_USER_PINS = "NO_USER_PINS";

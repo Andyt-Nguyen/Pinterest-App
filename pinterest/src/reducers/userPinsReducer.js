@@ -1,4 +1,4 @@
-import { GET_USER_PINS, DELETE_PIN } from '../Constants';
+import { GET_USER_PINS, NO_USER_PINS } from '../Constants';
 
 export function userPinsReducer(state=[], action) {
 	switch (action.type) {
@@ -6,13 +6,14 @@ export function userPinsReducer(state=[], action) {
 		if(action.payload === null || action.payload === undefined) {
 			return '';
 		} else {
+			console.log('In reducer',action.payload);
 			return action.payload
 		}
 
-		case DELETE_PIN:
+		case NO_USER_PINS:
 			return action.payload;
 
 		default:
-			return [];
+			return state;
 	}
 }
