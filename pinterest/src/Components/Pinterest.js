@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authListener } from '../actions/actionPin';
+import { authListener, getPins } from '../actions/actionPin';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -21,6 +21,7 @@ class Pinterest extends Component {
 
 	componentWillMount() {
 			this.props.authListener();
+			this.props.getPins()
 	}
 
 	render() {
@@ -60,4 +61,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { authListener })(Pinterest);
+export default connect(mapStateToProps, { authListener, getPins })(Pinterest);

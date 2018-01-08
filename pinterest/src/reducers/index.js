@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
 	isErrorSignIn: errorSignInReducer,
 	isErrorSignUp: errorSignUpReducer,
 	userProfile: userProfileReducer,
-	pins: pinReducer,
+	allPins: pinReducer,
 	userPins: userPinsReducer
 });
 

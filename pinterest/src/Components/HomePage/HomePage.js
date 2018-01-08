@@ -9,29 +9,55 @@ class HomePage extends Component {
 	constructor() {
 		super();
 		this.state = {
-			pins: []
+			pins: [],
+			showLoader: true
 		}
 	}
-	componentWillMount(){
-		getPins( res => {
-			this.setState({pins:res})
-		});
+
+	handleImageLoading() {
+		setTimeout(() => {
+			this.setState({showLoader:false})
+		},1000)
 	}
+
+	componentWillMount() {
+		setTimeout(() => {
+			this.setState({showLoader:false})
+		},3000)
+	}
+
+	componentDidMount() {
+		this.props.getPins()
+	}
+
+
 	render() {
-		console.log(this.state);
-		let pins = this.state.pins.map( pin =>
-			<PinItem key={pin.id} src={pin.pinURL} desc={pin.desc} />
+		console.log(this.props);
+		console.log('STATE',this.state);
+		let pins = this.props.allPins.map( pin =>
+			<PinItem
+					showLoader={this.state.showLoader}
+					key={pin.id}
+					src={pin.pinURL} desc={pin.desc}
+					loading={this.handleImageLoading.bind(this)} />
 		);
 		return (
 			<div style={{marginTop:'20px'}}>
 				<Container>
-					<Masonry className="my-gallery-class">
-						{pins}
-					</Masonry>
-				</Container>
+						<Masonry className="my-gallery-class">
+							{pins}
+						</Masonry>
+					</Container>
 			</div>
 		);
 	}
 }
 
-export default connect(null, { userSignOut })(HomePage);
+
+function mapStateToProps(state) {
+	return {
+		allPins: state.allPins
+	}
+}
+
+export default connect(mapStateToProps, { userSignOut, getPins })(HomePage);

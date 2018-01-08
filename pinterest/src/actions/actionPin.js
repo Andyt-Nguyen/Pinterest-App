@@ -4,6 +4,8 @@ import 'firebase/database';
 import 'firebase/storage';
 import { DB_CONFIG } from '../config';
 import {
+	GET_PINS,
+	FETCHING_PINS,
 	LOGGED_IN,
  	LOGGED_OUT,
 	NO_ERROR_SIGN_IN,
@@ -21,6 +23,11 @@ firebase.initializeApp(DB_CONFIG);
 const auth = firebase.auth();
 const database = firebase.database();
 const storage = firebase.storage();
+
+// Global Vars
+let userIdent;
+let userFirst;
+let userLast;
 
 // Handling Authorization
 export function createUser(email,password) {
@@ -60,6 +67,7 @@ export function authListener() {
 			if(firebaseUser) {
 				console.log('User is signed in');
 				const { uid:userId, email } = firebaseUser;
+				userIdent=userId//This is assigning userId at the top;
 				const action = {type:LOGGED_IN, payload:true};
 				const userAction = {type:GET_AUTH_INFO, payload:{userId, email}};
 				dispatch(action);
@@ -85,8 +93,6 @@ export function authListener() {
 						dispatch(action);
 					}
 				}) //Listening for UsersPins
-
-
 			} else {
 				console.log('User not logged in');
 				const action = {type:LOGGED_OUT, payload:false};
@@ -95,6 +101,28 @@ export function authListener() {
 		})
 	}
 } // Handling Authorization
+
+
+
+
+
+
+// Get Users Pins
+export function getUserPins(cb, userId=userIdent) {
+	const userPinRef = database.ref('userPins/' + userId);
+	userPinRef.on('value', snapShot => {
+			let pins = Object.values(snapShot.val());
+			let pinKey = Object.keys(snapShot.val());
+			pins.map( (a,i) => a.id = pinKey[i]);
+			cb(pins)
+	})
+} //Get for Users Pins
+
+
+
+
+
+
 
 
 // Post User Profile
@@ -112,44 +140,47 @@ export function sendUserInfo(uid,first_name,last_name,gender,email,file) {
 
 // Update User Profile
 export function updateUserInfo(uid, first_name, last_name, desc, file) {
-	return dispatch => {
-		if(file !== '') {
-			const avatarStorage = storage.ref('avatars/' + file.name).put(file);
-			avatarStorage.on('state_changed', null, null, () => {
-				const avatarURL = avatarStorage.snapshot.downloadURL;
-				const updateFields = {first_name,last_name, desc, avatarURL};
-				database.ref('users/' + uid).update(updateFields);
-			});
-		} else {
-			const updateFields = {first_name,last_name,desc};
-			database.ref('users/' + uid).update(updateFields)
-		}
+	if(file !== '') {
+		const avatarStorage = storage.ref('avatars/' + file.name).put(file);
+		avatarStorage.on('state_changed', null, null, () => {
+			const avatarURL = avatarStorage.snapshot.downloadURL;
+			const updateFields = {first_name,last_name, desc, avatarURL};
+			database.ref('users/' + uid).update(updateFields);
+		});
+	} else {
+		const updateFields = {first_name,last_name,desc};
+		database.ref('users/' + uid).update(updateFields)
 	}
 } // Update User Profile
 
 
+
+
+
+
+
 // Send User Pin
 export function sendUserPin(uid,date,file,desc,urlLink,first_name, last_name, avatarURL) {
-	return dispatch => {
-		if(file !== '') {
-			let pinStorage = storage.ref('pins/' + file.name).put(file);
-			pinStorage.on('state_changed', null, null, () => {
-				const pinURL = pinStorage.snapshot.downloadURL;
-				const pinKey = database.ref('userPins/').child('userRef/').push().key;
-				const userData = {date,pinURL, desc, urlLink, first_name, last_name, avatarURL};
-				const updateUserPin = {};
-				const updatePins = {};
+	if(file !== '') {
+		let pinStorage = storage.ref('pins/' + file.name).put(file);
+		pinStorage.on('state_changed', null, null, () => {
+			const pinURL = pinStorage.snapshot.downloadURL;
+			const pinKey = database.ref('userPins/').child('userRef/').push().key;
+			const userData = {date,pinURL, desc, urlLink, first_name, last_name, avatarURL};
+			const updateUserPin = {};
+			const updatePins = {};
 
-				updateUserPin['userPins/' + uid + '/' + pinKey]=userData;
-				updatePins['pins/' + pinKey]=userData;
-				database.ref().update(updateUserPin);
-				database.ref().update(updatePins);
-			});
-		} else {
-			return null;
-		}
+			updateUserPin['userPins/' + uid + '/' + pinKey]=userData;
+			updatePins['pins/' + pinKey]=userData;
+			database.ref().update(updateUserPin);
+			database.ref().update(updatePins);
+		});
+	} else {
+		return null;
 	}
 } //Send User Pin
+
+
 
 // Upadate User Pin
 export function updateUserPin(uid, pinKey, date,file='',desc,urlLink, firbaseImgUrl,first_name,last_name,avatarURL) {
@@ -186,11 +217,23 @@ export function deleteUserPin(uid, pinKey) {
 
 // Get Pins
 export function getPins(cb) {
-	const pinsRef = database.ref('pins/');
-	pinsRef.on('value', snapShot => {
-		let snapKey = Object.keys(snapShot.val());
-		let snaps = Object.values(snapShot.val());
-		snaps.map( (snap,i) => snap.id = snapKey[i])
-		cb(snaps);
-	})
+	return dispatch => {
+		let action = {};
+		const pinsRef = database.ref('pins/');
+		pinsRef.on('value', snapShot => {
+			let snapKey = Object.keys(snapShot.val());
+			let snaps = Object.values(snapShot.val());
+			snaps.map( (snap,i) => snap.id = snapKey[i])
+			if(snaps) {
+				action = { type:GET_PINS, payload:snaps };
+				console.log('GETPINS');
+				dispatch(action);
+			} else {
+				action = { type:FETCHING_PINS, payload:true };
+				console.log('FETCH');
+				dispatch(action);
+			}
+
+		})
+	}
 } // Get Pins

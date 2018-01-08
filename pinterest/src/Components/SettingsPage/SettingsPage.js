@@ -87,7 +87,7 @@ class SettingsPage extends Component {
 					onTextChange={this.onTextChange.bind(this)}
 					onImageChange={this.previewImage.bind(this)}/>
 
-					{this.state.showLoader ? <CheckMark successText="Awesome profile saved!" /> : ''}
+					{this.state.showLoader ? <CheckMark color="#53eb91" successText="Awesome profile saved!" /> : ''}
 
 
 				<Description
