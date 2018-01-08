@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { userSignOut, getPins } from '../../actions/actionPin';
 import Masonry from 'react-masonry-component';
 import PinItem from './SubComponent/PinItem';
-import { Container } from '../Common';
+import { Container, DisplayPin } from '../Common';
 
 class HomePage extends Component {
 	constructor() {
@@ -32,8 +32,6 @@ class HomePage extends Component {
 
 
 	render() {
-		console.log(this.props);
-		console.log('STATE',this.state);
 		let pins = this.props.allPins.map( pin =>
 			<PinItem
 					showLoader={this.state.showLoader}
