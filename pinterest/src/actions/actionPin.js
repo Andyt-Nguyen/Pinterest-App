@@ -13,7 +13,7 @@ import {
 	GET_AUTH_INFO,
  	GET_USER_PROFILE,
  	GET_USER_PINS,
-	DELETE_PIN } from '../Constants';
+	NO_USER_PINS } from '../Constants';
 
 firebase.initializeApp(DB_CONFIG);
 
@@ -74,11 +74,15 @@ export function authListener() {
 				// Listening for UsersPins
 				const userPinRef = database.ref('userPins/' + userId);
 				userPinRef.on('value', snapShot => {
+					console.log('Hit',snapShot.val());
 					if(snapShot.val() !== null && snapShot.val() !== undefined){
 						let pins = Object.values(snapShot.val());
 						let pinKey = Object.keys(snapShot.val());
 						pins.map( (a,i) => a.id = pinKey[i]);
 						let action = {type:GET_USER_PINS, payload:pins};
+						dispatch(action);
+					} else {
+						let action = {type: NO_USER_PINS, payload:[]};
 						dispatch(action);
 					}
 				}) //Listening for UsersPins
@@ -175,22 +179,7 @@ export function updateUserPin(uid, pinKey, date,file='',desc,urlLink, firbaseImg
 } //Upadate User Pin
 
 //Delete Pin
-export function deleteUserPin(uid, pinKey, cb) {
+export function deleteUserPin(uid, pinKey) {
 	database.ref('pins/' + pinKey).remove()
 	database.ref('userPins/' + uid + '/' + pinKey).remove();
-	cb();
-	return dispatch => {
-		database.on('value', snapShot => {
-			const userPinRef = database.ref('userPins/' + uid);
-			userPinRef.on('value', snapShot => {
-				if(snapShot.val() !== null && snapShot.val() !== undefined){
-					let pins = Object.values(snapShot.val());
-					let pinKey = Object.keys(snapShot.val());
-					pins.map( (a,i) => a.id = pinKey[i]);
-					let action = {type:DELETE_PIN, payload:pins};
-					dispatch(action);
-				}
-			}) //Listening for UsersPins
-		})
-	}
 }

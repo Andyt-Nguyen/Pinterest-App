@@ -22,7 +22,8 @@ class PinPage extends Component {
 			showCreateModule:false,
 			userPinPic: '',
 			showDelete:true,
-			showSuccess: false
+			showSuccess: false,
+			showMark: false
 		}
 	}
 
@@ -63,14 +64,6 @@ class PinPage extends Component {
 	}
 
 
-	renderSuccess() {
-		return (
-			this.state.showSuccess
-			? <CheckMark successText="Updated was successful!"/>
-			: ''
-		)
-	}
-
 	previewImage(e) {
 		this.setState({userPinPic:e.target.files[0],}, () => {
 			let viewFile = this.state.userPinPic;
@@ -92,7 +85,7 @@ class PinPage extends Component {
 				this.setState({showSuccess:true}, () => {
 					setTimeout(()=>{
 						this.setState({showSuccess:false, pins:this.props.userPins,userPinPic:''});
-					},1500)
+					},2000)
 				})
 			})
 
@@ -111,10 +104,14 @@ class PinPage extends Component {
 	deletePin() {
 		let { pinId } = this.state;
 		let { userId } = this.props.authInfo;
-		deleteUserPin(userId, pinId, () => this.setState({pins:this.props.userPins},() => {
-			let urlAddress = this.props.match.params.email;
-			this.props.history.push(`/${urlAddress}`);
-		}))
+		let urlAddress = this.props.match.params.email
+		this.setState({showMark:true,showCreateModule:false}, () => {
+			setTimeout(() => {
+				deleteUserPin(userId, pinId);
+				this.props.history.push(`/${urlAddress}`)
+			},2000)
+		})
+		console.log(this.state);
 	}
 
 	settingPinModule(previewImage,desc,urlLink) {
@@ -133,7 +130,7 @@ class PinPage extends Component {
 			this.setState({
 				pins:this.props.userPins
 			});
-		},1000)
+		},2000)
 	}
 
 
@@ -144,6 +141,11 @@ class PinPage extends Component {
 				{this.renderPins()}
 
 				{
+					this.state.showMark
+					?  <CheckMark color='red' successText="Pin Exterminated!"/>
+					: ''}
+				{
+
 					this.state.showCreateModule !== false
 					? <CreateModule
 							title="Edit Pin"
@@ -160,8 +162,6 @@ class PinPage extends Component {
 							onDelete={this.deletePin.bind(this)} />
 					: ''
 				}
-
-				{this.renderSuccess()}
 
 			</MainPageTemplate>
 		);
