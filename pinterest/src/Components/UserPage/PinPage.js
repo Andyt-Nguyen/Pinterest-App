@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateUserPin } from '../../actions/actionPin';
+import { updateUserPin, deleteUserPin } from '../../actions/actionPin';
 import { SyncLoader } from 'react-spinners';
 import PinBox from './SubComponents/PinBox';
 import IconWrapper from './Styles/IconWrapper';
@@ -20,9 +20,34 @@ class PinPage extends Component {
 			desc: '',
 			urlLink:'',
 			showCreateModule:false,
-			showError: false,
 			userPinPic: '',
+			showDelete:true,
 			showSuccess: false
+		}
+	}
+
+	renderPins() {
+		if(this.props.userPins.length === 0) {
+			return (
+				<h1 style={{color:'#555555'}}>
+					<span className="fa fa-frown-o"></span>
+					You have no pins</h1>
+			)
+		} else if(this.state.pins.length !== 0) {
+			let pins = this.state.pins.map( pin =>
+				<PinBox
+						key={pin.id} text={pin.desc} bg={pin.pinURL}
+						showModule={() => this.setState({previewImage:pin.pinURL, desc:pin.desc, urlLink:pin.urlLink, showCreateModule:true, pinId:pin.id})}>
+					<IconWrapper><span className="fa fa-heart"/></IconWrapper>
+				</PinBox>
+			);
+			return pins;
+		} else {
+			return (
+				<PinBox>
+						<SyncLoader color="#4285f4" />
+				</PinBox>
+			)
 		}
 	}
 
@@ -60,7 +85,6 @@ class PinPage extends Component {
 	updatePin() {
 		let fullDate = moment()._d;
 		let {userPinPic, desc, urlLink, pinId ,previewImage} = this.state;
-		let { updateUserPin } = this.props;
 		let { userId } = this.props.authInfo;
 		if(userPinPic !== ''){
 			this.setState({showCreateModule:false}, () => {
@@ -84,6 +108,15 @@ class PinPage extends Component {
 		}
 	}
 
+	deletePin() {
+		let { pinId } = this.state;
+		let { userId } = this.props.authInfo;
+		deleteUserPin(userId, pinId, () => this.setState({pins:this.props.userPins},() => {
+			let urlAddress = this.props.match.params.email;
+			this.props.history.push(`/${urlAddress}`);
+		}))
+	}
+
 	settingPinModule(previewImage,desc,urlLink) {
 		this.setState({
 			previewImage,
@@ -95,7 +128,7 @@ class PinPage extends Component {
 		})
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		setTimeout(() => {
 			this.setState({
 				pins:this.props.userPins
@@ -105,24 +138,10 @@ class PinPage extends Component {
 
 
 	render() {
-		console.log(this.state);
-		let pins = this.state.pins.map( pin =>
-			<PinBox
-					key={pin.id} text={pin.desc} bg={pin.pinURL}
-					showModule={() => this.setState({previewImage:pin.pinURL, desc:pin.desc, urlLink:pin.urlLink, showCreateModule:true, pinId:pin.id})}>
-				<IconWrapper><span className="fa fa-heart"/></IconWrapper>
-			</PinBox>
-		);
 
 		return (
 			<MainPageTemplate>
-				{
-					this.state.pins.length !== 0
-					? pins
-					: <PinBox>
-							<SyncLoader color="#4285f4" />
-						</PinBox>
-				}
+				{this.renderPins()}
 
 				{
 					this.state.showCreateModule !== false
@@ -137,7 +156,8 @@ class PinPage extends Component {
 							hideModule={() => this.setState({showCreateModule:false})}
 							removeImage={() => this.setState({previewImage:''})}
 							submitPin={this.updatePin.bind(this)}
-							showError={this.state.showError} />
+							showDelete={this.state.showDelete}
+							onDelete={this.deletePin.bind(this)} />
 					: ''
 				}
 
@@ -156,4 +176,4 @@ function mapStateToProps(state) {
 	}
 };
 
-export default connect(mapStateToProps, { updateUserPin })(PinPage);
+export default connect(mapStateToProps, null)(PinPage);
