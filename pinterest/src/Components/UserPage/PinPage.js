@@ -23,32 +23,31 @@ class PinPage extends Component {
 			userPinPic: '',
 			showDelete:true,
 			showSuccess: false,
-			showMark: false
+			showMark: false,
+			isLoading: true
 		}
 	}
 
 	renderPins() {
-		if(this.props.userPins.length === 0) {
+		if(this.state.pins.length === 0) {
 			return (
-				<h1 style={{color:'#555555'}}>
+				<PinBox>
+					<h1 style={{color:'#ffffff'}}>
 					<span className="fa fa-frown-o"></span>
 					You have no pins</h1>
+				</PinBox>
 			)
-		} else if(this.state.pins.length !== 0) {
+		} else {
 			let pins = this.state.pins.map( pin =>
 				<PinBox
 						key={pin.id} text={pin.desc} bg={pin.pinURL}
+						isLoading={this.state.isLoading}
+						onLoad={() => this.setState({isLoading:false})}
 						showModule={() => this.setState({previewImage:pin.pinURL, desc:pin.desc, urlLink:pin.urlLink, showCreateModule:true, pinId:pin.id})}>
 					<IconWrapper><span className="fa fa-heart"/></IconWrapper>
 				</PinBox>
 			);
 			return pins;
-		} else {
-			return (
-				<PinBox>
-						<SyncLoader color="#4285f4" />
-				</PinBox>
-			)
 		}
 	}
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SyncLoader } from 'react-spinners';
+import { CircleLoader } from 'react-spinners';
 import { sendUserPin, authListener } from '../../actions/actionPin';
 import { Link } from 'react-router-dom';
 import MainPageTemplate from './SubComponents/MainPageTemplate';
@@ -17,7 +17,7 @@ class UserPage extends Component {
 			showCreateModule: false,
 			showSuccess: false,
 			showError: false,
-			isLoading: false,
+			isLoading: true,
 			previewImage: '',
 			userPinPic: '',
 			desc: '',
@@ -58,7 +58,6 @@ class UserPage extends Component {
 	sendUserPin() {
 		let fullDate = moment()._d;
 		let {userPinPic, desc, urlLink} = this.state;
-		let { sendUserPin } = this.props;
 		let { first_name, last_name, avatarURL } = this.props.userProfile
 		let { userId } = this.props.authInfo;
 		if(userPinPic !== ''){
@@ -85,18 +84,16 @@ class UserPage extends Component {
 				</Link>
 			</PinBox>
 			)
-		} else if(this.state.recentPin) {
-			return (
-				 	<PinBox text={'Pins'} bg={this.state.recentPin.pinURL}>
-						<Link to={`/${this.parsedEmail()}/pins`}>
-							<IconWrapper><span className="fa fa-space-shuttle" /></IconWrapper>
-						</Link>
-					</PinBox>
-			)
 		} else {
 			return (
-				<PinBox>
-						<SyncLoader color="#4285f4" />
+			 	<PinBox
+					text={'Pins'}
+					isLoading={this.state.isLoading}
+					onLoad={() => this.setState({isLoading:false})}
+					bg={this.state.recentPin.pinURL}>
+					<Link to={`/${this.parsedEmail()}/pins`}>
+						<IconWrapper><span className="fa fa-space-shuttle" /></IconWrapper>
+					</Link>
 				</PinBox>
 			)
 		}
@@ -112,7 +109,6 @@ class UserPage extends Component {
 	}
 
 	render() {
-		console.log(this.props.userPins);
 		return (
 			<MainPageTemplate>
 					<PinBox
@@ -158,4 +154,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { sendUserPin, authListener })(UserPage);
+export default connect(mapStateToProps, { authListener })(UserPage);

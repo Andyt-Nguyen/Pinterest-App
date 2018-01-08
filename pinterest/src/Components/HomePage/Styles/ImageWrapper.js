@@ -7,7 +7,7 @@ export default styled.div `
 	width: 236px;
 	transition: 0.4s;
 
-	> div {
+	> .save {
 		display:none;
 	}
 

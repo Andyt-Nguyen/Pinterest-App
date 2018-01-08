@@ -1,4 +1,5 @@
 export const GET_PINS = "GET_PINS";
+export const FETCHING_PINS = "FETCHING_PINS";
 export const GET_USER_PINS = "GET_USER_PINS";
 export const LOGGED_IN = "LOGGED_IN";
 export const LOGGED_OUT = "LOGGED_OUT";

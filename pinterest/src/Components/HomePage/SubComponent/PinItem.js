@@ -1,15 +1,26 @@
 import React from 'react';
 import ImageWrapper from '../Styles/ImageWrapper';
 import Image from '../Styles/Image';
-
-const PinItem = ({src,desc}) => (
+import { ClipLoader } from 'react-spinners';
+const PinItem = ({src,desc,loading, showLoader}) => (
 		<ImageWrapper>
-			<Image alt="image" src={src} />
+			<Image alt="image"
+				onLoad={loading}
+				src={src} />
 			<p style={styles.descStyle}>{desc}</p>
-			<div style={styles.saveContainer}>
+			<div className="save" style={styles.saveContainer}>
 				<span className="fa fa-thumb-tack" style={styles.text}></span>
 				<span style={{color:'#fff'}}>Save</span>
 			</div>
+			{
+				showLoader
+				? <div style={{position:'absolute', top:'33%', left:'39%'}}>
+						<ClipLoader color="red"/>
+					</div>
+				: ''
+			}
+
+
 		</ImageWrapper>
 );
 
