@@ -74,7 +74,6 @@ export function authListener() {
 				// Listening for UsersPins
 				const userPinRef = database.ref('userPins/' + userId);
 				userPinRef.on('value', snapShot => {
-					console.log('Hit',snapShot.val());
 					if(snapShot.val() !== null && snapShot.val() !== undefined){
 						let pins = Object.values(snapShot.val());
 						let pinKey = Object.keys(snapShot.val());
@@ -182,4 +181,16 @@ export function updateUserPin(uid, pinKey, date,file='',desc,urlLink, firbaseImg
 export function deleteUserPin(uid, pinKey) {
 	database.ref('pins/' + pinKey).remove()
 	database.ref('userPins/' + uid + '/' + pinKey).remove();
-}
+} //Delete Pin
+
+
+// Get Pins
+export function getPins(cb) {
+	const pinsRef = database.ref('pins/');
+	pinsRef.on('value', snapShot => {
+		let snapKey = Object.keys(snapShot.val());
+		let snaps = Object.values(snapShot.val());
+		snaps.map( (snap,i) => snap.id = snapKey[i])
+		cb(snaps);
+	})
+} // Get Pins
