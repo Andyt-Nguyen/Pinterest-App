@@ -130,14 +130,14 @@ export function updateUserInfo(uid, first_name, last_name, desc, file) {
 
 
 // Send User Pin
-export function sendUserPin(uid,date,file,desc,urlLink) {
+export function sendUserPin(uid,date,file,desc,urlLink,first_name, last_name, avatarURL) {
 	return dispatch => {
 		if(file !== '') {
 			let pinStorage = storage.ref('pins/' + file.name).put(file);
 			pinStorage.on('state_changed', null, null, () => {
 				const pinURL = pinStorage.snapshot.downloadURL;
 				const pinKey = database.ref('userPins/').child('userRef/').push().key;
-				const userData = {date,pinURL, desc, urlLink};
+				const userData = {date,pinURL, desc, urlLink, first_name, last_name, avatarURL};
 				const updateUserPin = {};
 				const updatePins = {};
 
@@ -153,12 +153,12 @@ export function sendUserPin(uid,date,file,desc,urlLink) {
 } //Send User Pin
 
 // Upadate User Pin
-export function updateUserPin(uid, pinKey, date,file='',desc,urlLink, firbaseImgUrl) {
+export function updateUserPin(uid, pinKey, date,file='',desc,urlLink, firbaseImgUrl,first_name,last_name,avatarURL) {
 	if(file !== '') {
 		let pinStorage = storage.ref('pins/' + file.name).put(file);
 		pinStorage.on('state_changed', null, null, () => {
 			const pinURL = pinStorage.snapshot.downloadURL;
-			const userData = {date,pinURL, desc, urlLink};
+			const userData = {date,pinURL, desc, urlLink, first_name, last_name, avatarURL};
 			const updateUserPin = {};
 			const updatePins = {};
 
@@ -168,7 +168,7 @@ export function updateUserPin(uid, pinKey, date,file='',desc,urlLink, firbaseImg
 			database.ref().update(updatePins);
 		});
 	} else {
-		const userData = {date,pinURL:firbaseImgUrl, desc, urlLink};
+		const userData = {date,pinURL:firbaseImgUrl, desc, urlLink, first_name, last_name, avatarURL};
 		const updateUserPin = {};
 		const updatePins = {};
 		updateUserPin['userPins/' + uid + '/' + pinKey]=userData;

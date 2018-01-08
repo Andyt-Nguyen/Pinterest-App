@@ -77,11 +77,12 @@ class PinPage extends Component {
 
 	updatePin() {
 		let fullDate = moment()._d;
+		let { first_name, last_name, avatarURL } = this.props.userProfile;
 		let {userPinPic, desc, urlLink, pinId ,previewImage} = this.state;
 		let { userId } = this.props.authInfo;
 		if(userPinPic !== ''){
 			this.setState({showCreateModule:false}, () => {
-				updateUserPin(userId, pinId, fullDate, userPinPic, desc, urlLink, this.state.previewImage);
+				updateUserPin(userId, pinId, fullDate, userPinPic, desc, urlLink, this.state.previewImage,first_name,last_name,avatarURL);
 				this.setState({showSuccess:true}, () => {
 					setTimeout(()=>{
 						this.setState({showSuccess:false, pins:this.props.userPins,userPinPic:''});
@@ -91,7 +92,7 @@ class PinPage extends Component {
 
 		} else {
 			this.setState({showCreateModule:false}, () => {
-				updateUserPin(userId, pinId, fullDate, userPinPic='', desc, urlLink, this.state.previewImage);
+				updateUserPin(userId, pinId, fullDate, userPinPic='', desc, urlLink, this.state.previewImage,first_name,last_name,avatarURL);
 				this.setState({showSuccess:true}, () => {
 					setTimeout(()=>{
 						this.setState({showSuccess:false, pins:this.props.userPins});

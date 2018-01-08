@@ -59,10 +59,11 @@ class UserPage extends Component {
 		let fullDate = moment()._d;
 		let {userPinPic, desc, urlLink} = this.state;
 		let { sendUserPin } = this.props;
+		let { first_name, last_name, avatarURL } = this.props.userProfile
 		let { userId } = this.props.authInfo;
 		if(userPinPic !== ''){
 			this.setState({showCreateModule:false}, () => {
-				sendUserPin(userId, fullDate, userPinPic, desc, urlLink);
+				sendUserPin(userId, fullDate, userPinPic, desc, urlLink, first_name, last_name, avatarURL);
 				this.setState({showSuccess:true}, () => {
 					setTimeout(()=>{
 						this.setState({showSuccess:false,previewImage:'', recentPin:this.props.userPins[this.props.userPins.length-1]});
