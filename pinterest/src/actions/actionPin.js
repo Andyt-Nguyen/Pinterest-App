@@ -12,7 +12,8 @@ import {
  	SHOW_ERROR_SIGN_UP,
 	GET_AUTH_INFO,
  	GET_USER_PROFILE,
- 	GET_USER_PINS } from '../Constants';
+ 	GET_USER_PINS,
+	DELETE_PIN } from '../Constants';
 
 firebase.initializeApp(DB_CONFIG);
 
@@ -149,28 +150,47 @@ export function sendUserPin(uid,date,file,desc,urlLink) {
 
 // Upadate User Pin
 export function updateUserPin(uid, pinKey, date,file='',desc,urlLink, firbaseImgUrl) {
-	return dispatch => {
-		if(file !== '') {
-			let pinStorage = storage.ref('pins/' + file.name).put(file);
-			pinStorage.on('state_changed', null, null, () => {
-				const pinURL = pinStorage.snapshot.downloadURL;
-				const userData = {date,pinURL, desc, urlLink};
-				const updateUserPin = {};
-				const updatePins = {};
-
-				updateUserPin['userPins/' + uid + '/' + pinKey]=userData;
-				updatePins['pins/' + pinKey]=userData;
-				database.ref().update(updateUserPin);
-				database.ref().update(updatePins);
-			});
-		} else {
-			const userData = {date,pinURL:firbaseImgUrl, desc, urlLink};
+	if(file !== '') {
+		let pinStorage = storage.ref('pins/' + file.name).put(file);
+		pinStorage.on('state_changed', null, null, () => {
+			const pinURL = pinStorage.snapshot.downloadURL;
+			const userData = {date,pinURL, desc, urlLink};
 			const updateUserPin = {};
 			const updatePins = {};
+
 			updateUserPin['userPins/' + uid + '/' + pinKey]=userData;
 			updatePins['pins/' + pinKey]=userData;
 			database.ref().update(updateUserPin);
 			database.ref().update(updatePins);
-		}
+		});
+	} else {
+		const userData = {date,pinURL:firbaseImgUrl, desc, urlLink};
+		const updateUserPin = {};
+		const updatePins = {};
+		updateUserPin['userPins/' + uid + '/' + pinKey]=userData;
+		updatePins['pins/' + pinKey]=userData;
+		database.ref().update(updateUserPin);
+		database.ref().update(updatePins);
 	}
 } //Upadate User Pin
+
+//Delete Pin
+export function deleteUserPin(uid, pinKey, cb) {
+	database.ref('pins/' + pinKey).remove()
+	database.ref('userPins/' + uid + '/' + pinKey).remove();
+	cb();
+	return dispatch => {
+		database.on('value', snapShot => {
+			const userPinRef = database.ref('userPins/' + uid);
+			userPinRef.on('value', snapShot => {
+				if(snapShot.val() !== null && snapShot.val() !== undefined){
+					let pins = Object.values(snapShot.val());
+					let pinKey = Object.keys(snapShot.val());
+					pins.map( (a,i) => a.id = pinKey[i]);
+					let action = {type:DELETE_PIN, payload:pins};
+					dispatch(action);
+				}
+			}) //Listening for UsersPins
+		})
+	}
+}

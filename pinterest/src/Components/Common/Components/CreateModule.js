@@ -6,7 +6,7 @@ import HeaderLogo from './HeaderLogo';
 import DottedBoxImage from '../Styles/DottedBoxImage';
 import DeleteBtn from '../Styles/DeleteBtn';
 
-const CreateModule = ({title,showError, hideModule, onChange, previewImage, children, removeImage, onDescChange, onUrlChange, submitPin, urlVal, descVal}) => (
+const CreateModule = ({title,showError, hideModule, onChange, previewImage, children, removeImage, onDescChange, onUrlChange, submitPin, urlVal, descVal, showDelete, onDelete}) => (
 	<ModuleLayout>
 		<HeaderLogo hideModule={hideModule}/>
 		<div style={styles.headerMargin}>
@@ -53,6 +53,11 @@ const CreateModule = ({title,showError, hideModule, onChange, previewImage, chil
 						previewImage !== ''
 						?	<Button onClick={() => submitPin()} style={{marginTop:'10px'}} primary>Save</Button>
 						:	<Button style={{marginTop:'10px'}}>Save</Button>
+					}
+					{
+						showDelete
+						? <Button onClick={() => onDelete()} style={{marginTop:'10px'}} danger>Delete Pin</Button>
+						: ''
 					}
 
 			</div>

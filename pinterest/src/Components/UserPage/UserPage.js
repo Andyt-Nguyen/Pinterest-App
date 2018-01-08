@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { SyncLoader } from 'react-spinners';
-import { sendUserPin } from '../../actions/actionPin';
+import { sendUserPin, authListener } from '../../actions/actionPin';
 import { Link } from 'react-router-dom';
 import MainPageTemplate from './SubComponents/MainPageTemplate';
 import PinBox from './SubComponents/PinBox';
@@ -22,7 +22,7 @@ class UserPage extends Component {
 			userPinPic: '',
 			desc: '',
 			urlLink: '',
-			recentPin: []
+			recentPin: ''
 		}
 	}
 
@@ -65,8 +65,8 @@ class UserPage extends Component {
 				sendUserPin(userId, fullDate, userPinPic, desc, urlLink);
 				this.setState({showSuccess:true}, () => {
 					setTimeout(()=>{
-						this.setState({showSuccess:false,previewImage:''});
-					},2000)
+						this.setState({showSuccess:false,previewImage:'', recentPin:this.props.userPins[this.props.userPins.length-1]});
+					},2500)
 				})
 			})
 
@@ -84,7 +84,7 @@ class UserPage extends Component {
 				</Link>
 			</PinBox>
 			)
-		} else if(this.state.recentPin.length !== 0) {
+		} else if(this.state.recentPin) {
 			return (
 				 	<PinBox text={'Pins'} bg={this.state.recentPin.pinURL}>
 						<Link to={`/${this.parsedEmail()}/pins`}>
@@ -102,11 +102,9 @@ class UserPage extends Component {
 	}
 
 	componentWillMount() {
-		setTimeout(() => {
 			this.setState({
 				recentPin:this.props.userPins[this.props.userPins.length-1],
 			});
-		},1000)
 	}
 
 	render() {
@@ -155,4 +153,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { sendUserPin })(UserPage);
+export default connect(mapStateToProps, { sendUserPin, authListener })(UserPage);

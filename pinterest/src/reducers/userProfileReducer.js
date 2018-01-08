@@ -4,7 +4,7 @@ export function userProfileReducer(state='', action) {
 	switch (action.type) {
 		case GET_USER_PROFILE:
 		if(action.payload === null) {
-			return ''
+			return []
 		} else {
 			return action.payload
 		}
