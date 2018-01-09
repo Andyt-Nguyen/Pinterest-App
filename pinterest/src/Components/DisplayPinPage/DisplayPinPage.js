@@ -33,10 +33,9 @@ class DisplayPin extends Component {
 	render() {
 		return (
 			<DisplayContainer>
-				<div style={{padding:'5px 30px', borderRadius:'5px', background:'white', margin:'30px', width: '500px'}}>
+				<div style={styles.displayWrapper}>
 
-
-					<div style={{display:'flex', justifyContent:'space-between'}}>
+					<div style={styles.btnContainer}>
 						<Btn bg="dodgerblue">
 							<Link to="/" style={styles.linkStyle}>
 								<span className="fa fa-home" style={{color:'white', fontSize:'15px'}}></span>
@@ -52,30 +51,26 @@ class DisplayPin extends Component {
 						</Btn>
 					</div>
 
-
-
-					<div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+					<div style={styles.mainPicPosition}>
 						<img width="500px" src={this.state.pinURL} style={{borderRadius:'5px'}}/>
 					</div>
 
-
-
-
-
-					<div style={{alignSelf:'flex-start', marginTop:'10px'}}>
-						<div style={{display:'flex', alignItems:'center'}}>
-							<Avatar cPic={this.state.avatarURL} style={{width:'75px',height:'75px'}}/>
+					<div style={styles.userContainer}>
+						<div style={styles.userWrapper}>
+							<Link to="/" style={styles.linkStyle}>
+								<Avatar cPic={this.state.avatarURL} style={{width:'75px',height:'75px'}} />
+							</Link>
 							<div style={{marginLeft:'10px'}}>
 								<p style={{fontSize:'15px'}}>Submitted by</p>
 								<p style={{color:'#555555', fontWeight:700, fontSize:'18px'}}>
 									{this.state.firstName} {this.state.lastName}
 								</p>
 							</div>
-						</div>
+					 </div>
 
-						<div style={{width:'100%', borderTop:'1px solid #efefef', borderRadius:'5px', margin:'15px 0'}}></div>
+						<div style={styles.hr}></div>
 
-						<div style={{width:'500px', marginBottom:'20px'}}>
+						<div style={styles.descContainer}>
 							<p style={{fontSize:'15px'}}>{this.state.desc}</p>
 						</div>
 
@@ -92,6 +87,40 @@ const styles = {
 	linkStyle: {
 		textDecoration: 'none',
 		color:'white'
+	},
+	displayWrapper: {
+		padding:'5px 30px',
+		borderRadius:'5px',
+		background:'white',
+		margin:'30px',
+		width:'500px'
+	},
+	mainPicPosition: {
+		display:'flex',
+		flexDirection:'column',
+		alignItems:'center'
+	},
+	userContainer: {
+		alignSelf:'flex-start',
+		marginTop:'10px'
+	},
+	userWrapper: {
+		display:'flex',
+		alignItems:'center'
+	},
+	hr: {
+		width:'100%',
+		borderTop:'1px solid #efefef',
+		borderRadius:'5px',
+		margin:'15px 0'
+	},
+	descContainer: {
+		width:'500px',
+		marginBottom:'20px'
+	},
+	btnContainer: {
+		display:'flex',
+		justifyContent:'space-between'
 	}
 }
 
