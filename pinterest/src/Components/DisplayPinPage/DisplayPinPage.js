@@ -38,7 +38,7 @@ const DisplayPin = () => (
 			<div style={{alignSelf:'flex-start', marginTop:'10px'}}>
 				<div style={{display:'flex', alignItems:'center'}}>
 					<Avatar cPic={'https://placehold.it/200'} style={{width:'75px',height:'75px'}}/>
-					<div style={{marginLeft:'10px', border:'2px solid red'}}>
+					<div style={{marginLeft:'10px'}}>
 						<p style={{fontSize:'15px'}}>Submitted by</p>
 						<p style={{color:'#555555', fontWeight:700, fontSize:'18px'}}>Andrew Nguyen</p>
 					</div>
@@ -59,7 +59,7 @@ const DisplayPin = () => (
 				</div>
 
 			</div>
-			
+
 		</div>
 
 	</DisplayContainer>
