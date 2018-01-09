@@ -15,7 +15,8 @@ import {
 	GET_AUTH_INFO,
  	GET_USER_PROFILE,
  	GET_USER_PINS,
-	NO_USER_PINS } from '../Constants';
+	NO_USER_PINS,
+ 	NO_PINS } from '../Constants';
 
 firebase.initializeApp(DB_CONFIG);
 
@@ -102,11 +103,6 @@ export function authListener() {
 	}
 } // Handling Authorization
 
-
-
-
-
-
 // Get Users Pins
 export function getUserPins(cb, userId=userIdent) {
 	const userPinRef = database.ref('userPins/' + userId);
@@ -117,12 +113,6 @@ export function getUserPins(cb, userId=userIdent) {
 			cb(pins)
 	})
 } //Get for Users Pins
-
-
-
-
-
-
 
 
 // Post User Profile
@@ -153,12 +143,6 @@ export function updateUserInfo(uid, first_name, last_name, desc, file) {
 	}
 } // Update User Profile
 
-
-
-
-
-
-
 // Send User Pin
 export function sendUserPin(uid,date,file,desc,urlLink,first_name, last_name, avatarURL) {
 	if(file !== '') {
@@ -166,7 +150,7 @@ export function sendUserPin(uid,date,file,desc,urlLink,first_name, last_name, av
 		pinStorage.on('state_changed', null, null, () => {
 			const pinURL = pinStorage.snapshot.downloadURL;
 			const pinKey = database.ref('userPins/').child('userRef/').push().key;
-			const userData = {date,pinURL, desc, urlLink, first_name, last_name, avatarURL};
+			const userData = {date,pinURL, desc, urlLink, first_name, last_name, avatarURL, uid};
 			const updateUserPin = {};
 			const updatePins = {};
 
@@ -180,15 +164,13 @@ export function sendUserPin(uid,date,file,desc,urlLink,first_name, last_name, av
 	}
 } //Send User Pin
 
-
-
 // Upadate User Pin
 export function updateUserPin(uid, pinKey, date,file='',desc,urlLink, firbaseImgUrl,first_name,last_name,avatarURL) {
 	if(file !== '') {
 		let pinStorage = storage.ref('pins/' + file.name).put(file);
 		pinStorage.on('state_changed', null, null, () => {
 			const pinURL = pinStorage.snapshot.downloadURL;
-			const userData = {date,pinURL, desc, urlLink, first_name, last_name, avatarURL};
+			const userData = {date,pinURL, desc, urlLink, first_name, last_name, avatarURL, uid};
 			const updateUserPin = {};
 			const updatePins = {};
 
@@ -198,7 +180,7 @@ export function updateUserPin(uid, pinKey, date,file='',desc,urlLink, firbaseImg
 			database.ref().update(updatePins);
 		});
 	} else {
-		const userData = {date,pinURL:firbaseImgUrl, desc, urlLink, first_name, last_name, avatarURL};
+		const userData = {date,pinURL:firbaseImgUrl, desc, urlLink, first_name, last_name, avatarURL, uid};
 		const updateUserPin = {};
 		const updatePins = {};
 		updateUserPin['userPins/' + uid + '/' + pinKey]=userData;
@@ -214,22 +196,26 @@ export function deleteUserPin(uid, pinKey) {
 	database.ref('userPins/' + uid + '/' + pinKey).remove();
 } //Delete Pin
 
-
 // Get Pins
-export function getPins(cb) {
+export function getPins() {
 	return dispatch => {
 		let action = {};
 		const pinsRef = database.ref('pins/');
 		pinsRef.on('value', snapShot => {
-			let snapKey = Object.keys(snapShot.val());
-			let snaps = Object.values(snapShot.val());
-			snaps.map( (snap,i) => snap.id = snapKey[i])
-			if(snaps) {
-				action = { type:GET_PINS, payload:snaps };
-				dispatch(action);
-			} else {
-				action = { type:FETCHING_PINS, payload:true };
-				dispatch(action);
+			if(snapShot.val() !== null && snapShot.val() !== undefined ){
+				let snapKey = Object.keys(snapShot.val());
+				let snaps = Object.values(snapShot.val());
+				snaps.map( (snap,i) => snap.id = snapKey[i])
+				if(snaps) {
+					action = { type:GET_PINS, payload:snaps };
+					dispatch(action);
+				} else {
+					action = { type:FETCHING_PINS, payload:true };
+					dispatch(action);
+				}
+			}
+			else {
+				dispatch({type:NO_PINS, payload:{name:"There are no pins currently"}})
 			}
 
 		})
@@ -239,7 +225,23 @@ export function getPins(cb) {
 // Get Individual Pin
 export function getIndividualPin(pinId, cb) {
 	database.ref('pins/' + pinId).on('value', snapShot => {
-		console.log(snapShot.val());
 		cb(snapShot.val());
 	})
 } //Get Individual Pin
+
+
+// Get Other Users Info
+export function getOtherUsersInfo(uid, cb) {
+	database.ref('users/' + uid).on('value', snapShot => {
+		cb(snapShot.val())
+	})
+}
+//Get Indivdual's Pins
+export function getUsersPins(uid,cb) {
+	database.ref('userPins/' + uid).on('value', snapShot => {
+		let pinId = Object.keys(snapShot.val());
+		let pins = Object.values(snapShot.val());
+		pins.map( (pin, i) => pin.id = pinId[i]);
+		cb(pins);
+	});
+} // Get Indivdual's Pins
