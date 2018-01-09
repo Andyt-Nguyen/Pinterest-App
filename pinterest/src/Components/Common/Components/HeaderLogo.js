@@ -17,7 +17,8 @@ const styles = {
 		background: '#efefef',
 		marginBottom: '10px',
 		display:'flex',
-		justifyContent:'space-between'
+		justifyContent:'space-between',
+		zIndex:100,
 	},
 	deleteBtn: {
 		fontSize:'40px',
@@ -26,7 +27,8 @@ const styles = {
 	},
 	icon: {
 		width:'80px',
-		height:'80px'
+		height:'80px',
+		zIndex:99
 	}
 }
 
