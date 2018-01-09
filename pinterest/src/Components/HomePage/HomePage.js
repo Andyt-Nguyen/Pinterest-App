@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { userSignOut, getPins } from '../../actions/actionPin';
 import Masonry from 'react-masonry-component';
 import PinItem from './SubComponent/PinItem';
@@ -32,13 +33,16 @@ class HomePage extends Component {
 
 
 	render() {
+
 		let pins = this.props.allPins.map( pin =>
+			<Link key={pin.id} to={`pin/${pin.id}`} style={styles.linkStyle}>
 			<PinItem
 					showLoader={this.state.showLoader}
-					key={pin.id}
 					src={pin.pinURL} desc={pin.desc}
 					loading={this.handleImageLoading.bind(this)} />
+			</Link>
 		);
+
 		return (
 			<div style={{marginTop:'20px'}}>
 				<Container>
@@ -51,6 +55,12 @@ class HomePage extends Component {
 	}
 }
 
+const styles = {
+	linkStyle: {
+		textDecoration: 'none',
+		color:'white'
+	}
+}
 
 function mapStateToProps(state) {
 	return {

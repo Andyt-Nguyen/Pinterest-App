@@ -46,7 +46,6 @@ class SettingsPage extends Component {
 	updateUser() {
 		const {firstName,lastName,avatarURL,desc, avatarFile} = this.state;
 		const { userId } = this.props.authInfo;
-		const { updateUserInfo }= this.props;
 		this.setState({showLoader:true}, () => {
 			setTimeout(() => {
 				this.setState({showLoader:false})
@@ -110,4 +109,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { updateUserInfo })(SettingsPage);
+export default connect(mapStateToProps, null)(SettingsPage);
