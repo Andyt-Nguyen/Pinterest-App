@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { SocialIcon } from 'react-social-icons';
 import { userSignOut } from '../../actions/actionPin';
 import NavContainer from './Styles/NavContainer';
 import LogoItem from './LogoItem';
 import NavItems from './SubComponent/NavItems';
+import { ModuleWrapper, ModuleContainer } from '../Common';
+import RocketGif from '../SVG/RocketGif';
+
 import './Styles/search.css';
 
 class NavBar extends Component {
@@ -11,7 +15,8 @@ class NavBar extends Component {
 		super();
 		this.state = {
 			isSetting: false,
-			avatarURL: ''
+			avatarURL: '',
+			showLoader: false
 		};
 	}
 
@@ -26,13 +31,33 @@ class NavBar extends Component {
 	}
 
 	signOut() {
-		this.props.userSignOut()
+		this.setState({showLoader:true}, () => {
+			setTimeout(() => {
+				this.setState({showLoader:false});
+				this.props.userSignOut();
+			},3000)
+		})
+
 	}
 
 	render() {
 		const { first_name, avatarURL,email } = this.props.userProfile;
 		return (
 			<div>
+			{
+					this.state.showLoader
+				? <ModuleContainer position="flex-start" style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+						<ModuleWrapper>
+						<header style={styles.header}>
+							<SocialIcon network="pinterest" />
+						</header>
+						<h1 style={{fontFamily:'Quicksand'}}>{`Ok we are signing you out`}</h1>
+							<RocketGif />
+						</ModuleWrapper>
+					</ModuleContainer>
+				: ''
+			}
+
 				<NavContainer>
 					<LogoItem />
 					<NavItems
@@ -45,6 +70,15 @@ class NavBar extends Component {
 				</NavContainer>
 			</div>
 		);
+	}
+}
+
+
+const styles = {
+	header: {
+		width:'100%',
+		background: '#efefef',
+		textAlign: 'center'
 	}
 }
 

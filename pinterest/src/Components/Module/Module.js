@@ -5,10 +5,8 @@ import { SocialIcon } from 'react-social-icons';
 import RocketGif from '../SVG/RocketGif';
 import AccountModule from './SubComponent/AccountModule';
 import Header from './Style/Header';
-import ModuleWrapper from './Style/ModuleWrapper';
-import ModuleContainer from './Style/ModuleContainer';
 import ErrorBox from './Style/ErrorBox';
-import { RadioInput } from '../Common';
+import { RadioInput, ModuleWrapper, ModuleContainer } from '../Common';
 
 class Module extends Component {
 	static defaultProps = {
@@ -48,7 +46,7 @@ class Module extends Component {
 				setTimeout(() => {
 					sendUserInfo(authInfo.userId, first_name, last_name, gender, authInfo.email, avatarFile);
 					this.showModule();
-				},4000);
+				},3000);
 			})
 
 		} else{
@@ -115,7 +113,7 @@ class Module extends Component {
 
 
 		return (
-			<ModuleContainer showModule={this.state.modalStyle}>
+			<ModuleContainer position="center" showModule={this.state.modalStyle}>
 				<ModuleWrapper>
 					<Header>
 						<SocialIcon network="pinterest" />

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default styled.div `
+const ModuleContainer =  styled.div `
 	width: 100%;
 	height: 100vh;
 	position: absolute;
@@ -8,5 +8,7 @@ export default styled.div `
 	background: rgba(0,0,0,0.7);
 	padding-top: 50px;
 	display: ${props => props.showModule};
-	justify-content: center;
+	justify-content: ${props => props.position};
 `;
+
+export { ModuleContainer }
