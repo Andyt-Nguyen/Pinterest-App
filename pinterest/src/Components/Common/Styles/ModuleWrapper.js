@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default styled.div `
+const ModuleWrapper = styled.div `
 	width: 550px;
 	height: 600px;
 	display: flex;
@@ -10,3 +10,5 @@ export default styled.div `
 	border-radius: 5px;
 	background: white;
 `;
+
+export { ModuleWrapper }
