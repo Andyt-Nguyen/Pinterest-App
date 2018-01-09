@@ -22,7 +22,7 @@ class UserPage extends Component {
 			userPinPic: '',
 			desc: '',
 			urlLink: '',
-			recentPin: ''
+			recentPin: []
 		}
 	}
 
@@ -30,7 +30,7 @@ class UserPage extends Component {
 		const { email } = this.props.userProfile;
 		if(email !== undefined) {
 			let parsedEmail = email.split('@')[0];
-			return parsedEmail
+			return parsedEmail;
 		} else {
 			return '';
 		}
@@ -65,8 +65,12 @@ class UserPage extends Component {
 				sendUserPin(userId, fullDate, userPinPic, desc, urlLink, first_name, last_name, avatarURL);
 				this.setState({showSuccess:true}, () => {
 					setTimeout(()=>{
-						this.setState({showSuccess:false,previewImage:'', recentPin:this.props.userPins[this.props.userPins.length-1]});
-					},2500)
+						if(this.state.recentPin !== undefined && this.state.recentPin !== null) {
+							this.setState({showSuccess:false,previewImage:'', recentPin:this.props.userPins[this.props.userPins.length-1]});
+						} else {
+							this.setState({showSuccess:false, previewImage:'', recentPin:this.props.userPins[this.props.userPins.length-1]})
+						}
+					},3000)
 				})
 			})
 
@@ -76,7 +80,7 @@ class UserPage extends Component {
 	}
 
 	renderPins() {
-		if(this.props.userPins.length === 0) {
+		if(this.props.userPins.length === 0 ) {
 			return (
 			<PinBox text={'Pins'} bg={''}>
 				<Link to={`/${this.parsedEmail()}/pins`}>
@@ -90,7 +94,7 @@ class UserPage extends Component {
 					text={'Pins'}
 					isLoading={this.state.isLoading}
 					onLoad={() => this.setState({isLoading:false})}
-					bg={this.state.recentPin.pinURL}>
+					bg={this.state.recentPin === undefined || this.state.recentPin.pinURL === null ? '' : this.state.recentPin.pinURL}>
 					<Link to={`/${this.parsedEmail()}/pins`}>
 						<IconWrapper><span className="fa fa-space-shuttle" /></IconWrapper>
 					</Link>
@@ -109,8 +113,21 @@ class UserPage extends Component {
 	}
 
 	render() {
+		//In Main Page Template is being passed the userProfile
+		let {first_name,last_name,email,desc,avatarURL} = this.props.userProfile;
+		let parsedEmail = () => {
+			if(email !== undefined) {
+				let parsedEmail = email.split('@')[0];
+				return parsedEmail;
+			} else {
+				return '';
+			}
+		}
+		let userProfile = {first_name,last_name,email:parsedEmail(),avatarURL,desc};
+
+
 		return (
-			<MainPageTemplate>
+			<MainPageTemplate showPills={true} {...userProfile}>
 					<PinBox
 						text={'Create Pin'}
 						showModule={() => this.setState({showCreateModule:true})}>

@@ -135,9 +135,19 @@ class PinPage extends Component {
 
 
 	render() {
-
+		//In Main Page Template is being passed the userProfile
+		let {first_name,last_name,email,desc,avatarURL} = this.props.userProfile;
+		let parsedEmail = () => {
+			if(email !== undefined) {
+				let parsedEmail = email.split('@')[0];
+				return parsedEmail;
+			} else {
+				return '';
+			}
+		}
+		let userProfile = {first_name,last_name,email:parsedEmail(),avatarURL,desc};
 		return (
-			<MainPageTemplate>
+			<MainPageTemplate showPills={true} {...userProfile}>
 				{this.renderPins()}
 
 				{

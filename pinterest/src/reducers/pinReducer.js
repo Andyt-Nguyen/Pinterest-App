@@ -1,4 +1,4 @@
-import { GET_PINS, FETCHING_PINS } from '../Constants';
+import { GET_PINS, FETCHING_PINS, NO_PINS } from '../Constants';
 
 export function pinReducer(state=[],action) {
 	switch (action.type) {
@@ -8,6 +8,8 @@ export function pinReducer(state=[],action) {
 		case FETCHING_PINS:
 			return action.payload
 
+		case NO_PINS:
+			return [action.payload]
 		default:
 			return state;
 	}

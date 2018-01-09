@@ -9,40 +9,31 @@ import PinContainer from '../Styles/PinContainer';
 import IconWrapper from '../Styles/IconWrapper';
 import { Link } from 'react-router-dom';
 
-class MainPageTemplate extends Component {
-	parseEmail() {
-		const { email } = this.props.userProfile;
-		if(email !== undefined) {
-			let parsedEmail = email.split('@')[0];
-			return parsedEmail;
-		} else {
-			return '';
-		}
-	}
-	render() {
-		const { first_name, last_name, avatarURL, desc } = this.props.userProfile;
-		return (
-			<Wrapper>
-				<HeaderSection
-					avatarURL={avatarURL}
-					firstName={first_name}
-					lastName={last_name}
-					desc={desc} />
+const MainPageTemplate =({first_name, last_name, avatarURL, desc, email, children, showPills})=> (
+		<Wrapper>
+			<HeaderSection
+				avatarURL={avatarURL}
+				firstName={first_name}
+				lastName={last_name}
+				desc={desc} />
 
-				<NavPillWrapper>
-					<Link to={`/${this.parseEmail()}`} style={styles.linkStyle}>Home</Link>
-					<Link to={`/${this.parseEmail()}/pins`} style={styles.linkStyle}>Pins</Link>
-					<Link to="/" style={styles.linkStyle}>Saved Pins</Link>
-				</NavPillWrapper>
+			{
+				showPills
+				? <NavPillWrapper>
+						<Link to={`/${email}`} style={styles.linkStyle}>Home</Link>
+						<Link to={`/${email}/pins`} style={styles.linkStyle}>Pins</Link>
+						<Link to="/" style={styles.linkStyle}>Saved Pins</Link>
+					</NavPillWrapper>
+				: <NavPillWrapper style={{display:'flex', justifyContent:'center', width: '75%'}}>
+						<Link to={`/${email}/pins`} style={styles.linkStyle}>{first_name} Pins</Link>
+					</NavPillWrapper>
+			}
 
-				<PinContainer>
-				{this.props.children}
-				</PinContainer>
-
-			</Wrapper>
-		);
-	}
-}
+			<PinContainer>
+			{children}
+			</PinContainer>
+		</Wrapper>
+	);
 
 const styles = {
 	linkStyle: {
@@ -57,10 +48,4 @@ const styles = {
 	}
 };
 
-function mapStateToProps(state) {
-	return {
-		userProfile: state.userProfile
-	}
-};
-
-export default connect(mapStateToProps, null)(MainPageTemplate);
+export default MainPageTemplate;
