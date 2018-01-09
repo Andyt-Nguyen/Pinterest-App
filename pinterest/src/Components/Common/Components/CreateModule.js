@@ -9,58 +9,69 @@ import DeleteBtn from '../Styles/DeleteBtn';
 const CreateModule = ({title,showError, hideModule, onChange, previewImage, children, removeImage, onDescChange, onUrlChange, submitPin, urlVal, descVal, showDelete, onDelete}) => (
 	<ModuleLayout>
 		<HeaderLogo hideModule={hideModule}/>
-		<div style={styles.headerMargin}>
-			<h1>{title}</h1>
-		</div>
+		<div style={{overflow:'scroll', height:'380px', position:'relative'}}>
 
-		<div style={styles.flexHalf}>
-		{
-			previewImage !== ''
-			? <DeleteBtn>
-					<span onClick={removeImage}>&#10006;</span>
-				</DeleteBtn>
-			: ''
-		}
-			<UploadContainer onChange={onChange}>
-			{
-				previewImage !== ''
-				? <div style={styles.imageBox}>
-						<DottedBoxImage src={previewImage} />
-					</div>
-				: <div style={styles.dottedBox}>
-						<span className="fa fa-camera" style={{display:'block', fontSize:'30px'}}></span>
-						<h2 style={{color:'#bfbfc1'}}>Click to upload a file</h2>
-					</div>
-			}
 
-			</UploadContainer>
+			<div style={styles.headerMargin}>
+				<h1>{title}</h1>
+			</div>
 
-			<div style={styles.columnItems}>
-				<p>Website</p>
-				<input
-						placeholder="Optional"
-						type="text"
-						style={styles.inputStyle}
-						onChange={onUrlChange}
-						value={urlVal} />
-				<p style={{marginTop:'15px'}}>Description</p>
-				<textarea
-					onChange={onDescChange}
-					value={descVal}
-					placeholder="Got something to say?"
-					style={styles.descStyle} />
+			<div style={styles.flexHalf}>
+				{
+					previewImage !== ''
+					? <DeleteBtn>
+							<span onClick={removeImage}>&#10006;</span>
+						</DeleteBtn>
+					: ''
+				}
+
+				<UploadContainer onChange={onChange}>
 					{
 						previewImage !== ''
-						?	<Button onClick={() => submitPin()} style={{marginTop:'10px'}} primary>Save</Button>
-						:	<Button style={{marginTop:'10px'}}>Save</Button>
+						? <div style={styles.imageBox}>
+								<DottedBoxImage src={previewImage} />
+							</div>
+						: <div style={styles.dottedBox}>
+								<span className="fa fa-camera" style={{display:'block', fontSize:'30px'}}></span>
+								<h2 style={{color:'#bfbfc1'}}>Click to upload a file</h2>
+							</div>
 					}
-					{
-						showDelete
-						? <Button onClick={() => onDelete()} style={{marginTop:'10px'}} danger>Delete Pin</Button>
-						: ''
-					}
+				</UploadContainer>
 
+				<div style={styles.columnItems}>
+					<p>Website</p>
+					<input
+							placeholder="Optional"
+							type="text"
+							style={styles.inputStyle}
+							onChange={onUrlChange}
+							value={urlVal} />
+
+					<p style={{marginTop:'15px'}}>Description</p>
+					<textarea
+						onChange={onDescChange}
+						value={descVal}
+						placeholder="Got something to say?"
+						style={styles.descStyle} />
+						
+				</div>
 			</div>
+		</div>
+
+
+
+		<div style={{borderTop:'1px solid #efefef', margin:'10px 0'}}></div>
+		<div style={{display:'flex', justifyContent:'space-between'}}>
+			{
+				showDelete
+				? <Button onClick={() => onDelete()} style={{marginTop:'10px', fontSize:'20px', marginLeft:'10px'}} danger>Delete</Button>
+				: ''
+			}
+			{
+				previewImage !== ''
+				?	<Button onClick={() => submitPin()} style={{marginTop:'10px', fontSize:'20px', marginRight:'10px'}} primary>Save</Button>
+				:	<Button style={{marginTop:'10px', fontSize:'20px', marginRight:'10px'}}>Save</Button>
+			}
 		</div>
 	</ModuleLayout>
 );

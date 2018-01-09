@@ -11,9 +11,9 @@ export default styled.div `
 	border: 2px solid #bfbfc1;
 	background: #efefef;
 	position:absolute;
-	top:25%;
+	top:20%;
 	left: 6%;
-	z-index:100;
+	z-index:90;
 	cursor:pointer;
 	transition: .4s;
 

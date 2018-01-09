@@ -59,7 +59,7 @@ const DisplayPin = () => (
 				</div>
 
 			</div>
-			
+
 		</div>
 
 	</DisplayContainer>
