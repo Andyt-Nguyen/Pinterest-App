@@ -226,14 +226,20 @@ export function getPins(cb) {
 			snaps.map( (snap,i) => snap.id = snapKey[i])
 			if(snaps) {
 				action = { type:GET_PINS, payload:snaps };
-				console.log('GETPINS');
 				dispatch(action);
 			} else {
 				action = { type:FETCHING_PINS, payload:true };
-				console.log('FETCH');
 				dispatch(action);
 			}
 
 		})
 	}
 } // Get Pins
+
+// Get Individual Pin
+export function getIndividualPin(pinId, cb) {
+	database.ref('pins/' + pinId).on('value', snapShot => {
+		console.log(snapShot.val());
+		cb(snapShot.val());
+	})
+} //Get Individual Pin
