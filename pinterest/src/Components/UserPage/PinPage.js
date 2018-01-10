@@ -44,7 +44,6 @@ class PinPage extends Component {
 						isLoading={this.state.isLoading}
 						onLoad={() => this.setState({isLoading:false})}
 						showModule={() => this.setState({previewImage:pin.pinURL, desc:pin.desc, urlLink:pin.urlLink, showCreateModule:true, pinId:pin.id})}>
-					<IconWrapper><span className="fa fa-heart"/></IconWrapper>
 				</PinBox>
 			);
 			return pins;

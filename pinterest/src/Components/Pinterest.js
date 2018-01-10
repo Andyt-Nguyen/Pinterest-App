@@ -12,6 +12,7 @@ import Module from './Module/Module';
 import AuthPage from './AuthPage/AuthPage';
 import HomePage from './HomePage/HomePage';
 import UserPage from './UserPage/UserPage';
+import SavedPinPage from './UserPage/SavedPinPage';
 import OtherUser from './UserPage/OtherUser';
 import PinPage from './UserPage/PinPage';
 import SettingsPage from './SettingsPage/SettingsPage';
@@ -51,6 +52,8 @@ class Pinterest extends Component {
 						<PrivateRoute path="/user/:userId/:pinId" component={DisplayPinPage} />
 						<PrivateRoute path="/user/:userId" component={OtherUser} />
 						<PrivateRoute path="/:email/pins" component={PinPage} />
+						<PrivateRoute path="/:email/saved/:pinId" component={DisplayPinPage} />
+						<PrivateRoute path="/:email/saved" component={SavedPinPage} />
 						<PrivateRoute path="/:email" component={UserPage} />
 						<PrivateRoute path="/" component={HomePage} />
 					</Switch>
