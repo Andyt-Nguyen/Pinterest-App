@@ -22,7 +22,7 @@ const MainPageTemplate =({first_name, last_name, avatarURL, desc, email, childre
 				? <NavPillWrapper>
 						<Link to={`/${email}`} style={styles.linkStyle}>Home</Link>
 						<Link to={`/${email}/pins`} style={styles.linkStyle}>Pins</Link>
-						<Link to="/" style={styles.linkStyle}>Saved Pins</Link>
+						<Link to={`/${email}/saved`} style={styles.linkStyle}>Saved Pins</Link>
 					</NavPillWrapper>
 				: <NavPillWrapper style={{display:'flex', justifyContent:'center', width: '75%'}}>
 						<Link to={`/${email}/pins`} style={styles.linkStyle}>{first_name} Pins</Link>

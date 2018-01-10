@@ -9,6 +9,7 @@ import IconWrapper from './Styles/IconWrapper';
 import { CreateModule } from '../Common';
 import moment from 'moment';
 import CheckMark from '../SVG/CheckMark';
+import { parsedEmail } from '../../functions/reusable';
 
 class UserPage extends Component {
 	constructor() {
@@ -23,16 +24,6 @@ class UserPage extends Component {
 			desc: '',
 			urlLink: '',
 			recentPin: []
-		}
-	}
-
-	parsedEmail() {
-		const { email } = this.props.userProfile;
-		if(email !== undefined) {
-			let parsedEmail = email.split('@')[0];
-			return parsedEmail;
-		} else {
-			return '';
 		}
 	}
 
@@ -58,11 +49,12 @@ class UserPage extends Component {
 	sendUserPin() {
 		let fullDate = moment()._d;
 		let {userPinPic, desc, urlLink} = this.state;
-		let { first_name, last_name, avatarURL } = this.props.userProfile
+		let { first_name, last_name, avatarURL, email } = this.props.userProfile;
+		let newEmail = parsedEmail(email);
 		let { userId } = this.props.authInfo;
 		if(userPinPic !== ''){
 			this.setState({showCreateModule:false}, () => {
-				sendUserPin(userId, fullDate, userPinPic, desc, urlLink, first_name, last_name, avatarURL);
+				sendUserPin(userId, fullDate, userPinPic, desc, urlLink, first_name, last_name, avatarURL, newEmail);
 				this.setState({showSuccess:true}, () => {
 					setTimeout(()=>{
 						if(this.state.recentPin !== undefined && this.state.recentPin !== null) {
@@ -83,7 +75,7 @@ class UserPage extends Component {
 		if(this.props.userPins.length === 0 ) {
 			return (
 			<PinBox text={'Pins'} bg={''}>
-				<Link to={`/${this.parsedEmail()}/pins`}>
+				<Link to={`/${parsedEmail(this.props.userProfile.email)}/pins`}>
 					<IconWrapper><span className="fa fa-space-shuttle" /></IconWrapper>
 				</Link>
 			</PinBox>
@@ -95,7 +87,7 @@ class UserPage extends Component {
 					isLoading={this.state.isLoading}
 					onLoad={() => this.setState({isLoading:false})}
 					bg={this.state.recentPin === undefined || this.state.recentPin.pinURL === null ? '' : this.state.recentPin.pinURL}>
-					<Link to={`/${this.parsedEmail()}/pins`}>
+					<Link to={`/${parsedEmail(this.props.userProfile.email)}/pins`}>
 						<IconWrapper><span className="fa fa-space-shuttle" /></IconWrapper>
 					</Link>
 				</PinBox>
@@ -115,15 +107,8 @@ class UserPage extends Component {
 	render() {
 		//In Main Page Template is being passed the userProfile
 		let {first_name,last_name,email,desc,avatarURL} = this.props.userProfile;
-		let parsedEmail = () => {
-			if(email !== undefined) {
-				let parsedEmail = email.split('@')[0];
-				return parsedEmail;
-			} else {
-				return '';
-			}
-		}
-		let userProfile = {first_name,last_name,email:parsedEmail(),avatarURL,desc};
+		let emailName = parsedEmail(email)
+		let userProfile = {first_name,last_name,email:emailName,avatarURL,desc};
 
 
 		return (

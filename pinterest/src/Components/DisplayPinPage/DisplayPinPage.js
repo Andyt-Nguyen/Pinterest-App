@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getIndividualPin } from '../../actions/actionPin';
+import { getIndividualPin,saveUsersPin } from '../../actions/actionPin';
 import DisplayContainer from './Styles/DisplayContainer';
 import DisplayWrapper from './Styles/DisplayWrapper';
 import Btn from './Styles/Btn';
@@ -8,17 +9,19 @@ import { Avatar } from '../Common';
 import UserInfo from './SubComponents/UserInfo';
 import HeaderBtns from './SubComponents/HeaderBtns';
 import MainPic from './SubComponents/MainPic';
+import { parsedEmail } from '../../functions/reusable';
 
 class DisplayPin extends Component {
 	constructor() {
 		super();
 		this.state = {
-			uid: '',
+			otherUid: '',
 			avatarURL: '',
 			pinURL: '',
 			firstName: '',
 			lastName: '',
-			desc: ''
+			desc: '',
+			date: ''
 		}
 	}
 
@@ -26,8 +29,16 @@ class DisplayPin extends Component {
 		this.props.history.goBack();
 	}
 
+	savePin() {
+		let { userId } = this.props.authInfo;
+		let { otherUid, avatarURL, pinURL,firstName, lastName, desc, date } = this.state;
+		saveUsersPin(userId, otherUid, avatarURL, pinURL,firstName, lastName, desc, date);
+	}
+
 	componentWillMount() {
 		const { pinId } = this.props.match.params;
+		console.log(pinId);
+		//NOt GETTING PROPER PIN ID
 		getIndividualPin(pinId, res =>{
 			this.setState({
 				avatarURL: res.avatarURL,
@@ -35,26 +46,33 @@ class DisplayPin extends Component {
 				firstName: res.first_name,
 				lastName: res.last_name,
 				desc: res.desc,
-				uid: res.uid
+				otherUid: pinId,
+				date: res.date
 			})
-		})
+		});
 	}
 
 	render() {
+		let { email } = this.props.authInfo;
+		let newEmail = parsedEmail(email);
+		console.log(newEmail);
 		return (
 			<DisplayContainer>
 				<DisplayWrapper>
 
-					<HeaderBtns goBack={this.goBackToPreviousPage.bind(this)}/>
+					<HeaderBtns
+						savePin={this.savePin.bind(this)}
+					 	goBack={this.goBackToPreviousPage.bind(this)}/>
 
 					<MainPic pinURL={this.state.pinURL}/>
 
 					<UserInfo
-							uid={this.state.uid}
+							uid={this.state.otherUid}
 							avatarURL={this.state.avatarURL}
 							firstName={this.state.firstName}
 							lastName={this.state.lastName}
-							des={this.state.desc} />
+							des={this.state.desc}
+							email={newEmail} />
 
 				</DisplayWrapper>
 			</DisplayContainer>
@@ -62,7 +80,13 @@ class DisplayPin extends Component {
 	}
 }
 
-export default DisplayPin;
+function mapStateToProps(state) {
+	return {
+		authInfo: state.authInfo
+	}
+}
+
+export default connect(mapStateToProps, null)(DisplayPin);
 
 
 
