@@ -27,6 +27,7 @@ const database = firebase.database();
 const storage = firebase.storage();
 
 // Global Vars
+let uniqueId;
 let userIdent;
 let userFirst;
 let userLast;
@@ -73,11 +74,13 @@ export function authListener() {
 			if(firebaseUser) {
 				console.log('User is signed in');
 				const { uid:userId, email } = firebaseUser;
+				uniqueId=userId
 				userIdent=parsedEmail(email)//This is hoisting email at the top;
 				const action = {type:LOGGED_IN, payload:true};
 				const userAction = {type:GET_AUTH_INFO, payload:{userId, email}};
 				dispatch(action);
-				dispatch(userAction)
+				dispatch(userAction);
+
         // Listening for UserProfile information
 				const userRef = database.ref('users/' + userId);
 				userRef.on('value', snapShot => {
@@ -107,6 +110,13 @@ export function authListener() {
 		})
 	}
 } // Handling Authorization
+
+// Get User Profile
+export function getUserProfile(cb, uid=uniqueId) {
+	database.ref('users/' + uid).on('value', snapShot => {
+		cb(snapShot.val());
+	});
+}
 
 // Get Users Pins
 export function getUserPins(cb, email=userIdent) {
@@ -247,7 +257,6 @@ export function getOtherUsersInfo(uid, cb) {
 }
 //Get Other User's Pins
 export function getUsersPins(email,cb) {
-	console.log('This is the email',email);
 	database.ref(email).on('value', snapShot => {
 		let pinId = Object.keys(snapShot.val());
 		let pins = Object.values(snapShot.val());
