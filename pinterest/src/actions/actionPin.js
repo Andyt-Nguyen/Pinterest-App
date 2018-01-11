@@ -252,10 +252,12 @@ export function getIndividualPin(pinId, cb) {
 // Get Other Users Info
 export function getOtherUsersInfo(uid, cb) {
 	database.ref('users/' + uid).on('value', snapShot => {
+		console.log(snapShot.val());
 		cb(snapShot.val())
 	})
-}
-//Get Other User's Pins
+} //Get Other User's Pins
+
+
 export function getUsersPins(email,cb) {
 	database.ref(email).on('value', snapShot => {
 		let pinId = Object.keys(snapShot.val());
