@@ -165,7 +165,7 @@ export function sendUserInfo(uid,first_name,last_name,gender,email,file) {
 } //Post User Profile
 
 // Update User Profile
-export function updateUserInfo(uid, first_name, last_name, desc, file) {
+export function updateUserInfo(uid, first_name, last_name, desc='', file) {
 	if(file !== '') {
 		const avatarStorage = storage.ref('avatars/' + file.name).put(file);
 		avatarStorage.on('state_changed', null, null, () => {
