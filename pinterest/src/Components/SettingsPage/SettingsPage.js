@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateUserInfo } from '../../actions/actionPin';
+import { updateUserInfo, removeUser } from '../../actions/actionPin';
 import EmailAndPassword from './SubComponent/EmailAndPassword';
 import Description from './SubComponent/Description';
 import UserProfileInfo from './SubComponent/UserProfileInfo';
@@ -67,9 +67,15 @@ class SettingsPage extends Component {
 		)
 	}
 
+	deleteUserAccount() {
+		removeUser();
+	}
+
 	componentDidMount() {
-		const { first_name:firstName, last_name:lastName, avatarURL, email, desc } = this.props.userProfile;
-		this.setState({firstName,lastName,avatarURL,email,desc})
+		setTimeout(() => {
+			const { first_name:firstName, last_name:lastName, avatarURL, email, desc } = this.props.userProfile;
+			this.setState({firstName,lastName,avatarURL,email,desc})
+		},1000)
 	}
 
 	render() {
@@ -94,9 +100,12 @@ class SettingsPage extends Component {
 					onTextChange={this.onTextChange.bind(this)}
 					val={desc}/>
 
+				<div style={{display:'flex', justifyContent:'space-between'}}>
 				{
 					this.renderButton()
 				}
+				<Button danger onClick={this.deleteUserAccount.bind(this)}>Delete Account</Button>
+				</div>
 			</SettingContainer>
 		);
 	}

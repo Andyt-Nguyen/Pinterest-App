@@ -4,7 +4,7 @@ import DropDownContainer from '../Styles/DropDownContainer';
 import NavItemContainer  from '../Styles/NavItemContainer';
 import { Avatar } from '../../Common';
 
-const NavItems = ({avatarURL,accountName,isSetting,showDropdown,signOut,email}) => (
+const NavItems = ({avatarURL,accountName,isSetting,showDropdown,signOut,email, closeDropDown}) => (
 	<NavItemContainer>
 		<NavLink activeStyle={styles.activeStyle} to="/" style={styles.linkStyle}>Home</NavLink>
 		<div>Explore</div>
@@ -29,7 +29,9 @@ const NavItems = ({avatarURL,accountName,isSetting,showDropdown,signOut,email}) 
 				?<DropDownContainer>
 					<ul style={styles.ulStyle}>
 						<li style={{color:'#676767', borderBottom:'1px solid #ccc', padding:'10px'}}>
-							<NavLink activeStyle={styles.activeStyle} to="/settings" style={{color:'#626065',textDecoration:'none'}}>Account</NavLink>
+							<NavLink activeStyle={styles.activeStyle} to="/settings" style={{color:'#626065',textDecoration:'none'}}>
+								<span onClick={() => closeDropDown()}>Account</span>
+							</NavLink>
 						</li>
 						<li style={{color:'#676767', padding:'10px'}}>
 							<span style={{cursor:'pointer'}} onClick={() => signOut()}>Sign Out</span>
