@@ -11,8 +11,8 @@ const NavItems = ({avatarURL,accountName,isSetting,showDropdown,signOut,email, c
 
 		<NavLink activeStyle={styles.activeStyle} to={`/${email}`} style={styles.linkStyle}>
 			<div style={{width: '110px', display:'flex', alignItems:'center'}}>
-				<Avatar cPic={avatarURL} style={{width:'40px',height: '40px'}} />
-			<span style={{marginLeft:'10px'}}>{accountName}</span>
+				<Avatar cPic={avatarURL} style={{width:'40px',height: '40px', alignSelf:'flex-start'}} />
+				<span style={{marginLeft:'10px'}}>{accountName}</span>
 		</div>
 		</NavLink>
 
