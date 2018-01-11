@@ -1,8 +1,20 @@
 import React from 'react';
 
-const NameInput = ({label, name, nameState, onTextChange}) => (
+const NameInput = ({label, name, nameState, onTextChange, showNameError, showLNError}) => (
 	<div>
-		<p>{label}</p>
+		<p>
+			{label}
+			{
+				showNameError
+				? <span style={{color:'red'}}>* {label}</span>
+				: ''
+			}
+			{
+				showLNError
+				? <span style={{color:'red'}}>* {label}</span>
+				: ''
+			}
+		</p>
 		<input
 				style={styles.inputStyle}
 				name={nameState}

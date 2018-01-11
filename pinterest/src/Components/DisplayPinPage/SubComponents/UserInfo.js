@@ -5,10 +5,10 @@ import UserContainer from '../Styles/UserContainer';
 import UserWrapper from '../Styles/UserWrapper';
 import DescContainer from '../Styles/DescContainer';
 
-const UserInfo = ({uid,avatarURL, firstName, lastName, desc}) => (
+const UserInfo = ({uid,pinEmail,avatarURL, firstName, lastName, desc}) => (
 	<UserContainer>
 		<UserWrapper>
-			<Link to={`/user/${uid}`} style={styles.linkStyle}>
+			<Link to={`/user/${pinEmail}`} style={styles.linkStyle}>
 				<Avatar cPic={avatarURL} style={{width:'75px',height:'75px'}} />
 			</Link>
 

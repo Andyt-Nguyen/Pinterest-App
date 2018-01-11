@@ -49,7 +49,7 @@ class Pinterest extends Component {
 						<PrivateRoute path="/settings" component={SettingsPage} />
 						<PrivateRoute path="/pin/:pinId" component={DisplayPinPage} />
 						<PrivateRoute path="/user/:userId/:pinId" component={DisplayPinPage} />
-						<PrivateRoute path="/user/:userId" component={OtherUser} />
+						<PrivateRoute path="/user/:email" component={OtherUser} />
 						<PrivateRoute path="/:email/pins" component={PinPage} />
 						<PrivateRoute path="/:email/saved/:pinId" component={DisplayPinPage} />
 						<PrivateRoute path="/:email/saved" component={SavedPinPage} />

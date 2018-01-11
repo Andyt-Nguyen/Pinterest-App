@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import 'firebase/storage';
+import { parsedEmail } from '../functions/reusable';
 import { DB_CONFIG } from '../config';
 import {
 	GET_PINS,
@@ -72,7 +73,7 @@ export function authListener() {
 			if(firebaseUser) {
 				console.log('User is signed in');
 				const { uid:userId, email } = firebaseUser;
-				userIdent=userId//This is assigning userId at the top;
+				userIdent=parsedEmail(email)//This is hoisting email at the top;
 				const action = {type:LOGGED_IN, payload:true};
 				const userAction = {type:GET_AUTH_INFO, payload:{userId, email}};
 				dispatch(action);
@@ -108,8 +109,8 @@ export function authListener() {
 } // Handling Authorization
 
 // Get Users Pins
-export function getUserPins(cb, userId=userIdent) {
-	const userPinRef = database.ref('userPins/' + userId);
+export function getUserPins(cb, email=userIdent) {
+	const userPinRef = database.ref('userPins/' + email);
 	userPinRef.on('value', snapShot => {
 			let pins = Object.values(snapShot.val());
 			let pinKey = Object.keys(snapShot.val());
@@ -142,7 +143,7 @@ export function updateUserInfo(uid, first_name, last_name, desc, file) {
 			database.ref('users/' + uid).update(updateFields);
 		});
 	} else {
-		const updateFields = {first_name,last_name,desc};
+		const updateFields = {first_name,last_name, desc};
 		database.ref('users/' + uid).update(updateFields)
 	}
 } // Update User Profile
@@ -245,8 +246,9 @@ export function getOtherUsersInfo(uid, cb) {
 	})
 }
 //Get Other User's Pins
-export function getUsersPins(uid,cb) {
-	database.ref('userPins/' + uid).on('value', snapShot => {
+export function getUsersPins(email,cb) {
+	console.log('This is the email',email);
+	database.ref(email).on('value', snapShot => {
 		let pinId = Object.keys(snapShot.val());
 		let pins = Object.values(snapShot.val());
 		pins.map( (pin, i) => pin.id = pinId[i]);

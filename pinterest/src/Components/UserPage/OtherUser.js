@@ -28,14 +28,14 @@ class OtherUser extends Component {
 	}
 
 	componentWillMount() {
-		let { userId } = this.props.match.params;
-		getUsersPins(userId, res => {
+		let { email } = this.props.match.params;
+		getUsersPins(email, res => {
 			this.setState({
 				userPins: res
 			})
 		});
 
-		getOtherUsersInfo(userId, userInfo => {
+		getOtherUsersInfo(email, userInfo => {
 			this.setState({userInfo})
 		})
 	}
