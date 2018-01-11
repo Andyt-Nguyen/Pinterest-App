@@ -32,12 +32,14 @@ class OtherUser extends Component {
 		getUsersPins(email, res => {
 			this.setState({
 				userPins: res
+			}, () => {
+				getOtherUsersInfo(this.state.userPins[0].uid, userInfo => {
+					this.setState({userInfo}, () => console.log(this.state))
+				})
 			})
-		});
 
-		getOtherUsersInfo(email, userInfo => {
-			this.setState({userInfo})
-		})
+
+		});
 	}
 
 	render() {

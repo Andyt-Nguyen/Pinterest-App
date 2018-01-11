@@ -25,12 +25,12 @@ const MainPageTemplate =({first_name, last_name, avatarURL, desc, email, childre
 						<Link to={`/${email}/saved`} style={styles.linkStyle}>Saved Pins</Link>
 					</NavPillWrapper>
 				: <NavPillWrapper style={{display:'flex', justifyContent:'center', width: '75%'}}>
-						<Link to={`/${email}/pins`} style={styles.linkStyle}>{first_name} Pins</Link>
+						<Link to={`/${email}/pins`} style={styles.linkStyle}>{`${first_name}'s`} Pins</Link>
 					</NavPillWrapper>
 			}
 
 			<PinContainer>
-			{children}
+				{children}
 			</PinContainer>
 		</Wrapper>
 	);
