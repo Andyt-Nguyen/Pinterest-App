@@ -121,9 +121,11 @@ class UserPage extends Component {
 
 					{this.renderPins()}
 
-					<PinBox text={'Saved pins'}>
-							<IconWrapper><span className="fa fa-heart"/></IconWrapper>
-					</PinBox>
+          <Link to={`/${email}/saved`} style={styles.linkStyle}>
+						<PinBox text={'Saved pins'}>
+								<IconWrapper><span className="fa fa-heart"/></IconWrapper>
+						</PinBox>
+					</Link>
 
 
 				{
@@ -144,6 +146,12 @@ class UserPage extends Component {
 			</MainPageTemplate>
 
 		);
+	}
+}
+let styles = {
+	linkStyle: {
+		textDecoration: 'none',
+		color: '#efefef'
 	}
 }
 

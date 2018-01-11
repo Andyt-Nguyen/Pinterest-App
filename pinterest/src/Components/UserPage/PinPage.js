@@ -103,14 +103,13 @@ class PinPage extends Component {
 	deletePin() {
 		let { pinId } = this.state;
 		let { userId } = this.props.authInfo;
-		let urlAddress = this.props.match.params.email
+		let urlAddress = this.props.match.params.email;
 		this.setState({showMark:true,showCreateModule:false}, () => {
 			setTimeout(() => {
-				deleteUserPin(userId, pinId);
+				deleteUserPin(userId, pinId, urlAddress);
 				this.props.history.push(`/${urlAddress}`)
 			},2000)
 		})
-		console.log(this.state);
 	}
 
 	settingPinModule(previewImage,desc,urlLink) {

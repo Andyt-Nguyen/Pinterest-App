@@ -62,6 +62,10 @@ export function userSignOut() {
 	}
 }
 
+export function removeUser() {
+	auth.currentUser.delete().catch((err) => console.log(err))
+}
+
 export function authListener() {
 	return dispatch => {
 		auth.onAuthStateChanged(firebaseUser => {
@@ -194,9 +198,10 @@ export function updateUserPin(uid, pinKey, date,file='',desc,urlLink, firbaseImg
 } //Upadate User Pin
 
 //Delete Pin
-export function deleteUserPin(uid, pinKey) {
+export function deleteUserPin(uid, pinKey, email) {
 	database.ref('pins/' + pinKey).remove()
 	database.ref('userPins/' + uid + '/' + pinKey).remove();
+	database.ref(email + '/' + pinKey).remove();
 } //Delete Pin
 
 // Get Pins

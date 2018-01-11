@@ -20,6 +20,10 @@ class NavBar extends Component {
 		};
 	}
 
+	closeDropDown() {
+		this.setState({isSetting:false});
+	}
+
 	parseEmail() {
 		let email = this.props.userProfile.email;
 		if(email !== undefined) {
@@ -31,7 +35,7 @@ class NavBar extends Component {
 	}
 
 	signOut() {
-		this.setState({showLoader:true}, () => {
+		this.setState({showLoader:true, isSetting:false}, () => {
 			setTimeout(() => {
 				this.setState({showLoader:false});
 				this.props.userSignOut();
@@ -61,6 +65,7 @@ class NavBar extends Component {
 				<NavContainer>
 					<LogoItem />
 					<NavItems
+							closeDropDown={this.closeDropDown.bind(this)}
 							avatarURL={avatarURL}
 							accountName={first_name}
 							email={this.parseEmail()}
