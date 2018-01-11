@@ -19,7 +19,9 @@ class SettingsPage extends Component {
 			lastName: '',
 			email: '',
 			desc: '',
-			showLoader: false
+			showLoader: false,
+			showNameError: false,
+			showLNError: false
 		};
 	}
 
@@ -44,6 +46,9 @@ class SettingsPage extends Component {
 	}
 
 	updateUser() {
+		if(this.state.firstName === '' || this.state.lastName === ''){
+			this.setState({showNameError:true, showLNError:true})
+		} else {
 		const {firstName,lastName,avatarURL,desc, avatarFile} = this.state;
 		const { userId } = this.props.authInfo;
 		this.setState({showLoader:true}, () => {
@@ -52,6 +57,7 @@ class SettingsPage extends Component {
 				updateUserInfo(userId, firstName, lastName, desc, avatarFile);
 			},2500)
 		})
+		}
 	}
 
 	renderButton() {
@@ -89,6 +95,8 @@ class SettingsPage extends Component {
 					avatarURL={avatarURL}
 					firstName={firstName}
 					lastName={lastName}
+					showLNError = {this.state.showLNError}
+					showNameError = {this.state.showNameError}
 					onTextChange={this.onTextChange.bind(this)}
 					onImageChange={this.previewImage.bind(this)}/>
 
@@ -104,7 +112,9 @@ class SettingsPage extends Component {
 				{
 					this.renderButton()
 				}
-				<Button danger onClick={this.deleteUserAccount.bind(this)}>Delete Account</Button>
+				<Button
+				 	danger style={{margin:'10px 0'}}
+					onClick={this.deleteUserAccount.bind(this)}>Delete Account</Button>
 				</div>
 			</SettingContainer>
 		);

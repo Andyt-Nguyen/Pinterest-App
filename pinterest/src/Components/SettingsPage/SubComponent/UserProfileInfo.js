@@ -3,7 +3,7 @@ import NameInput from './NameInput';
 import { UploadContainer, Avatar } from '../../Common';
 import TextFieldWrapper from '../Styles/TextFieldWrapper';
 
-const UserProfileInfo = ({avatarURL, firstName, lastName, onTextChange, onImageChange}) => (
+const UserProfileInfo = ({avatarURL, firstName, lastName, onTextChange, onImageChange, showNameError, showLNError}) => (
 	<div>
 		<div style={{display:'flex', justifyContent:'flex-start'}}>
 			<UploadContainer onChange={onImageChange}>
@@ -13,12 +13,14 @@ const UserProfileInfo = ({avatarURL, firstName, lastName, onTextChange, onImageC
 
 		<TextFieldWrapper>
 			<NameInput
+				showNameError={showNameError}
 			 	name={firstName}
 				nameState='firstName'
 				onTextChange={onTextChange}
 				label="Name" />
 
 			<NameInput
+				showLNError={showLNError}
 				name={lastName}
 				nameState="lastName"
 				onTextChange={onTextChange}

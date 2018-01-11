@@ -43,6 +43,7 @@ class DisplayPin extends Component {
 			this.setState({
 				avatarURL: res.avatarURL,
 				pinURL: res.pinURL,
+				email: res.email,
 				firstName: res.first_name,
 				lastName: res.last_name,
 				desc: res.desc,
@@ -68,11 +69,11 @@ class DisplayPin extends Component {
 
 					<UserInfo
 							uid={this.state.otherUid}
+							pinEmail={this.state.email}
 							avatarURL={this.state.avatarURL}
 							firstName={this.state.firstName}
 							lastName={this.state.lastName}
-							des={this.state.desc}
-							email={newEmail} />
+							des={this.state.desc} />
 
 				</DisplayWrapper>
 			</DisplayContainer>
