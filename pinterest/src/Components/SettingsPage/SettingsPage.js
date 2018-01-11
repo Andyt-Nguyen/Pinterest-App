@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateUserInfo, removeUser } from '../../actions/actionPin';
+import { updateUserInfo, removeUser, getUserProfile } from '../../actions/actionPin';
 import EmailAndPassword from './SubComponent/EmailAndPassword';
 import Description from './SubComponent/Description';
 import UserProfileInfo from './SubComponent/UserProfileInfo';
@@ -78,10 +78,10 @@ class SettingsPage extends Component {
 	}
 
 	componentDidMount() {
-		setTimeout(() => {
-			const { first_name:firstName, last_name:lastName, avatarURL, email, desc } = this.props.userProfile;
-			this.setState({firstName,lastName,avatarURL,email,desc})
-		},1000)
+		getUserProfile(res => {
+			this.setState({firstName:res.first_name,lastName:res.last_name,avatarURL:res.avatarURL,email:res.email,desc:res.desc})
+		})
+
 	}
 
 	render() {
