@@ -45,7 +45,18 @@ class NavBar extends Component {
 	}
 
 	render() {
+		let name;
 		const { first_name, avatarURL,email } = this.props.userProfile;
+		const parseName = () => {
+		 if(first_name !== undefined) {
+			if(first_name.length > 6){
+				name = first_name.substr(0,5) + '..';
+				return name
+			} else {
+				return name = first_name;
+			}
+		}
+	}
 		return (
 			<div>
 			{
@@ -67,7 +78,7 @@ class NavBar extends Component {
 					<NavItems
 							closeDropDown={this.closeDropDown.bind(this)}
 							avatarURL={avatarURL}
-							accountName={first_name}
+							accountName={parseName()}
 							email={this.parseEmail()}
 							isSetting={this.state.isSetting}
 							showDropdown={() => this.setState({isSetting:!this.state.isSetting})}
