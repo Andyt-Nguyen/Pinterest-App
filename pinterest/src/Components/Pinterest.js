@@ -19,7 +19,6 @@ import SettingsPage from './SettingsPage/SettingsPage';
 import DisplayPinPage from './DisplayPinPage/DisplayPinPage';
 
 
-
 class Pinterest extends Component {
 
 	componentWillMount() {
