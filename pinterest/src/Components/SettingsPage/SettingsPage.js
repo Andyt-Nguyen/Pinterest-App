@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateUserInfo, removeUser, getUserProfile } from '../../actions/actionPin';
+import { updateUserInfo, removeUser, getUserProfile, userSignOut } from '../../actions/actionPin';
+import { parsedEmail } from '../../functions/reusable';
 import EmailAndPassword from './SubComponent/EmailAndPassword';
 import Description from './SubComponent/Description';
 import UserProfileInfo from './SubComponent/UserProfileInfo';
@@ -74,14 +75,28 @@ class SettingsPage extends Component {
 	}
 
 	deleteUserAccount() {
-		removeUser();
+		let pinKeys=[];
+		let {email} = this.state;
+		let newEmail = parsedEmail(email);
+		let matchedUserId = this.props.allPins.filter( user => user.uid === this.props.authInfo.userId);
+		for(let i = 0; i < matchedUserId.length; i++) {
+			pinKeys.push(matchedUserId[i].id);
+		}
+		removeUser(pinKeys, newEmail);
+		this.props.history.push('/');
+		this.setState({firstName:'',lastName:'',avatarURL:'',email:'',desc:''}, () => {
+			userSignOut();
+		})
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		getUserProfile(res => {
-			this.setState({firstName:res.first_name,lastName:res.last_name,avatarURL:res.avatarURL,email:res.email,desc:res.desc})
+			if(res === null || res === undefined) {
+				return ''
+			} else {
+				this.setState({firstName:res.first_name,lastName:res.last_name,avatarURL:res.avatarURL,email:res.email,desc:res.desc})
+			}
 		})
-
 	}
 
 	render() {
@@ -124,8 +139,9 @@ class SettingsPage extends Component {
 function mapStateToProps(state) {
 	return {
 		userProfile: state.userProfile,
-		authInfo: state.authInfo
+		authInfo: state.authInfo,
+		allPins: state.allPins
 	}
 }
 
-export default connect(mapStateToProps, null)(SettingsPage);
+export default connect(mapStateToProps, { userSignOut })(SettingsPage);

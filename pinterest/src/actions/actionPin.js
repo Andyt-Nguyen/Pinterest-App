@@ -64,9 +64,26 @@ export function userSignOut() {
 	}
 }
 
-export function removeUser() {
-	auth.currentUser.delete().catch((err) => console.log(err))
-}
+// Remove User
+export function removeUser(pinKeys,email,uid=uniqueId) {
+	auth.currentUser.delete().then(() => {
+		for(let i = 0; i < pinKeys.length; i++) {
+			database.ref('pins/' + pinKeys[i]).remove();
+		}
+	}).then(() => {
+		database.ref('users/' + uid).remove();
+		database.ref('userPins/' + uid).remove();
+		database.ref(email).remove();
+	}).catch((err) => console.log(err))
+} //Remove User
+
+// Remove User
+export function removeAllOfUsersPins(pinKey,email,uid=uniqueId) {
+	auth.currentUser.delete().then(() => {
+			database.ref('pins/' + pinKey).remove();
+	}).catch((err) => console.log(err))
+} //Remove User
+
 
 export function authListener() {
 	return dispatch => {
@@ -113,9 +130,13 @@ export function authListener() {
 
 // Get User Profile
 export function getUserProfile(cb, uid=uniqueId) {
-	database.ref('users/' + uid).on('value', snapShot => {
-		cb(snapShot.val());
-	});
+	if(uid !== null || uid !== undefined) {
+		database.ref('users/' + uid).on('value', snapShot => {
+			cb(snapShot.val());
+		});
+	} else {
+		return '';
+	}
 }
 
 // Get Users Pins
@@ -224,7 +245,7 @@ export function getPins() {
 			if(snapShot.val() !== null && snapShot.val() !== undefined ){
 				let snapKey = Object.keys(snapShot.val());
 				let snaps = Object.values(snapShot.val());
-				snaps.map( (snap,i) => snap.id = snapKey[i])
+				snaps.map( (snap,i) => snap.id = snapKey[i]);
 				if(snaps) {
 					action = { type:GET_PINS, payload:snaps };
 					dispatch(action);
