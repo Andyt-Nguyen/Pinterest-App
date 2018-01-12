@@ -301,7 +301,7 @@ export function saveUsersPin(userId, otherUid, avatarURL, pinURL,firstName, last
 
 
 // Get Saved Pins
-export function getSavedPins(userId, cb) {
+export function getSavedPins(cb, userId=uniqueId) {
 	database.ref('savedPin/' + userId).on('value', snapShot => {
 		if(snapShot.val() !== null && snapShot.val() !== undefined ){
 			let pinId = Object.keys(snapShot.val());

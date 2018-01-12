@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { CircleLoader } from 'react-spinners';
 import { getUsersPins, getOtherUsersInfo } from '../../actions/actionPin';
 import MainPageTemplate from './SubComponents/MainPageTemplate';
 import PinBox from './SubComponents/PinBox';
@@ -47,8 +48,15 @@ class OtherUser extends Component {
 			<MainPageTemplate showPills={false} {...this.state.userInfo}>
 				{
 					this.state.userPins.length !== 0
-					?this.renderUserPins()
-					:<PinBox>This user has no pins</PinBox>
+					? this.renderUserPins()
+					: <PinBox><CircleLoader color="dodgerblue"/></PinBox>
+				}
+				{
+					this.state.userPins.length === 0
+					? <PinBox>
+							<h4 style={{color:'#555555'}}>The {this.state.userInfo.first_name} has no pins</h4>
+						</PinBox>
+					: ''
 				}
 			</MainPageTemplate>
 		);
