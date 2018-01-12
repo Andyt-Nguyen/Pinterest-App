@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { CircleLoader } from 'react-spinners';
-import { sendUserPin, authListener } from '../../actions/actionPin';
+import { sendUserPin, authListener, getSavedPins } from '../../actions/actionPin';
 import { Link } from 'react-router-dom';
 import MainPageTemplate from './SubComponents/MainPageTemplate';
 import PinBox from './SubComponents/PinBox';
@@ -23,7 +23,8 @@ class UserPage extends Component {
 			userPinPic: '',
 			desc: '',
 			urlLink: '',
-			recentPin: []
+			recentPin: [],
+			recentSavedPin: []
 		}
 	}
 
@@ -95,7 +96,38 @@ class UserPage extends Component {
 		}
 	}
 
+	renderSavedPins() {
+		let email = parsedEmail(this.props.authInfo.email);
+		if(this.state.recentSavedPin.length === 0 || this.state.recentSavedPin === -1) {
+			return (
+				<Link to={`/${email}/saved`} style={styles.linkStyle}>
+					<PinBox text={'Saved pins'}>
+							<IconWrapper><span className="fa fa-heart"/></IconWrapper>
+					</PinBox>
+				</Link>
+			)
+		} else {
+			return (
+			 	<PinBox
+					text={'Saved Pins'}
+					isLoading={this.state.isLoading}
+					onLoad={() => this.setState({isLoading:false})}
+					bg={this.state.recentSavedPin === undefined || this.state.recentSavedPin.pinURL === null ? '' : this.state.recentSavedPin.pinURL}>
+					<Link to={`/${email}/saved`}>
+						<IconWrapper><span className="fa fa-heart"/></IconWrapper>
+					</Link>
+				</PinBox>
+			)
+		}
+	}
+
 	componentWillMount() {
+		getSavedPins(res => {
+			this.setState({
+				recentSavedPin: res[res.length - 1]
+			})
+		});
+
 			setTimeout(() => {
 				this.setState({
 					recentPin:this.props.userPins[this.props.userPins.length-1],
@@ -105,6 +137,7 @@ class UserPage extends Component {
 	}
 
 	render() {
+		console.log(this.state);
 		//In Main Page Template is being passed the userProfile
 		let {first_name,last_name,email,desc,avatarURL} = this.props.userProfile;
 		let emailName = parsedEmail(email)
@@ -120,13 +153,7 @@ class UserPage extends Component {
 					</PinBox>
 
 					{this.renderPins()}
-
-          <Link to={`/${email}/saved`} style={styles.linkStyle}>
-						<PinBox text={'Saved pins'}>
-								<IconWrapper><span className="fa fa-heart"/></IconWrapper>
-						</PinBox>
-					</Link>
-
+					{this.renderSavedPins()}
 
 				{
 					this.state.showCreateModule

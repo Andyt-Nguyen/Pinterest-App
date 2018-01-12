@@ -34,7 +34,7 @@ class SavedPinPage extends Component {
 			)
 		} else {
 			let pins = this.state.pins.map( pin =>
-				<Link key={pin.otherUid} to={`/${parsedEmail()}/saved/${pin.otherUid}`}>
+				<Link key={pin.otherUid} to={`/${parsedEmail()}/saved/${pin.otherUid}`} style={styles.linkStyle}>
 					<PinBox
 							text={pin.desc} bg={pin.pinURL}
 							isLoading={this.state.isLoading}
@@ -50,7 +50,7 @@ class SavedPinPage extends Component {
 
 	componentWillMount() {
 		setTimeout(() => {
-			getSavedPins(this.props.authInfo.userId, res => {
+			getSavedPins(res => {
 				this.setState({pins:res})
 			});
 		},2000)
@@ -72,6 +72,13 @@ class SavedPinPage extends Component {
 				{this.renderPins()}
 			</MainPageTemplate>
 		);
+	}
+}
+
+const styles = {
+	linkStyle: {
+		textDecoration: 'none',
+		color: '#efefef'
 	}
 }
 
