@@ -69,6 +69,7 @@ export function removeUser(pinKeys,email,uid=uniqueId) {
 	auth.currentUser.delete().then(() => {
 		for(let i = 0; i < pinKeys.length; i++) {
 			database.ref('pins/' + pinKeys[i]).remove();
+			database.ref('savedPin/' + pinKeys[i]).remove();
 		}
 	}).then(() => {
 		database.ref('users/' + uid).remove();
