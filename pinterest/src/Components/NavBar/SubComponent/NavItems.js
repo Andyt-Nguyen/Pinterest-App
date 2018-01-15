@@ -4,6 +4,7 @@ import DropDownContainer from '../Styles/DropDownContainer';
 import NavItemContainer  from '../Styles/NavItemContainer';
 import UserInfo from './UserInfo';
 import DropDown from './DropDown';
+import Icon from './Icon';
 
 const NavItems = ({avatarURL,accountName,isSetting,showDropdown,signOut,email, closeDropDown}) => (
 	<NavItemContainer>
@@ -15,19 +16,14 @@ const NavItems = ({avatarURL,accountName,isSetting,showDropdown,signOut,email, c
 			accountName={accountName}
 			avatarURL={avatarURL} />
 
-		<div>
-			<span className="fa fa-bell" style={styles.icon}></span>
-		</div>
+		<Icon icon="fa fa-bell"/>
 
 		<div>
-			<span
-				className="fa fa-cog"
-				style={styles.icon}
-				onClick={()=> showDropdown()}></span>
-			{isSetting
-				?<DropDownContainer>
-					<DropDown signOut={signOut} closeDropDown={closeDropDown}/>
-				</DropDownContainer>
+			<Icon icon="fa fa-cog" showDropdown={showDropdown}/>
+
+			{
+				isSetting
+				? <DropDown signOut={signOut} closeDropDown={closeDropDown}/>
 				: ''
 			}
 		</div>

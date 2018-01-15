@@ -73,15 +73,16 @@ class NavBar extends Component {
 			}
 
 				<NavContainer>
-					<LogoItem />
+					<LogoItem
+						onChange={this.props.onChange}/>
 					<NavItems
-							closeDropDown={this.closeDropDown.bind(this)}
-							avatarURL={avatarURL}
-							accountName={parseName()}
-							email={this.parseEmail()}
-							isSetting={this.state.isSetting}
-							showDropdown={() => this.setState({isSetting:!this.state.isSetting})}
-							signOut={this.signOut.bind(this)}/>
+						closeDropDown={this.closeDropDown.bind(this)}
+						avatarURL={avatarURL}
+						accountName={parseName()}
+						email={this.parseEmail()}
+						isSetting={this.state.isSetting}
+						showDropdown={() => this.setState({isSetting:!this.state.isSetting})}
+						signOut={this.signOut.bind(this)}/>
 				</NavContainer>
 			</div>
 		);

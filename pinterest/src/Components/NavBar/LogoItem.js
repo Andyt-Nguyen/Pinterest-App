@@ -4,16 +4,17 @@ import { SocialIcon } from 'react-social-icons';
 import LogoContainer from './Styles/LogoContainer';
 
 
-const LogoItem = () => (
+const LogoItem = ({onChange}) => (
 	<LogoContainer>
 		<Link to="/" style={styles.logoMargin}>
 			<SocialIcon network="pinterest" height='40px' width='40px'/>
 		</Link>
 		<div className="search" style={{width:'90%'}}>
-		<span className="fa fa-search"></span>
-		<input
-			className="inputStyle"
-			placeholder="Search" />
+			<span className="fa fa-search"></span>
+			<input
+				onChange={onChange}
+				className="inputStyle"
+				placeholder="Search" />
 		</div>
 	</LogoContainer>
 );

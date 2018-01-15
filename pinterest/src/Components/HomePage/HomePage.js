@@ -11,6 +11,7 @@ class HomePage extends Component {
 	constructor() {
 		super();
 		this.state = {
+			isSearched: '',
 			pins: [],
 			showLoader: true
 		}
@@ -20,6 +21,34 @@ class HomePage extends Component {
 		setTimeout(() => {
 			this.setState({showLoader:false})
 		},1000)
+	}
+
+	renderPins() {
+		let pins = this.props.allPins.map( pin =>
+			<Link key={pin.id} to={`pin/${pin.id}`} style={styles.linkStyle}>
+			<PinItem
+					showLoader={this.state.showLoader}
+					src={pin.pinURL} desc={pin.desc}
+					loading={this.handleImageLoading.bind(this)} />
+			</Link>
+		);
+		return pins;
+	}
+
+	renderSearchedPins() {
+		let { allPins } = this.props;
+		let { isSearched } = this.state;
+		isSearched.toLowerCase();
+		let filteredPins = allPins.filter( pin => pin.first_name.toLowerCase().indexOf(isSearched) > -1 || pin.last_name.toLowerCase().indexOf(isSearched) > -1 || pin.desc.toLowerCase().indexOf(isSearched) > -1 );
+		let pins = filteredPins.map( pin =>
+			<Link key={pin.id} to={`pin/${pin.id}`} style={styles.linkStyle}>
+			<PinItem
+					showLoader={this.state.showLoader}
+					src={pin.pinURL} desc={pin.desc}
+					loading={this.handleImageLoading.bind(this)} />
+			</Link>
+		);
+		return pins;
 	}
 
 	componentWillMount() {
@@ -34,23 +63,17 @@ class HomePage extends Component {
 
 
 	render() {
-
-		let pins = this.props.allPins.map( pin =>
-			<Link key={pin.id} to={`pin/${pin.id}`} style={styles.linkStyle}>
-			<PinItem
-					showLoader={this.state.showLoader}
-					src={pin.pinURL} desc={pin.desc}
-					loading={this.handleImageLoading.bind(this)} />
-			</Link>
-		);
-
 		return (
 				<div>
-					<NavBar />
+					<NavBar onChange={(e) => this.setState({isSearched:e.target.value})} />
 					<div style={{marginTop:'20px'}}>
 						<Container>
 							<Masonry className="my-gallery-class">
-								{pins}
+								{
+									this.state.isSearched === ''
+									? this.renderPins()
+									: this.renderSearchedPins()
+								}
 							</Masonry>
 						</Container>
 					</div>
