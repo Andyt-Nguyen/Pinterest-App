@@ -7,7 +7,6 @@ import LogoItem from './LogoItem';
 import NavItems from './SubComponent/NavItems';
 import { ModuleWrapper, ModuleContainer } from '../Common';
 import RocketGif from '../SVG/RocketGif';
-
 import './Styles/search.css';
 
 class NavBar extends Component {

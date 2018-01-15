@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { userSignOut, getPins } from '../../actions/actionPin';
 import Masonry from 'react-masonry-component';
+import NavBar from '../NavBar/NavBar';
 import PinItem from './SubComponent/PinItem';
 import { Container, DisplayPin } from '../Common';
 
@@ -44,12 +45,15 @@ class HomePage extends Component {
 		);
 
 		return (
-			<div style={{marginTop:'20px'}}>
-				<Container>
-						<Masonry className="my-gallery-class">
-							{pins}
-						</Masonry>
-					</Container>
+				<div>
+					<NavBar />
+					<div style={{marginTop:'20px'}}>
+						<Container>
+							<Masonry className="my-gallery-class">
+								{pins}
+							</Masonry>
+						</Container>
+					</div>
 			</div>
 		);
 	}
