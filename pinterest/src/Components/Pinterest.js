@@ -32,7 +32,6 @@ class Pinterest extends Component {
 				this.props.isAuthenticated
 				? <div style={{position:'relative'}}>
 						<Module />
-						<NavBar />
 						<Component {...props} />
 					</div>
 				: <Redirect to={{

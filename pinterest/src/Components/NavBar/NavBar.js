@@ -7,7 +7,6 @@ import LogoItem from './LogoItem';
 import NavItems from './SubComponent/NavItems';
 import { ModuleWrapper, ModuleContainer } from '../Common';
 import RocketGif from '../SVG/RocketGif';
-
 import './Styles/search.css';
 
 class NavBar extends Component {
@@ -74,15 +73,16 @@ class NavBar extends Component {
 			}
 
 				<NavContainer>
-					<LogoItem />
+					<LogoItem
+						onChange={this.props.onChange}/>
 					<NavItems
-							closeDropDown={this.closeDropDown.bind(this)}
-							avatarURL={avatarURL}
-							accountName={parseName()}
-							email={this.parseEmail()}
-							isSetting={this.state.isSetting}
-							showDropdown={() => this.setState({isSetting:!this.state.isSetting})}
-							signOut={this.signOut.bind(this)}/>
+						closeDropDown={this.closeDropDown.bind(this)}
+						avatarURL={avatarURL}
+						accountName={parseName()}
+						email={this.parseEmail()}
+						isSetting={this.state.isSetting}
+						showDropdown={() => this.setState({isSetting:!this.state.isSetting})}
+						signOut={this.signOut.bind(this)}/>
 				</NavContainer>
 			</div>
 		);
