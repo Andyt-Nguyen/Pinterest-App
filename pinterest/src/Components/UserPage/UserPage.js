@@ -123,21 +123,17 @@ class UserPage extends Component {
 
 	componentWillMount() {
 		getSavedPins(res => {
-			this.setState({
-				recentSavedPin: res[res.length - 1]
-			})
-		});
-
 			setTimeout(() => {
 				this.setState({
-					recentPin:this.props.userPins[this.props.userPins.length-1],
-				});
-			},3000)
+					recentSavedPin: res[res.length - 1],
+					recentPin:this.props.userPins[this.props.userPins.length-1]
+				})
+			},500)
+		});
 
 	}
 
 	render() {
-		console.log(this.state);
 		//In Main Page Template is being passed the userProfile
 		let {first_name,last_name,email,desc,avatarURL} = this.props.userProfile;
 		let emailName = parsedEmail(email)
