@@ -5,7 +5,7 @@ const Icon = ({showDropdown, icon}) => (
 		<span
 			className={icon}
 			style={styles.icon}
-			onClick={() => showDropdown()}></span>
+			onClick={showDropdown}></span>
 	</div>
 );
 

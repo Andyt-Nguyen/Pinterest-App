@@ -9,14 +9,13 @@ import Icon from './Icon';
 const NavItems = ({avatarURL,accountName,isSetting,showDropdown,signOut,email, closeDropDown}) => (
 	<NavItemContainer>
 		<NavLink activeStyle={styles.activeStyle} to="/" style={styles.linkStyle}>Home</NavLink>
-		<div>Explore</div>
+		<NavLink activeStyle={styles.activeStyle} style={styles.linkStyle} to="/">Explore</NavLink>
 
 		<UserInfo
 			email={email}
 			accountName={accountName}
 			avatarURL={avatarURL} />
 
-		<Icon icon="fa fa-bell"/>
 
 		<div>
 			<Icon icon="fa fa-cog" showDropdown={showDropdown}/>

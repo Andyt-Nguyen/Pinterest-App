@@ -9,7 +9,7 @@ import SettingContainer from './Styles/SettingContainer';
 import HeadingTitle from './Styles/HeadingTitle';
 import { Button } from '../Common';
 import CheckMark from '../SVG/CheckMark';
-
+import NavBar from '../NavBar/NavBar';
 class SettingsPage extends Component {
 	constructor() {
 		super();
@@ -103,6 +103,7 @@ class SettingsPage extends Component {
 		const {firstName,lastName,email,avatarURL,desc} = this.state;
 		return (
 			<SettingContainer>
+				<NavBar showSearch={false}/>
 				<EmailAndPassword emailName={email} />
 				<HeadingTitle>Profile</HeadingTitle>
 
