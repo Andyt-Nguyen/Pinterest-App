@@ -39,8 +39,7 @@ class NavBar extends Component {
 				this.setState({showLoader:false});
 				this.props.userSignOut();
 			},3000)
-		})
-
+		});
 	}
 
 	render() {
@@ -70,10 +69,11 @@ class NavBar extends Component {
 						</ModuleWrapper>
 					</ModuleContainer>
 				: ''
-			}
+			 }
 
 				<NavContainer>
 					<LogoItem
+						showSearch={this.props.showSearch}
 						onChange={this.props.onChange}/>
 					<NavItems
 						closeDropDown={this.closeDropDown.bind(this)}
@@ -82,7 +82,7 @@ class NavBar extends Component {
 						email={this.parseEmail()}
 						isSetting={this.state.isSetting}
 						showDropdown={() => this.setState({isSetting:!this.state.isSetting})}
-						signOut={this.signOut.bind(this)}/>
+						signOut={this.signOut.bind(this)} />
 				</NavContainer>
 			</div>
 		);

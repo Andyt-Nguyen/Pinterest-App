@@ -8,9 +8,12 @@ import Wrapper from '../Styles/Wrapper';
 import PinContainer from '../Styles/PinContainer';
 import IconWrapper from '../Styles/IconWrapper';
 import { Link } from 'react-router-dom';
+import NavBar from '../../NavBar/NavBar';
 
 const MainPageTemplate =({first_name, last_name, avatarURL, desc, email, children, showPills})=> (
-		<Wrapper>
+		<div>
+			<NavBar showSearch={false}/>
+			<Wrapper>
 			<HeaderSection
 				avatarURL={avatarURL}
 				firstName={first_name}
@@ -29,10 +32,11 @@ const MainPageTemplate =({first_name, last_name, avatarURL, desc, email, childre
 					</NavPillWrapper>
 			}
 
-			<PinContainer>
-				{children}
-			</PinContainer>
-		</Wrapper>
+				<PinContainer>
+					{children}
+				</PinContainer>
+			</Wrapper>
+		</div>
 	);
 
 const styles = {
