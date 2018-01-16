@@ -9,7 +9,7 @@ import ThirdPartyContainer from '../Styles/ThirdPartyContainer';
 import SocialText from '../Styles/SocialText';
 import googleLogo from '../Styles/google_dark2.svg';
 
-const SignIn = ({onTextChange, createUser, signWithGoogle, showEmail, wallpaper, goToLogin, ph, text, showError}) => (
+const SignIn = ({onTextChange, createUser, signWithGoogle, signInWithFacebook, showEmail, wallpaper, goToLogin, ph, text, showError}) => (
 	<AuthContainer wallpaper={wallpaper}>
 		<AuthBox>
 
@@ -38,7 +38,7 @@ const SignIn = ({onTextChange, createUser, signWithGoogle, showEmail, wallpaper,
 					<SocialText>Continue With Google</SocialText>
 				</ThirdPartyContainer>
 
-				<ThirdPartyContainer facebook>
+				<ThirdPartyContainer facebook onClick={() => signInWithFacebook()}>
 					<SocialIcon network="facebook" color="white" style={styles.socialIcon} />
 					<SocialText>Continue With Facebook</SocialText>
 				</ThirdPartyContainer>
