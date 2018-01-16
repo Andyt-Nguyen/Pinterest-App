@@ -41,12 +41,18 @@ export function createUser(email,password) {
 	});
 }
 
+
 export function userSignInEmail(email, password) {
 	const promise = auth.signInWithEmailAndPassword(email,password);
 	return dispatch => promise.catch(e => {
 		const action = {type:SHOW_ERROR_SIGN_IN, payload: e.message};
 		dispatch(action);
 	})
+}
+
+export function userSignInWithFaceBook() {
+	const provider = new firebase.auth.FacebookAuthProvider();
+	return dispatch => auth.signInWithPopup(provider);
 }
 
 export function userSignInWithGoogle() {

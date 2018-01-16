@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
 	createUser,
-	userSignInWithGoogle,
+	userSignInWithGoogle, userSignInWithFaceBook,
 	userSignInEmail ,
 	authListener,
 	userSignOut } from '../../actions/actionPin';
@@ -48,6 +48,10 @@ class AuthPage extends Component {
 		this.props.userSignInWithGoogle();
 	}
 
+	handleSignWithFacebook() {
+		this.props.userSignInWithFaceBook();
+	}
+
 	signOut() {
 		this.props.userSignOut();
 	}
@@ -69,6 +73,7 @@ class AuthPage extends Component {
 						onTextChange={this.onTextChange.bind(this)}
 						createUser={this.createUserWithEmail.bind(this)}
 						signWithGoogle={this.handleSignWithGoogle.bind(this)}
+						signInWithFacebook={this.handleSignWithFacebook.bind(this)}
 						showEmail={this.state.showEmail}
 						ph={"Create Password"}/>
 				: <SignIn
@@ -79,6 +84,7 @@ class AuthPage extends Component {
 						onTextChange={this.onTextChange.bind(this)}
 						createUser={this.handleSignInUser.bind(this)}
 						signWithGoogle={this.handleSignWithGoogle.bind(this)}
+						signInWithFacebook={this.props.handleSignWithFacebook.bind(this)}
 						showEmail={!this.state.showEmail}
 						ph={"Password"}/>
 			}
@@ -97,4 +103,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, { createUser, userSignInWithGoogle, authListener, userSignInEmail, userSignOut })(AuthPage);
+export default connect(mapStateToProps, { createUser, userSignInWithGoogle, userSignInWithFaceBook, authListener, userSignInEmail, userSignOut })(AuthPage);
