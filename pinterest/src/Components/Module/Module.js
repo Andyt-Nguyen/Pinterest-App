@@ -39,9 +39,9 @@ class Module extends Component {
 	}
 
 	sendUserInfo() {
-		const { authInfo, sendUserInfo } = this.props;
+		const { authInfo } = this.props;
 		const { avatarFile, first_name, last_name, gender, currentPic } = this.state;
-		if(avatarFile  && first_name && last_name && gender && currentPic){
+		if(avatarFile && first_name && last_name && gender && currentPic){
 			this.setState({showLoader:true},() => {
 				setTimeout(() => {
 					sendUserInfo(authInfo.userId, first_name, last_name, gender, authInfo.email, avatarFile);
@@ -49,6 +49,13 @@ class Module extends Component {
 				},3000);
 			})
 
+		} else if(first_name && last_name && gender && currentPic) {
+			this.setState({showLoader:true},() => {
+				setTimeout(() => {
+					sendUserInfo(authInfo.userId, first_name, last_name, gender, authInfo.email, avatarFile,currentPic);
+					this.showModule();
+				},3000);
+			})
 		} else{
 			this.setState({showError:true});
 			this.handleErrorInputs();
@@ -97,13 +104,18 @@ class Module extends Component {
 			if(this.props.userProfile.hideModule) {
 				this.setState({modalStyle:'none'})
 			} else {
-				this.setState({modalStyle:'flex'})
+				this.setState({modalStyle:'flex', currentPic:this.props.authInfo.photoURL})
 			}
-		},1000)
+		},500)
+	}
+
+
+	componentWillMount() {
+		this.showModule();
 	}
 
 	render() {
-		this.showModule();
+		console.log(this.props.authInfo);
 		const radioInput = this.props.gender.map( sex =>
 			<RadioInput
 				key={sex.label}
@@ -153,4 +165,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { sendUserInfo, userSignOut })(Module);
+export default connect(mapStateToProps, { userSignOut })(Module);
