@@ -97,11 +97,12 @@ export function authListener() {
 		auth.onAuthStateChanged(firebaseUser => {
 			if(firebaseUser) {
 				console.log('User is signed in');
-				const { uid:userId, email } = firebaseUser;
+				const { uid:userId, email, photoURL } = firebaseUser;
+				console.log(firebaseUser);
 				uniqueId=userId
 				userIdent=parsedEmail(email)//This is hoisting email at the top;
 				const action = {type:LOGGED_IN, payload:true};
-				const userAction = {type:GET_AUTH_INFO, payload:{userId, email}};
+				const userAction = {type:GET_AUTH_INFO, payload:{userId, email, photoURL}};
 				dispatch(action);
 				dispatch(userAction);
 
@@ -159,8 +160,13 @@ export function getUserPins(cb, email=userIdent) {
 
 
 // Post User Profile
-export function sendUserInfo(uid,first_name,last_name,gender,email,file) {
-		return dispatch => {
+export function sendUserInfo(uid,first_name,last_name,gender,email,file='',avatarUrl) {
+		if(file === '') {
+			let avatarURL = avatarUrl; //Once user file is saved - url is outputted
+			let userData = {first_name,last_name,gender,email,avatarURL,hideModule:true};
+			let userProfile = {};
+			database.ref('users/' + uid).set(userData)
+		} else {
 			const avatarStorage = storage.ref('avatars/' + file.name).put(file); //Save User AvatarFile
 			avatarStorage.on('state_changed', null, null, () => {
 				let avatarURL = avatarStorage.snapshot.downloadURL; //Once user file is saved - url is outputted
@@ -168,7 +174,7 @@ export function sendUserInfo(uid,first_name,last_name,gender,email,file) {
 				let userProfile = {};
 				database.ref('users/' + uid).set(userData)
 			});
-	}
+		}
 } //Post User Profile
 
 // Update User Profile
