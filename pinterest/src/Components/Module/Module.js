@@ -106,7 +106,7 @@ class Module extends Component {
 			} else {
 				this.setState({modalStyle:'flex', currentPic:this.props.authInfo.photoURL})
 			}
-		},500)
+		},1000)
 	}
 
 
