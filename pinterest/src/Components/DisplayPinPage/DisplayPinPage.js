@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getIndividualPin,saveUsersPin } from '../../actions/actionPin';
+import { ClipLoader } from 'react-spinners';
+import { getIndividualPin,saveUsersPin, deleteUserSavedPin } from '../../actions/actionPin';
 import DisplayContainer from './Styles/DisplayContainer';
 import DisplayWrapper from './Styles/DisplayWrapper';
 import Btn from './Styles/Btn';
@@ -21,7 +22,8 @@ class DisplayPin extends Component {
 			firstName: '',
 			lastName: '',
 			desc: '',
-			date: ''
+			date: '',
+			showLoader: false
 		}
 	}
 
@@ -33,6 +35,17 @@ class DisplayPin extends Component {
 		let { userId } = this.props.authInfo;
 		let { otherUid, avatarURL, pinURL,firstName, lastName, desc, date } = this.state;
 		saveUsersPin(userId, otherUid, avatarURL, pinURL,firstName, lastName, desc, date);
+	}
+
+	deletePin() {
+		let { otherUid } = this.state;
+		deleteUserSavedPin(otherUid, () => this.setState({showLoader:true}, () => {
+			setTimeout(() => {
+				this.setState({showLoader:false}, () => {
+					this.props.history.goBack();
+				})
+			}, 1500)
+		}));
 	}
 
 	componentWillMount() {
@@ -57,12 +70,18 @@ class DisplayPin extends Component {
 		return (
 			<DisplayContainer>
 				<DisplayWrapper>
-
 					<HeaderBtns
-						deletePin={this.props.location.pathname === `/${newEmail}/saved/${this.state.otherUid}`}
+						deletePin={this.deletePin.bind(this)}
+						isDeleteBtn={this.props.location.pathname === `/${newEmail}/saved/${this.state.otherUid}`}
 						savePin={this.savePin.bind(this)}
 					 	goBack={this.goBackToPreviousPage.bind(this)}/>
-
+						{
+							this.state.showLoader
+							? <div style={styles.loaderPosition}>
+									<ClipLoader color="crimson"/>
+								</div>
+							: ''
+						}
 					<MainPic pinURL={this.state.pinURL}/>
 
 					<UserInfo
@@ -76,6 +95,13 @@ class DisplayPin extends Component {
 				</DisplayWrapper>
 			</DisplayContainer>
 		);
+	}
+}
+
+const styles = {
+	loaderPosition: {
+		display:'flex',
+		justifyContent:'center'
 	}
 }
 

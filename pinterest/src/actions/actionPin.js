@@ -28,7 +28,7 @@ const storage = firebase.storage();
 
 // Global Vars
 let uniqueId;
-let userIdent;
+let userEmail;
 let userFirst;
 let userLast;
 
@@ -100,7 +100,7 @@ export function authListener() {
 				const { uid:userId, email, photoURL } = firebaseUser;
 				console.log(firebaseUser);
 				uniqueId=userId
-				userIdent=parsedEmail(email)//This is hoisting email at the top;
+				userEmail=parsedEmail(email)//This is hoisting email at the top;
 				const action = {type:LOGGED_IN, payload:true};
 				const userAction = {type:GET_AUTH_INFO, payload:{userId, email, photoURL}};
 				dispatch(action);
@@ -148,7 +148,7 @@ export function getUserProfile(cb, uid=uniqueId) {
 }
 
 // Get Users Pins
-export function getUserPins(cb, email=userIdent) {
+export function getUserPins(cb, email=userEmail) {
 	const userPinRef = database.ref('userPins/' + email);
 	userPinRef.on('value', snapShot => {
 			let pins = Object.values(snapShot.val());
@@ -300,6 +300,14 @@ export function getUsersPins(email,cb) {
 		cb(pins);
 	});
 } // Get Other User's Pins
+
+// Delete User's Saved Pins
+export function deleteUserSavedPin(pinId, cb) {
+	database.ref('savedPin/' + uniqueId + '/' + pinId).remove()
+					.catch(e => console.log(e.message));
+	setTimeout(cb(),1000)
+}
+// Delete User's Saved Pins
 
 
 //Saving Pins
