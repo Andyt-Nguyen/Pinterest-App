@@ -37,8 +37,6 @@ class DisplayPin extends Component {
 
 	componentWillMount() {
 		const { pinId } = this.props.match.params;
-		console.log(pinId);
-		//NOt GETTING PROPER PIN ID
 		getIndividualPin(pinId, res =>{
 			this.setState({
 				avatarURL: res.avatarURL,
@@ -56,12 +54,12 @@ class DisplayPin extends Component {
 	render() {
 		let { email } = this.props.authInfo;
 		let newEmail = parsedEmail(email);
-		console.log(newEmail);
 		return (
 			<DisplayContainer>
 				<DisplayWrapper>
 
 					<HeaderBtns
+						deletePin={this.props.location.pathname === `/${newEmail}/saved/${this.state.otherUid}`}
 						savePin={this.savePin.bind(this)}
 					 	goBack={this.goBackToPreviousPage.bind(this)}/>
 
@@ -88,10 +86,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, null)(DisplayPin);
-
-
-
-// avatarURL
-// firstName
-// lastName}
-// desc}</p>
