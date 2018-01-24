@@ -42,7 +42,7 @@ class PinPage extends Component {
 				<PinBox
 						key={pin.id} text={pin.desc} bg={pin.pinURL}
 						isLoading={this.state.isLoading}
-						onLoad={() => this.setState({isLoading:false})}
+						onLoad={()=>this.setState({isLoading:false})}
 						showModule={() => this.setState({previewImage:pin.pinURL, desc:pin.desc, urlLink:pin.urlLink, showCreateModule:true, pinId:pin.id})}>
 				</PinBox>
 			);
@@ -124,11 +124,9 @@ class PinPage extends Component {
 	}
 
 	componentWillMount() {
-		setTimeout(() => {
 			this.setState({
 				pins:this.props.userPins
 			});
-		},2000)
 	}
 
 

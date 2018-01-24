@@ -18,7 +18,7 @@ class UserPage extends Component {
 			showCreateModule: false,
 			showSuccess: false,
 			showError: false,
-			isLoading: true,
+			isLoading: false,
 			previewImage: '',
 			userPinPic: '',
 			desc: '',
@@ -86,7 +86,6 @@ class UserPage extends Component {
 			 	<PinBox
 					text={'Pins'}
 					isLoading={this.state.isLoading}
-					onLoad={() => this.setState({isLoading:false})}
 					bg={this.state.recentPin === undefined || this.state.recentPin.pinURL === null ? '' : this.state.recentPin.pinURL}>
 					<Link to={`/${parsedEmail(this.props.userProfile.email)}/pins`}>
 						<IconWrapper><span className="fa fa-space-shuttle" /></IconWrapper>
@@ -111,7 +110,6 @@ class UserPage extends Component {
 			 	<PinBox
 					text={'Saved Pins'}
 					isLoading={this.state.isLoading}
-					onLoad={() => this.setState({isLoading:false})}
 					bg={this.state.recentSavedPin === undefined || this.state.recentSavedPin.pinURL === null ? '' : this.state.recentSavedPin.pinURL}>
 					<Link to={`/${email}/saved`}>
 						<IconWrapper><span className="fa fa-heart"/></IconWrapper>
@@ -122,13 +120,13 @@ class UserPage extends Component {
 	}
 
 	componentWillMount() {
+		this.setState({isLoading:true});
 		getSavedPins(res => {
-			setTimeout(() => {
 				this.setState({
 					recentSavedPin: res[res.length - 1],
-					recentPin:this.props.userPins[this.props.userPins.length-1]
+					recentPin:this.props.userPins[this.props.userPins.length-1],
+					isLoading:false
 				})
-			},500)
 		});
 
 	}

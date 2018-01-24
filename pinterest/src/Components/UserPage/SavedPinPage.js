@@ -1,6 +1,7 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { CircleLoader } from 'react-spinners';
 import { getSavedPins } from '../../actions/actionPin';
 import MainPageTemplate from './SubComponents/MainPageTemplate';
 import PinBox from './SubComponents/PinBox';
@@ -10,7 +11,8 @@ class SavedPinPage extends Component {
 	constructor() {
 		super();
 		this.state = {
-			pins:[]
+			pins:[],
+			isLoading: false
 		};
 	}
 
@@ -24,15 +26,7 @@ class SavedPinPage extends Component {
 				return '';
 			}
 		}
-		if(this.state.pins.length === 0) {
-			return (
-				<PinBox>
-					<h1 style={{color:'#ffffff'}}>
-					<span className="fa fa-frown-o"></span>
-					You have saved pins</h1>
-				</PinBox>
-			)
-		} else {
+		if(this.state.pins.length !== 0) {
 			let pins = this.state.pins.map( pin =>
 				<Link key={pin.otherUid} to={`/${parsedEmail()}/saved/${pin.otherUid}`} style={styles.linkStyle}>
 					<PinBox
@@ -45,15 +39,22 @@ class SavedPinPage extends Component {
 				</Link>
 			);
 			return pins;
+		} else {
+			return (
+				<PinBox>
+					<h1 style={{color:'#ffffff'}}>
+					<span className="fa fa-frown-o"></span>
+					You have saved pins</h1>
+				</PinBox>
+			)
 		}
 	}
 
 	componentWillMount() {
-		setTimeout(() => {
-			getSavedPins(res => {
-				this.setState({pins:res})
-			});
-		},2000)
+		this.setState({isLoading:true})
+		getSavedPins(res => {
+			this.setState({pins:res, isLoading:false})
+		})
 	}
 
 	render() {
