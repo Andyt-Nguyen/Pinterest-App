@@ -18,9 +18,7 @@ class HomePage extends Component {
 	}
 
 	handleImageLoading() {
-		setTimeout(() => {
-			this.setState({showLoader:false})
-		},1000)
+		this.setState({showLoader:false})
 	}
 
 	renderPins() {
@@ -53,13 +51,7 @@ class HomePage extends Component {
 		return pins;
 	}
 
-	componentWillMount() {
-		setTimeout(() => {
-			this.setState({showLoader:false})
-		},3000)
-	}
-
-	componentDidMount() {
+	componentWillMount(){
 		this.props.getPins()
 	}
 

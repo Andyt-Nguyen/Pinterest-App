@@ -13,7 +13,7 @@ const PinBox = ({children,text,showModule, bg, isLoading,onLoad}) => (
 			{
 				isLoading
 				? <div style={{position:'absolute', top:'5%', left:'50%'}}>
-						<PropagateLoader color="#4285f4" />
+						<PropagateLoader color='crimson' />
 					</div>
 				: ''
 			}
