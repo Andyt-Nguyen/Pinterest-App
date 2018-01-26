@@ -6,4 +6,5 @@ export default styled.div `
 	  border-radius:5px;
 		background: ${props => props.bg};
 		cursor: pointer;
+		display: ${props => props.isSaveBtn};
 `;
