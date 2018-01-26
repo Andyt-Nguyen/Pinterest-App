@@ -23,7 +23,8 @@ class DisplayPin extends Component {
 			lastName: '',
 			desc: '',
 			date: '',
-			showLoader: false
+			showLoader: false,
+			uid: ''
 		}
 	}
 
@@ -59,7 +60,8 @@ class DisplayPin extends Component {
 				lastName: res.last_name,
 				desc: res.desc,
 				otherUid: pinId,
-				date: res.date
+				date: res.date,
+				uid: res.uid
 			})
 		});
 	}
@@ -73,6 +75,7 @@ class DisplayPin extends Component {
 					<HeaderBtns
 						deletePin={this.deletePin.bind(this)}
 						isDeleteBtn={this.props.location.pathname === `/${newEmail}/saved/${this.state.otherUid}`}
+						isSaveBtn={this.state.uid !== this.props.authInfo.userId ? true : false}
 						savePin={this.savePin.bind(this)}
 					 	goBack={this.goBackToPreviousPage.bind(this)}/>
 						{
