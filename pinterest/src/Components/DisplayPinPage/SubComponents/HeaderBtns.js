@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Btn from '../Styles/Btn';
 import BtnContainer from '../Styles/BtnContainer';
 
-const HeaderBtns = ({goBack, savePin, isDeleteBtn, deletePin}) => (
+const HeaderBtns = ({goBack, savePin, isSaveBtn, isDeleteBtn, deletePin}) => (
 	<BtnContainer>
 		<Btn onClick={() => goBack()} bg="dodgerblue">
 			<span className="fa fa-home" style={{color:'white', fontSize:'15px'}}></span>
@@ -15,7 +15,7 @@ const HeaderBtns = ({goBack, savePin, isDeleteBtn, deletePin}) => (
 					<span className="fa fa-heart" style={styles.whiteColor}></span>
 					<span style={styles.btnSpace}>Delete</span>
 				</Btn>
-			: <Btn bg="crimson" onClick={() => savePin()}>
+			: <Btn bg="crimson" isSaveBtn={isSaveBtn ? 'block' : 'none'} onClick={() => savePin()}>
 					<span className="fa fa-heart" style={styles.whiteColor}></span>
 					<span style={styles.btnSpace}>Save</span>
 				</Btn>
