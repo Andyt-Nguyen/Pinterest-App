@@ -3,10 +3,20 @@ import { Link } from 'react-router-dom';
 import { Avatar } from '../../Common';
 import UserContainer from '../Styles/UserContainer';
 import UserWrapper from '../Styles/UserWrapper';
+import Anchor from '../Styles/Anchor';
 import DescContainer from '../Styles/DescContainer';
 
-const UserInfo = ({uid,pinEmail,avatarURL, firstName, lastName, desc}) => (
+const UserInfo = ({uid,pinEmail,avatarURL, firstName, lastName, desc, urlLink}) => (
 	<UserContainer>
+		<h1 style={{color:"#555555"}}>{desc}</h1>
+		{
+			urlLink !== ''
+			? <Anchor href={urlLink} target="_blank">
+			   Link: {urlLink}
+			  </Anchor>
+			: ''
+
+		}
 		<UserWrapper>
 			<Link to={`/user/${pinEmail}`} style={styles.linkStyle}>
 				<Avatar cPic={avatarURL} style={{width:'75px',height:'75px'}} />
@@ -30,13 +40,19 @@ const UserInfo = ({uid,pinEmail,avatarURL, firstName, lastName, desc}) => (
 const styles = {
 	linkStyle: {
 		textDecoration: 'none',
-		color:'white'
+		color:'white',
+		marginTop:'10px'
 	},
 	hr: {
 		width:'100%',
 		borderTop:'1px solid #efefef',
 		borderRadius:'5px',
 		margin:'15px 0'
+	},
+	anchorStyle: {
+		color:"#555555",
+		marginLeft:"10px",
+		textDecoration:'none'
 	}
 }
 

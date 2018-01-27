@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authListener,getPins, loginListener } from '../actions/actionPin';
+import { authListener, getPins } from '../actions/actionPin';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -27,22 +27,15 @@ class Pinterest extends Component {
 		}
 	}
 
-	isUserAuthenticated() {
-		loginListener(res =>
-			this.setState({showLogin:res})
-		)
-	}
-
-	componentDidMount() {
-			this.isUserAuthenticated()
-			this.props.authListener();
+	componentWillMount() {
 			this.props.getPins()
 	}
 
 	render() {
+		this.props.authListener();
 		const PrivateRoute = ({component:Component, ...args}) => (
 			<Route {...args} render={ (props) => (
-				this.state.showLogin
+				this.props.isAuthenticated
 				? <div style={{position:'relative'}}>
 						<Module />
 						<Component {...props} />
@@ -74,4 +67,10 @@ class Pinterest extends Component {
 	}
 }
 
-export default connect(null, { authListener, getPins })(Pinterest);
+function mapStateToProps(state) {
+	return {
+		isAuthenticated: state.isAuthenticated
+	}
+}
+
+export default connect(mapStateToProps, { authListener, getPins })(Pinterest);

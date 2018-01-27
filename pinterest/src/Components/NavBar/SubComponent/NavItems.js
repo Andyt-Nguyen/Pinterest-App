@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import DropDownContainer from '../Styles/DropDownContainer';
 import NavItemContainer  from '../Styles/NavItemContainer';
 import UserInfo from './UserInfo';
@@ -8,8 +8,9 @@ import Icon from './Icon';
 
 const NavItems = ({avatarURL,accountName,isSetting,showDropdown,signOut,email, closeDropDown}) => (
 	<NavItemContainer>
-		<NavLink activeStyle={styles.activeStyle} to="/" style={styles.linkStyle}>Home</NavLink>
-		<NavLink activeStyle={styles.activeStyle} style={styles.linkStyle} to="/">Explore</NavLink>
+		<NavLink exact activeStyle={styles.activeStyle} to="/" style={styles.linkStyle}>
+			<Icon icon="fa fa-home"></Icon>
+		</NavLink>
 
 		<UserInfo
 			email={email}
@@ -18,7 +19,9 @@ const NavItems = ({avatarURL,accountName,isSetting,showDropdown,signOut,email, c
 
 
 		<div>
-			<Icon icon="fa fa-cog" showDropdown={showDropdown}/>
+			<NavLink activeStyle={styles.activeStyle} to="/settings" style={styles.linkStyle}>
+				<Icon icon="fa fa-cog" showDropdown={showDropdown}/>
+			</NavLink>
 
 			{
 				isSetting
@@ -37,8 +40,8 @@ const styles = {
 	},
 
 	linkStyle: {
-		textDecoration: 'none',
-		color: '#bfbfbf'
+		color:'#bfbfbf',
+		textDecoration:'none'
 	},
 	activeStyle: {
 		color:'#555555'
