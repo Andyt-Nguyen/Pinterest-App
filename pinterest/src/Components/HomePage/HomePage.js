@@ -12,7 +12,6 @@ class HomePage extends Component {
 		super();
 		this.state = {
 			isSearched: '',
-			pins: [],
 			showLoader: true
 		}
 	}
@@ -54,7 +53,6 @@ class HomePage extends Component {
 	componentWillMount(){
 		this.props.getPins()
 	}
-
 
 	render() {
 		return (

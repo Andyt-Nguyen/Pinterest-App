@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
-import { getIndividualPin,saveUsersPin, deleteUserSavedPin } from '../../actions/actionPin';
+import { getUserProfile, getIndividualPin,saveUsersPin, deleteUserSavedPin } from '../../actions/actionPin';
 import DisplayContainer from './Styles/DisplayContainer';
 import DisplayWrapper from './Styles/DisplayWrapper';
 import Btn from './Styles/Btn';
@@ -32,6 +32,27 @@ class DisplayPin extends Component {
 		this.props.history.goBack();
 	}
 
+	getPin() {
+		const { pinId } = this.props.match.params;
+		getIndividualPin(pinId, res =>{
+			this.setState({
+				pinURL: res.pinURL,
+				email: res.email,
+				firstName: res.first_name,
+				lastName: res.last_name,
+				desc: res.desc,
+				otherUid: pinId,
+				date: res.date,
+				uid: res.uid,
+				urlLink: res.urlLink
+			})
+		});
+	}
+
+	getUserAvatar() {
+		getUserProfile(res => this.setState({avatarURL: res.avatarURL}))
+	}
+
 	savePin() {
 		let { userId } = this.props.authInfo;
 		let { otherUid, avatarURL, pinURL,firstName, lastName, desc, date } = this.state;
@@ -50,20 +71,8 @@ class DisplayPin extends Component {
 	}
 
 	componentWillMount() {
-		const { pinId } = this.props.match.params;
-		getIndividualPin(pinId, res =>{
-			this.setState({
-				avatarURL: res.avatarURL,
-				pinURL: res.pinURL,
-				email: res.email,
-				firstName: res.first_name,
-				lastName: res.last_name,
-				desc: res.desc,
-				otherUid: pinId,
-				date: res.date,
-				uid: res.uid
-			})
-		});
+		this.getPin();
+		this.getUserAvatar();
 	}
 
 	render() {
@@ -93,7 +102,8 @@ class DisplayPin extends Component {
 							avatarURL={this.state.avatarURL}
 							firstName={this.state.firstName}
 							lastName={this.state.lastName}
-							des={this.state.desc} />
+							desc={this.state.desc}
+							urlLink={this.state.urlLink}/>
 
 				</DisplayWrapper>
 			</DisplayContainer>

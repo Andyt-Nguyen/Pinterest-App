@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const DropDownContainer = styled.div `
 	position:absolute;
-	right: 5px;
+	right: 28px;
 	top: 60px;
 	height:85px; width:150px;
 	background-color:#FFF;

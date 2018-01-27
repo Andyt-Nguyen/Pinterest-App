@@ -116,16 +116,6 @@ export function authListener() {
 } // Handling Authorization
 
 
-// Login Listener
-export function loginListener(cb) {
-		auth.onAuthStateChanged(firebaseUser =>
-			 firebaseUser
-			? cb(true)
-			: cb(false)
-		)
-	} // Login Listener
-
-
 // Remove User
 export function removeUser(pinKeys,email,uid=uniqueId) {
 	auth.currentUser.delete().then(() => {
@@ -159,6 +149,7 @@ export function getUserProfile(cb) {
 	}
 }
 
+
 // Get Users Pins
 export function getUserPins(cb, email=userEmail) {
 	const userPinRef = database.ref('userPins/' + email);
@@ -189,6 +180,7 @@ export function sendUserInfo(uid,first_name,last_name,gender,email,file='',avata
 		}
 } //Post User Profile
 
+
 // Update User Profile
 export function updateUserInfo(uid, first_name, last_name, desc='', file) {
 	if(file !== '') {
@@ -203,6 +195,7 @@ export function updateUserInfo(uid, first_name, last_name, desc='', file) {
 		database.ref('users/' + uid).update(updateFields)
 	}
 } // Update User Profile
+
 
 // Send User Pin
 export function sendUserPin(uid,date,file,desc,urlLink,first_name, last_name, avatarURL, email) {
@@ -227,6 +220,7 @@ export function sendUserPin(uid,date,file,desc,urlLink,first_name, last_name, av
 		return null;
 	}
 } //Send User Pin
+
 
 // Upadate User Pin
 export function updateUserPin(uid, pinKey, date,file='',desc,urlLink, firbaseImgUrl,first_name,last_name,avatarURL) {
@@ -254,12 +248,14 @@ export function updateUserPin(uid, pinKey, date,file='',desc,urlLink, firbaseImg
 	}
 } //Upadate User Pin
 
+
 //Delete Pin
 export function deleteUserPin(uid, pinKey, email) {
 	database.ref('pins/' + pinKey).remove()
 	database.ref('userPins/' + uid + '/' + pinKey).remove();
 	database.ref(email + '/' + pinKey).remove();
 } //Delete Pin
+
 
 // Get Pins
 export function getPins() {
@@ -287,6 +283,7 @@ export function getPins() {
 	}
 } // Get Pins
 
+
 // Get Individual Pin
 export function getIndividualPin(pinId, cb) {
 	database.ref('pins/' + pinId).on('value', snapShot => {
@@ -312,6 +309,7 @@ export function getUsersPins(email,cb) {
 		cb(pins);
 	});
 } // Get Other User's Pins
+
 
 // Delete User's Saved Pins
 export function deleteUserSavedPin(pinId, cb) {

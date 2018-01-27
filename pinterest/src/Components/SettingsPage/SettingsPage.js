@@ -102,37 +102,39 @@ class SettingsPage extends Component {
 	render() {
 		const {firstName,lastName,email,avatarURL,desc} = this.state;
 		return (
-			<SettingContainer>
+			<div>
 				<NavBar showSearch={false}/>
-				<EmailAndPassword emailName={email} />
-				<HeadingTitle>Profile</HeadingTitle>
+				<SettingContainer>
+					<EmailAndPassword emailName={email} />
+					<HeadingTitle>Profile</HeadingTitle>
 
-				<UserProfileInfo
-					avatarURL={avatarURL}
-					firstName={firstName}
-					lastName={lastName}
-					showLNError = {this.state.showLNError}
-					showNameError = {this.state.showNameError}
-					onTextChange={this.onTextChange.bind(this)}
-					onImageChange={this.previewImage.bind(this)}/>
+					<UserProfileInfo
+						avatarURL={avatarURL}
+						firstName={firstName}
+						lastName={lastName}
+						showLNError = {this.state.showLNError}
+						showNameError = {this.state.showNameError}
+						onTextChange={this.onTextChange.bind(this)}
+						onImageChange={this.previewImage.bind(this)}/>
 
-					{this.state.showLoader ? <CheckMark color="#53eb91" successText="Awesome profile saved!" /> : ''}
+						{this.state.showLoader ? <CheckMark color="#53eb91" successText="Awesome profile saved!" /> : ''}
 
 
-				<Description
-					desc={desc}
-					onTextChange={this.onTextChange.bind(this)}
-					val={desc}/>
+					<Description
+						desc={desc}
+						onTextChange={this.onTextChange.bind(this)}
+						val={desc}/>
 
-				<div style={{display:'flex', justifyContent:'space-between'}}>
-				{
-					this.renderButton()
-				}
-				<Button
-				 	danger style={{margin:'10px 0'}}
-					onClick={this.deleteUserAccount.bind(this)}>Delete Account</Button>
-				</div>
-			</SettingContainer>
+					<div style={{display:'flex', justifyContent:'space-between'}}>
+					{
+						this.renderButton()
+					}
+					<Button
+					 	danger style={{margin:'10px 0'}}
+						onClick={this.deleteUserAccount.bind(this)}>Delete Account</Button>
+					</div>
+				</SettingContainer>
+			</div>
 		);
 	}
 }

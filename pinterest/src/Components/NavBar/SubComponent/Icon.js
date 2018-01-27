@@ -11,7 +11,7 @@ const Icon = ({showDropdown, icon}) => (
 
 const styles = {
 	icon: {
-		fontSize:'20px',
+		fontSize:'30px',
 		cursor:'pointer'
 	}
 }
