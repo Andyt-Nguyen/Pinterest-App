@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { sendUserInfo, userSignOut } from '../../actions/actionPin';
+import { sendUserInfo, userSignOut, getUserProfile } from '../../actions/actionPin';
 import { SocialIcon } from 'react-social-icons';
 import RocketGif from '../SVG/RocketGif';
 import AccountModule from './SubComponent/AccountModule';
@@ -77,7 +77,6 @@ class Module extends Component {
 
 	handleErrorInputs() {
 		let { avatarFile, first_name, last_name, gender, currentPic } = this.state;
-
 		let checkStyle = () => {
 			if(!avatarFile || !first_name || !last_name || !gender || !currentPic) {
 				return {display:'block'}
@@ -100,29 +99,24 @@ class Module extends Component {
 	}
 
 	showModule() {
-		setTimeout(() => {
-			if(this.props.userProfile.hideModule) {
-				this.setState({modalStyle:'none'})
-			} else {
-				this.setState({modalStyle:'flex', currentPic:this.props.authInfo.photoURL})
-			}
-		},1000)
+		getUserProfile(res => {
+				res.hideModule
+			? this.setState({modalStyle:'none'})
+			: this.setState({modalStyle:'flex', currentPic:this.props.authInfo.photoURL})
+		})
 	}
-
 
 	componentWillMount() {
 		this.showModule();
 	}
 
 	render() {
-		console.log(this.props.authInfo);
 		const radioInput = this.props.gender.map( sex =>
 			<RadioInput
 				key={sex.label}
 				onChange={(e) => this.setState({gender:e.target.value})}
 			 	gender={sex.type} label={sex.label} name="gender" />
 		);
-
 
 		return (
 			<ModuleContainer position="center" showModule={this.state.modalStyle}>

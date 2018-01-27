@@ -70,27 +70,6 @@ export function userSignOut() {
 	}
 }
 
-// Remove User
-export function removeUser(pinKeys,email,uid=uniqueId) {
-	auth.currentUser.delete().then(() => {
-		for(let i = 0; i < pinKeys.length; i++) {
-			database.ref('pins/' + pinKeys[i]).remove();
-		}
-	}).then(() => {
-		database.ref('users/' + uid).remove();
-		database.ref('userPins/' + uid).remove();
-		database.ref('savedPin/' + uid).remove();
-		database.ref(email).remove();
-	}).catch((err) => console.log(err))
-} //Remove User
-
-// Remove User
-export function removeAllOfUsersPins(pinKey,email,uid=uniqueId) {
-	auth.currentUser.delete().then(() => {
-			database.ref('pins/' + pinKey).remove();
-	}).catch((err) => console.log(err))
-} //Remove User
-
 
 export function authListener() {
 	return dispatch => {
@@ -136,10 +115,43 @@ export function authListener() {
 	}
 } // Handling Authorization
 
+
+// Login Listener
+export function loginListener(cb) {
+		auth.onAuthStateChanged(firebaseUser =>
+			 firebaseUser
+			? cb(true)
+			: cb(false)
+		)
+	} // Login Listener
+
+
+// Remove User
+export function removeUser(pinKeys,email,uid=uniqueId) {
+	auth.currentUser.delete().then(() => {
+		for(let i = 0; i < pinKeys.length; i++) {
+			database.ref('pins/' + pinKeys[i]).remove();
+		}
+	}).then(() => {
+		database.ref('users/' + uid).remove();
+		database.ref('userPins/' + uid).remove();
+		database.ref('savedPin/' + uid).remove();
+		database.ref(email).remove();
+	}).catch((err) => console.log(err))
+} //Remove User
+
+// Remove Users Pins
+export function removeAllOfUsersPins(pinKey,email,uid=uniqueId) {
+	auth.currentUser.delete().then(() => {
+			database.ref('pins/' + pinKey).remove();
+	}).catch((err) => console.log(err))
+} //Remove User Pins
+
+
 // Get User Profile
-export function getUserProfile(cb, uid=uniqueId) {
-	if(uid !== null || uid !== undefined) {
-		database.ref('users/' + uid).on('value', snapShot => {
+export function getUserProfile(cb) {
+	if(uniqueId !== null || uniqueId !== undefined) {
+		database.ref('users/' + uniqueId).on('value', snapShot => {
 			cb(snapShot.val());
 		});
 	} else {
