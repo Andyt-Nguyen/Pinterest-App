@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
-import { getUserProfile, getIndividualPin,saveUsersPin, deleteUserSavedPin } from '../../actions/actionPin';
+import { getIndividualPin,saveUsersPin, deleteUserSavedPin, getUserProfile } from '../../actions/actionPin';
 import DisplayContainer from './Styles/DisplayContainer';
 import DisplayWrapper from './Styles/DisplayWrapper';
 import Btn from './Styles/Btn';
@@ -34,6 +34,7 @@ class DisplayPin extends Component {
 
 	getPin() {
 		const { pinId } = this.props.match.params;
+
 		getIndividualPin(pinId, res =>{
 			this.setState({
 				pinURL: res.pinURL,
@@ -45,12 +46,12 @@ class DisplayPin extends Component {
 				date: res.date,
 				uid: res.uid,
 				urlLink: res.urlLink
+			}, () => {
+				getUserProfile(response =>
+					this.setState({avatarURL:response.avatarURL}), this.state.uid
+				);
 			})
 		});
-	}
-
-	getUserAvatar() {
-		getUserProfile(res => this.setState({avatarURL: res.avatarURL}))
 	}
 
 	savePin() {
@@ -72,7 +73,6 @@ class DisplayPin extends Component {
 
 	componentWillMount() {
 		this.getPin();
-		this.getUserAvatar();
 	}
 
 	render() {

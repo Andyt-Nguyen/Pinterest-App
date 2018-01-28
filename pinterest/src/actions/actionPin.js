@@ -139,9 +139,9 @@ export function removeAllOfUsersPins(pinKey,email,uid=uniqueId) {
 
 
 // Get User Profile
-export function getUserProfile(cb) {
-	if(uniqueId !== null || uniqueId !== undefined) {
-		database.ref('users/' + uniqueId).on('value', snapShot => {
+export function getUserProfile(cb, userId=uniqueId) {
+	if(userId !== null || userId !== undefined) {
+		database.ref('users/' + userId).on('value', snapShot => {
 			cb(snapShot.val());
 		});
 	} else {
@@ -151,8 +151,8 @@ export function getUserProfile(cb) {
 
 
 // Get Users Pins
-export function getUserPins(cb, email=userEmail) {
-	const userPinRef = database.ref('userPins/' + email);
+export function getUserPins(cb) {
+	const userPinRef = database.ref('userPins/' + userEmail);
 	userPinRef.on('value', snapShot => {
 			let pins = Object.values(snapShot.val());
 			let pinKey = Object.keys(snapShot.val());
