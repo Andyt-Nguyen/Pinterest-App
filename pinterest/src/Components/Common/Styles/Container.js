@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 const Container = styled.div `
-	width: 90%;
+	width: 95%;
+	border-sizing: border-box;
 	margin: auto;
 
 	@media(min-width: 1500px) {
