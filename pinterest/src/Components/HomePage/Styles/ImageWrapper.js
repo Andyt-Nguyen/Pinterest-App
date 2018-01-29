@@ -19,4 +19,9 @@ export default styled.div `
 			display: block;
 		}
 	}
+
+@media(min-width:380px) {
+	width: 150px;
+}
+
 `;
