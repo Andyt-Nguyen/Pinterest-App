@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
 export default styled.div `
+	@media (min-width: 1550px) {
+		width: 310px;
+	}
+
 	position: relative;
 	border-radius:10px;
 	padding: 10px;
@@ -20,8 +24,12 @@ export default styled.div `
 		}
 	}
 
-@media(min-width:380px) {
-	width: 150px;
-}
+	@media (max-width: 1030px) {
+		width: 176px;
+	}
+
+	@media (max-width: 670px) {
+		width: 150px;
+	}
 
 `;
