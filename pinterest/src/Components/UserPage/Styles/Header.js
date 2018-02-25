@@ -1,8 +1,16 @@
 import styled from 'styled-components';
 
 export default styled.div `
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	justify-items: center;
-	align-items: center;
+	margin: auto;
+	display: flex;
+	justify-content: space-between;
+	width: 80%;
+
+	@media(max-width: 800px) {
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-around;
+		height: 370px;
+		margin-bottom: 40px;
+	}
 `;

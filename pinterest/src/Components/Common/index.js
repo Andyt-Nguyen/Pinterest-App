@@ -7,6 +7,8 @@ import { RadioInput }from './Components/RadioInput';
 import { CreateModule } from './Components/CreateModule';
 import { ModuleWrapper } from './Styles/ModuleWrapper';
 import { ModuleContainer } from './Styles/ModuleContainer';
+import { Flex } from './Styles/Flex';
+import { ColumnItems } from './Styles/ColumnItems';
 
 export { RadioInput }
 export { RadioWrapper }
@@ -17,3 +19,5 @@ export { Avatar }
 export { UploadContainer }
 export { ModuleContainer }
 export { ModuleWrapper }
+export { Flex }
+export { ColumnItems }
