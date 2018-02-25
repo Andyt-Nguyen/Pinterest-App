@@ -5,6 +5,8 @@ import ModuleLayout from '../Styles/ModuleLayout';
 import HeaderLogo from './HeaderLogo';
 import DottedBoxImage from '../Styles/DottedBoxImage';
 import DeleteBtn from '../Styles/DeleteBtn';
+import Flex from '../Styles/Flex';
+import ColumnItems from '../Styles/ColumnItems';
 
 const CreateModule = ({title,showError, hideModule, onChange, previewImage, children, removeImage, onDescChange, onUrlChange, submitPin, urlVal, descVal, showDelete, onDelete}) => (
 	<ModuleLayout>
@@ -16,7 +18,7 @@ const CreateModule = ({title,showError, hideModule, onChange, previewImage, chil
 				<h1>{title}</h1>
 			</div>
 
-			<div style={styles.flexHalf}>
+			<Flex>
 				{
 					previewImage !== ''
 					? <DeleteBtn>
@@ -38,7 +40,7 @@ const CreateModule = ({title,showError, hideModule, onChange, previewImage, chil
 					}
 				</UploadContainer>
 
-				<div style={styles.columnItems}>
+				<ColumnItems>
 					<p>Website</p>
 					<input
 							placeholder="Optional"
@@ -53,15 +55,15 @@ const CreateModule = ({title,showError, hideModule, onChange, previewImage, chil
 						value={descVal}
 						placeholder="Got something to say?"
 						style={styles.descStyle} />
-						
-				</div>
-			</div>
+
+				</ColumnItems>
+			</Flex>
 		</div>
 
 
 
 		<div style={{borderTop:'1px solid #efefef', margin:'10px 0'}}></div>
-		<div style={{display:'flex', justifyContent:'space-between'}}>
+		<div style={{display:'flex', justifyContent:'space-around'}}>
 			{
 				showDelete
 				? <Button onClick={() => onDelete()} style={{marginTop:'10px', fontSize:'20px', marginLeft:'10px'}} danger>Delete</Button>

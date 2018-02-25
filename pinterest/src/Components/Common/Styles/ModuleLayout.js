@@ -9,4 +9,9 @@ export default styled.div `
 		top:10%;
 		left:18%;
 		background:white;
+
+		@media(max-width:1030px) {
+			left: 2%;
+			width: 90%;
+		}
 `;
