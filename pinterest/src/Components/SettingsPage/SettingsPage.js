@@ -10,6 +10,8 @@ import HeadingTitle from './Styles/HeadingTitle';
 import { Button } from '../Common';
 import CheckMark from '../SVG/CheckMark';
 import NavBar from '../NavBar/NavBar';
+import BtnContainer from './Styles/BtnContainer';
+
 class SettingsPage extends Component {
 	constructor() {
 		super();
@@ -125,14 +127,14 @@ class SettingsPage extends Component {
 						onTextChange={this.onTextChange.bind(this)}
 						val={desc}/>
 
-					<div style={{display:'flex', justifyContent:'space-between'}}>
+					<BtnContainer>
 					{
 						this.renderButton()
 					}
 					<Button
 					 	danger style={{margin:'10px 0'}}
 						onClick={this.deleteUserAccount.bind(this)}>Delete Account</Button>
-					</div>
+					</BtnContainer>
 				</SettingContainer>
 			</div>
 		);

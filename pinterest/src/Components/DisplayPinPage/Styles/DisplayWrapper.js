@@ -5,5 +5,10 @@ export default styled.div `
 	border-radius:5px;
 	background:white;
 	margin:30px;
-	width:500px
+	width: 50%;
+
+	@media(max-width:800px) {
+		width: 80%;
+		height: 110%;
+	}
 `;

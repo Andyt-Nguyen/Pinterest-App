@@ -12,8 +12,8 @@ const HeaderBtns = ({goBack, savePin, isSaveBtn, isDeleteBtn, deletePin}) => (
 		{
 			isDeleteBtn
 			? <Btn bg="crimson" onClick={() => deletePin()}>
-					<span className="fa fa-heart" style={styles.whiteColor}></span>
-					<span style={styles.btnSpace}>Delete</span>
+					<span className="fa fa-heart-o" style={styles.whiteColor}></span>
+					<span style={styles.btnSpace}>Unfavorite</span>
 				</Btn>
 			: <Btn bg="crimson" isSaveBtn={isSaveBtn ? 'block' : 'none'} onClick={() => savePin()}>
 					<span className="fa fa-heart" style={styles.whiteColor}></span>
