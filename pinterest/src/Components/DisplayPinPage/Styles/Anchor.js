@@ -8,4 +8,8 @@ export default styled.a `
 	&:hover {
 		color: red;
 	}
+
+	@media(max-width:800px) {
+		font-size: 12px;
+	}
 `;

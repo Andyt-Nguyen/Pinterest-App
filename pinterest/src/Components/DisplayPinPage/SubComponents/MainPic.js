@@ -1,8 +1,9 @@
 import React from 'react';
+import MainImage from '../Styles/MainImage';
 
 const MainPic = ({pinURL}) => (
 	<div style={styles.mainPicPosition}>
-		<img width="500px" src={pinURL} style={{borderRadius:'5px'}}/>
+		<MainImage src={pinURL}/>
 	</div>
 );
 

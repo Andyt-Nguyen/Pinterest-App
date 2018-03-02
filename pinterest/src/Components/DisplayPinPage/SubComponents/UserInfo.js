@@ -12,7 +12,7 @@ const UserInfo = ({uid,pinEmail,avatarURL, firstName, lastName, desc, urlLink}) 
 		{
 			urlLink !== ''
 			? <Anchor href={urlLink} target="_blank">
-			   Link: {urlLink}
+			   <i>Source: </i>{urlLink}
 			  </Anchor>
 			: ''
 
