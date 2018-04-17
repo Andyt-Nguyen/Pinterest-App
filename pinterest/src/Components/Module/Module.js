@@ -100,7 +100,7 @@ class Module extends Component {
 
 	showModule() {
 		getUserProfile(res => {
-				res.hideModule
+			res.hideModule
 			? this.setState({modalStyle:'none'})
 			: this.setState({modalStyle:'flex', currentPic:this.props.authInfo.photoURL})
 		})

@@ -37,7 +37,7 @@ class DisplayPin extends Component {
 
 		getIndividualPin(pinId, res =>{
 			this.setState({
-				pinURL: res.pinURL,
+				pinURL: res.pinURL || '',
 				email: res.email,
 				firstName: res.first_name,
 				lastName: res.last_name,

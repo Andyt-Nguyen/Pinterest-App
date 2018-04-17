@@ -84,7 +84,7 @@ class AuthPage extends Component {
 						onTextChange={this.onTextChange.bind(this)}
 						createUser={this.handleSignInUser.bind(this)}
 						signWithGoogle={this.handleSignWithGoogle.bind(this)}
-						signInWithFacebook={this.props.handleSignWithFacebook.bind(this)}
+						signInWithFacebook={this.handleSignWithFacebook.bind(this)}
 						showEmail={!this.state.showEmail}
 						ph={"Password"}/>
 			}

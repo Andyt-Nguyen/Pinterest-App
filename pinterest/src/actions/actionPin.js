@@ -142,10 +142,10 @@ export function removeAllOfUsersPins(pinKey,email,uid=uniqueId) {
 export function getUserProfile(cb, userId=uniqueId) {
 	if(userId !== null || userId !== undefined) {
 		database.ref('users/' + userId).on('value', snapShot => {
-			cb(snapShot.val());
+			cb(snapShot.val() || {showModule:false});
 		});
 	} else {
-		return '';
+		return;
 	}
 }
 
