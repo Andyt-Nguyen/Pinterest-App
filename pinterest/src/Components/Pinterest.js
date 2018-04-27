@@ -73,4 +73,5 @@ function mapStateToProps(state) {
 	}
 }
 
+
 export default connect(mapStateToProps, { authListener, getPins })(Pinterest);
